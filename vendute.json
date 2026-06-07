@@ -1,0 +1,80 @@
+[
+  {
+    "id": "20260607120001000000",
+    "card_key": "erode_manual",
+    "card_name": "Erode",
+    "set_code": "",
+    "set_name": "",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "en",
+    "frame_effects": "",
+    "last_price": 12.0,
+    "sold_at": "2026-06-07T12:00:01"
+  },
+  {
+    "id": "20260607120002000000",
+    "card_key": "flashback_manual",
+    "card_name": "Flashback",
+    "set_code": "",
+    "set_name": "",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "en",
+    "frame_effects": "",
+    "last_price": 6.0,
+    "sold_at": "2026-06-07T12:00:02"
+  },
+  {
+    "id": "20260607120003000000",
+    "card_key": "stock_up_ma_manual",
+    "card_name": "Stock Up",
+    "set_code": "STA",
+    "set_name": "Strixhaven Mystical Archive",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "ja",
+    "frame_effects": "",
+    "last_price": 8.0,
+    "sold_at": "2026-06-07T12:00:03"
+  },
+  {
+    "id": "20260607120004000000",
+    "card_key": "sheoldreds_edict_jap_manual",
+    "card_name": "Sheoldred's Edict",
+    "set_code": "ONE",
+    "set_name": "Phyrexia: All Will Be One",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "ja",
+    "frame_effects": "",
+    "last_price": 10.0,
+    "sold_at": "2026-06-07T12:00:04"
+  },
+  {
+    "id": "20260607120005000000",
+    "card_key": "shared_root_manual",
+    "card_name": "Shared Root",
+    "set_code": "",
+    "set_name": "",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "en",
+    "frame_effects": "",
+    "last_price": 3.0,
+    "sold_at": "2026-06-07T12:00:05"
+  },
+  {
+    "id": "20260607120006000000",
+    "card_key": "return_to_the_ranks_jap_manual",
+    "card_name": "Return to the Ranks",
+    "set_code": "",
+    "set_name": "",
+    "collector_number": "",
+    "finish": "normal",
+    "language": "ja",
+    "frame_effects": "",
+    "last_price": 1.0,
+    "sold_at": "2026-06-07T12:00:06"
+  }
+]
