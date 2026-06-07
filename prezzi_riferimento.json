@@ -109,17 +109,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T13:59:57.224992"
   },
-  "SOA_24_foil_en": {
-    "nome": "Stock Up",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "24",
-    "prezzo": 2.46,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T13:59:57.465597"
-  },
   "SOA_3_normal_en": {
     "nome": "Armageddon",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -230,17 +219,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:00.152809"
   },
-  "SOA_11_foil_en": {
-    "nome": "Return to the Ranks",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "11",
-    "prezzo": 0.77,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:00.405857"
-  },
   "SOA_185_foil_en": {
     "nome": "Pick Your Poison",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -251,17 +229,6 @@
     "finish": "foil",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:00.651947"
-  },
-  "SOA_76_normal_en": {
-    "nome": "Return to the Ranks",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "76",
-    "prezzo": 1.11,
-    "foil": false,
-    "finish": "normal",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:00.920024"
   },
   "SOC_75_normal_it": {
     "nome": "Defiling Daemogoth",
@@ -284,17 +251,6 @@
     "finish": "normal",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:01.468000"
-  },
-  "SOA_89_normal_en": {
-    "nome": "Stock Up",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "89",
-    "prezzo": 2.47,
-    "foil": false,
-    "finish": "normal",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:01.707919"
   },
   "SOA_142_foil_en": {
     "nome": "Winds of Abandon",
@@ -361,17 +317,6 @@
     "finish": "normal",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:03.241210"
-  },
-  "SOA_97_normal_en": {
-    "nome": "Sheoldred's Edict",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "97",
-    "prezzo": 6.35,
-    "foil": false,
-    "finish": "normal",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:03.483585"
   },
   "SOS_221_normal_en": {
     "nome": "Resonating Lute",
