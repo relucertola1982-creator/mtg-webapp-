@@ -844,13 +844,14 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             "ultimo_aggiornamento": datetime.now().isoformat(),
         }
 
-        json_content, sha = _get_json_from_github()
-        prezzi = json.loads(json_content) if json_content else {}
-        prezzi[card_key] = entry
-        new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
-
-        if sha:
-            _update_json_on_github(new_content, sha, f"Add {name} price via webapp")
+        # Retry once on SHA conflict (tracker may have pushed between read and write)
+        for _ in range(2):
+            json_content, sha = _get_json_from_github()
+            prezzi = json.loads(json_content) if json_content else {}
+            prezzi[card_key] = entry
+            new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
+            if not sha or _update_json_on_github(new_content, sha, f"Add {name} price via webapp"):
+                break
 
         local = BASE_DIR / "prezzi_riferimento.json"
         with open(local, "w", encoding="utf-8") as f:

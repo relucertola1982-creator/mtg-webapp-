@@ -361,5 +361,16 @@
     "finish": "normal",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:01.205916"
+  },
+  "SOA_44_normal_en": {
+    "nome": "Jeska's Will",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "44",
+    "prezzo": 30.12,
+    "foil": false,
+    "finish": "normal",
+    "language": "en",
+    "ultimo_aggiornamento": "2026-06-07T16:55:48.244759"
   }
 }
