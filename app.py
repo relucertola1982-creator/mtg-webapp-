@@ -1049,12 +1049,28 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             "ultimo_aggiornamento": datetime.now().isoformat(),
         }
 
+        # Write to SQLite immediately (bypasses CDN caching delay)
+        now_iso = datetime.now().isoformat()
+        conn = get_db()
+        conn.execute(
+            """INSERT INTO price_history
+               (card_key, card_name, set_code, set_name, collector_number,
+                foil, finish, language, frame_effects, price, recorded_at, collection)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (card_key, name, set_code.upper(), entry["set"],
+             collector_number, 1 if is_foil else 0, finish, language,
+             entry["frame_effects"], price_val, now_iso, collection)
+        )
+        conn.commit()
+        conn.close()
+
+        # Write to GitHub JSON (with retry on SHA conflict)
         for _ in range(2):
             json_content, sha = _get_json_from_github(collection)
             prezzi = json.loads(json_content) if json_content else {}
             prezzi[card_key] = entry
             new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
-            if not sha or _update_json_on_github(new_content, sha, f"Add {name} price via webapp", collection):
+            if _update_json_on_github(new_content, sha, f"Add {name} price via webapp", collection):
                 break
 
         local = BASE_DIR / _cf("prezzi_riferimento.json", collection)
@@ -1295,7 +1311,6 @@ async def add_card_post(
     if ok:
         _add_card_to_prezzi(name, set_code, set_name, collector_number,
                             foil, language, scryfall_id, coll)
-        get_prices(force=True, collection=coll)  # sync SQLite so card appears immediately
         ctx["success"] = f"'{name}' aggiunta alla collezione!"
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
