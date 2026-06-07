@@ -1683,17 +1683,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
   },
-  "SOA_159_foil_de": {
-    "nome": "Feed the Swarm",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "159",
-    "prezzo": 11.62,
-    "foil": true,
-    "finish": "foil",
-    "language": "de",
-    "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
-  },
   "SOA_94_normal_de": {
     "nome": "Feed the Swarm",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2079,6 +2068,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:16:07.843551",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_159_foil_ja": {
+    "nome": "Feed the Swarm",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "159",
+    "prezzo": 11.62,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:16:25.793376",
     "frame_effects": "silverscroll"
   }
 }
