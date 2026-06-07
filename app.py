@@ -1259,52 +1259,67 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
     except Exception:
         pass  # prices will be picked up by tracker on next run
 
-    # ── Sync quantities for ALL uploaded rows (new + already-existing) ──────────
-    # The new-card batch above only processes cards not in the existing GitHub CSV.
-    # This pass updates quantity for every card in the uploaded file.
+    # ── Sync quantities: look up in CSV using prezzi_riferimento.json fields ─────
+    # Build lookup from uploaded CSV: (set_code_upper, collector_number, finish, lang) → qty
+    # ManaBox Foil column: "" = normal, "foil", "etched"
     try:
+        csv_qty: dict = {}
+        for r in uploaded_rows:
+            sc  = r.get("Set code", "").upper()
+            cn  = str(r.get("Collector number", "")).strip()
+            fn  = (r.get("Foil") or "").strip() or "normal"
+            lg  = (r.get("Language") or "en").strip()
+            qty = max(1, int(r.get("Quantity") or 1))
+            csv_qty[(sc, cn, fn, lg)] = csv_qty.get((sc, cn, fn, lg), 0) + qty
+
         qjson, qsha = _get_json_from_github(coll)
         qprezzi = json.loads(qjson) if qjson else {}
         qty_changed = 0
-        conn_q = get_db()
-        for r in uploaded_rows:
-            sc  = r.get("Set code", "").upper()
-            cn  = r.get("Collector number", "")
-            fn  = r.get("Foil") or "normal"
-            lg  = r.get("Language") or "en"
-            qty = max(1, int(r.get("Quantity") or 1))
-            ck  = f"{sc}_{cn}_{fn}_{lg}"
-            if ck in qprezzi:
-                qprezzi[ck]["quantity"] = qty
+
+        # Iterate prezzi entries — their fields are authoritative for key-building
+        for ck, entry in qprezzi.items():
+            sc = (entry.get("set_code") or "").upper()
+            cn = str(entry.get("collector_number") or "").strip()
+            fn = (entry.get("finish") or "normal").strip()
+            lg = (entry.get("language") or "en").strip()
+            new_qty = csv_qty.get((sc, cn, fn, lg))
+            if new_qty and new_qty != entry.get("quantity", 1):
+                qprezzi[ck]["quantity"] = new_qty
                 qty_changed += 1
-            # Update SQLite for this card
-            conn_q.execute(
-                """UPDATE price_history SET quantity=?
-                   WHERE collection=? AND card_key=? AND id=(
-                     SELECT MAX(id) FROM price_history WHERE card_key=? AND collection=?
-                   )""",
-                (qty, coll, ck, ck, coll)
-            )
-        conn_q.commit()
-        conn_q.close()
+
         if qty_changed:
             new_qprezzi = json.dumps(qprezzi, ensure_ascii=False, indent=2)
             for _ in range(2):
                 if _update_json_on_github(new_qprezzi, qsha,
                                           f"Sync quantities for {qty_changed} cards", coll):
+                    (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(
+                        new_qprezzi, encoding="utf-8")
                     break
                 qjson, qsha = _get_json_from_github(coll)
                 qprezzi2 = json.loads(qjson) if qjson else {}
-                for r in uploaded_rows:
-                    sc  = r.get("Set code", "").upper()
-                    cn  = r.get("Collector number", "")
-                    fn  = r.get("Foil") or "normal"
-                    lg  = r.get("Language") or "en"
-                    qty = max(1, int(r.get("Quantity") or 1))
-                    ck  = f"{sc}_{cn}_{fn}_{lg}"
-                    if ck in qprezzi2:
-                        qprezzi2[ck]["quantity"] = qty
+                for ck2, entry2 in qprezzi2.items():
+                    sc2 = (entry2.get("set_code") or "").upper()
+                    cn2 = str(entry2.get("collector_number") or "").strip()
+                    fn2 = (entry2.get("finish") or "normal").strip()
+                    lg2 = (entry2.get("language") or "en").strip()
+                    nq2 = csv_qty.get((sc2, cn2, fn2, lg2))
+                    if nq2:
+                        qprezzi2[ck2]["quantity"] = nq2
                 new_qprezzi = json.dumps(qprezzi2, ensure_ascii=False, indent=2)
+
+            # Update SQLite directly
+            conn_q = get_db()
+            for ck, entry in qprezzi.items():
+                new_qty = entry.get("quantity", 1)
+                conn_q.execute(
+                    """UPDATE price_history SET quantity=?
+                       WHERE collection=? AND card_key=? AND id=(
+                         SELECT MAX(id) FROM price_history WHERE card_key=? AND collection=?
+                       )""",
+                    (new_qty, coll, ck, ck, coll)
+                )
+            conn_q.commit()
+            conn_q.close()
     except Exception:
         pass
 
