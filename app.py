@@ -666,7 +666,8 @@ async def remove_card(request: Request, card_key: str):
 
 @app.post("/edit-card-lang/{card_key:path}")
 async def edit_card_lang(request: Request, card_key: str,
-                         new_language: str = Form(...)):
+                         new_language: str = Form(...),
+                         silverscroll: str = Form("")):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
@@ -680,32 +681,31 @@ async def edit_card_lang(request: Request, card_key: str,
     finish   = parts[2]
     old_lang = parts[3]
     new_lang = new_language.strip().lower()
-    if new_lang == old_lang:
-        return RedirectResponse("/", status_code=302)
-
+    manual_fx = "silverscroll" if silverscroll else ""
     new_key = f"{set_code}_{col_num}_{finish}_{new_lang}"
+    lang_changed = (new_lang != old_lang)
 
-    # Fetch updated price for new language from Scryfall
-    new_price, new_fx = None, None
-    try:
-        headers_sf = {"User-Agent": "MTGPriceTracker/1.0"}
-        r = requests.get(
-            f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}/{new_lang}",
-            headers=headers_sf, timeout=8)
-        if not r.ok:
+    # Fetch updated price from Scryfall only if language changed
+    new_price = None
+    if lang_changed:
+        try:
+            headers_sf = {"User-Agent": "MTGPriceTracker/1.0"}
             r = requests.get(
-                f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}",
+                f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}/{new_lang}",
                 headers=headers_sf, timeout=8)
-        if r.ok:
-            cd = r.json()
-            prices = cd.get("prices", {})
-            is_foil = finish in ("foil", "etched")
-            p = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
-                else (prices.get("eur") or prices.get("eur_foil"))
-            new_price = float(p) if p else None
-            new_fx = ",".join(cd.get("frame_effects") or [])
-    except Exception:
-        pass
+            if not r.ok:
+                r = requests.get(
+                    f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}",
+                    headers=headers_sf, timeout=8)
+            if r.ok:
+                cd = r.json()
+                prices = cd.get("prices", {})
+                is_foil = finish in ("foil", "etched")
+                p = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
+                    else (prices.get("eur") or prices.get("eur_foil"))
+                new_price = float(p) if p else None
+        except Exception:
+            pass
 
     # Update prezzi_riferimento.json (with retry)
     for _ in range(2):
@@ -718,51 +718,52 @@ async def edit_card_lang(request: Request, card_key: str,
             old_entry["language"] = new_lang
             if new_price is not None:
                 old_entry["prezzo"] = new_price
-            if new_fx is not None:
-                old_entry["frame_effects"] = new_fx
+            old_entry["frame_effects"] = manual_fx
             old_entry["ultimo_aggiornamento"] = datetime.now().isoformat()
             prezzi[new_key] = old_entry
         new_json = json.dumps(prezzi, ensure_ascii=False, indent=2)
-        if _update_json_on_github(new_json, json_sha, f"Edit lang {card_key}->{new_key}"):
+        if _update_json_on_github(new_json, json_sha, f"Edit card {card_key}->{new_key} fx={manual_fx}"):
             (BASE_DIR / "prezzi_riferimento.json").write_text(new_json, encoding="utf-8")
             break
 
-    # Rename key in storico_prezzi.json
-    try:
-        url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/storico_prezzi.json"
-        r_st = requests.get(url_st, headers=_gh_headers(), timeout=15)
-        if r_st.ok:
-            st_data = r_st.json()
-            storico = json.loads(base64.b64decode(st_data["content"]).decode("utf-8"))
-            if card_key in storico:
-                storico[new_key] = storico.pop(card_key)
-                enc = base64.b64encode(
-                    json.dumps(storico, ensure_ascii=False, indent=2).encode()).decode()
-                requests.put(url_st, headers=_gh_headers(), json={
-                    "message": f"Rename storico {card_key}->{new_key}",
-                    "content": enc, "sha": st_data["sha"]
-                }, timeout=15)
-    except Exception:
-        pass
+    # Rename key in storico_prezzi.json only if language changed
+    if lang_changed:
+        try:
+            url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/storico_prezzi.json"
+            r_st = requests.get(url_st, headers=_gh_headers(), timeout=15)
+            if r_st.ok:
+                st_data = r_st.json()
+                storico = json.loads(base64.b64decode(st_data["content"]).decode("utf-8"))
+                if card_key in storico:
+                    storico[new_key] = storico.pop(card_key)
+                    enc = base64.b64encode(
+                        json.dumps(storico, ensure_ascii=False, indent=2).encode()).decode()
+                    requests.put(url_st, headers=_gh_headers(), json={
+                        "message": f"Rename storico {card_key}->{new_key}",
+                        "content": enc, "sha": st_data["sha"]
+                    }, timeout=15)
+        except Exception:
+            pass
 
-    # Update CSV language
-    csv_content, csv_sha = _get_csv_from_github()
-    if csv_content and csv_sha:
-        lines = csv_content.splitlines(keepends=True)
-        new_lines = []
-        for line in lines:
-            low = line.lower()
-            if (set_code.lower() in low and col_num in low and
-                    finish in low and old_lang in low):
-                line = line.replace(f",{old_lang},", f",{new_lang},")
-            new_lines.append(line)
-        _update_csv_on_github("".join(new_lines), csv_sha,
-                              f"Edit lang {card_key}->{new_lang}")
+        # Update CSV language
+        csv_content, csv_sha = _get_csv_from_github()
+        if csv_content and csv_sha:
+            lines = csv_content.splitlines(keepends=True)
+            new_lines = []
+            for line in lines:
+                low = line.lower()
+                if (set_code.lower() in low and col_num in low and
+                        finish in low and old_lang in low):
+                    line = line.replace(f",{old_lang},", f",{new_lang},")
+                new_lines.append(line)
+            _update_csv_on_github("".join(new_lines), csv_sha,
+                                  f"Edit lang {card_key}->{new_lang}")
 
     # Update DB
     conn = get_db()
-    conn.execute("UPDATE price_history SET card_key=?, language=? WHERE card_key=?",
-                 (new_key, new_lang, card_key))
+    conn.execute(
+        "UPDATE price_history SET card_key=?, language=?, frame_effects=? WHERE card_key=?",
+        (new_key, new_lang, manual_fx, card_key))
     conn.commit()
     conn.close()
 

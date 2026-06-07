@@ -104,14 +104,8 @@
             {% else %}
               <span class="badge badge-normal">📄 Normal</span>
             {% endif %}
-            {% if c.frame_effects %}
-              {% for fx in c.frame_effects.split(',') %}
-                {% if fx.strip() == 'showcase' %}
-                <span class="badge" style="background:rgba(200,155,60,0.13);border:1px solid rgba(200,155,60,0.42);color:#c89b3c;margin-left:3px;">✦ Showcase</span>
-                {% elif fx.strip() and fx.strip() != 'inverted' %}
-                <span class="badge" style="background:rgba(139,92,246,0.11);border:1px solid rgba(139,92,246,0.32);color:#a78bfa;margin-left:3px;">{{ fx.strip()|capitalize }}</span>
-                {% endif %}
-              {% endfor %}
+            {% if c.frame_effects and 'silverscroll' in c.frame_effects %}
+            <span class="badge" style="background:rgba(200,155,60,0.13);border:1px solid rgba(200,155,60,0.42);color:#c89b3c;margin-left:3px;">✦ Silverscroll</span>
             {% endif %}
           </td>
           <td style="white-space:nowrap;">
@@ -120,8 +114,8 @@
             {% else %}
               <span style="color:rgba(200,200,220,0.28); font-size:0.78rem;">EN</span>
             {% endif %}
-            <button type="button" title="Modifica lingua"
-              onclick="openLangModal('{{ key }}', '{{ c.language or 'en' }}')"
+            <button type="button" title="Modifica carta"
+              onclick="openLangModal('{{ key }}', '{{ c.language or 'en' }}', {{ 'true' if c.frame_effects and 'silverscroll' in c.frame_effects else 'false' }})"
               style="background:none;border:none;cursor:pointer;color:rgba(200,200,220,0.22);
                      font-size:0.75rem;padding:0 0 0 3px;transition:color 0.18s;vertical-align:middle;"
               onmouseover="this.style.color='rgba(200,200,220,0.7)'"
@@ -233,12 +227,12 @@
   border-radius:18px; padding:2rem; box-shadow:0 24px 64px rgba(0,0,0,0.85);">
   <div style="font-family:'Cinzel',serif; color:var(--gold);
               font-size:0.75rem; text-transform:uppercase; letter-spacing:0.14em;
-              margin-bottom:1.2rem;">Modifica Lingua</div>
+              margin-bottom:1.2rem;">Modifica Carta</div>
   <form id="lang-form" method="post">
     <label style="display:block; font-size:0.68rem; font-weight:700;
                   color:rgba(200,200,220,0.42); text-transform:uppercase;
-                  letter-spacing:0.14em; margin-bottom:0.5rem;">Nuova Lingua</label>
-    <select name="new_language" id="lang-select-modal" class="inp" style="width:100%; margin-bottom:1.5rem;">
+                  letter-spacing:0.14em; margin-bottom:0.5rem;">Lingua</label>
+    <select name="new_language" id="lang-select-modal" class="inp" style="width:100%; margin-bottom:1.2rem;">
       <option value="en">🇬🇧 English</option>
       <option value="it">🇮🇹 Italiano</option>
       <option value="ja">🇯🇵 Japanese</option>
@@ -251,6 +245,19 @@
       <option value="zhs">🇨🇳 Chinese (S)</option>
       <option value="zht">🇹🇼 Chinese (T)</option>
     </select>
+    <label style="display:flex; align-items:center; gap:0.6rem; margin-bottom:1.5rem;
+                  cursor:pointer; padding:0.7rem 0.9rem;
+                  border:1px solid rgba(200,155,60,0.18); border-radius:10px;
+                  background:rgba(200,155,60,0.04); transition:background 0.18s;"
+           onmouseover="this.style.background='rgba(200,155,60,0.1)'"
+           onmouseout="this.style.background='rgba(200,155,60,0.04)'">
+      <input type="checkbox" name="silverscroll" id="silverscroll-check" value="on"
+             style="width:16px;height:16px;accent-color:#c89b3c;cursor:pointer;">
+      <span style="font-size:0.82rem; color:rgba(200,200,220,0.75);">
+        <span style="color:#c89b3c; font-weight:700;">✦ Silverscroll</span>
+        <span style="font-size:0.72rem; color:rgba(200,200,220,0.38); display:block;">versione giapponese Mystical Archive</span>
+      </span>
+    </label>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
       <button type="button" onclick="closeLangModal()"
         style="padding:0.75rem; border-radius:10px; border:1px solid rgba(200,200,220,0.15);
@@ -303,9 +310,10 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Language edit modal ─────────────────────────────────────────────────────
-function openLangModal(key, currentLang) {
+function openLangModal(key, currentLang, isSilverscroll) {
   document.getElementById('lang-form').action = '/edit-card-lang/' + key;
   document.getElementById('lang-select-modal').value = currentLang || 'en';
+  document.getElementById('silverscroll-check').checked = !!isSilverscroll;
   document.getElementById('lang-overlay').style.display = 'block';
   document.getElementById('lang-modal').style.display   = 'block';
 }
