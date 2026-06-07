@@ -83,19 +83,26 @@ def _hash(pwd: str) -> str:
 # ── GitHub fetch ──────────────────────────────────────────────────────────────
 
 def _fetch_github() -> dict:
-    if not GITHUB_REPO:
-        return {}
-    headers = {"Accept": "application/vnd.github.v3.raw"}
-    if GITHUB_TOKEN:
-        headers["Authorization"] = f"token {GITHUB_TOKEN}"
-    for branch in ("main", "master"):
-        url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/prezzi_riferimento.json"
-        try:
-            r = requests.get(url, headers=headers, timeout=15)
-            if r.ok:
-                return r.json()
-        except Exception:
-            continue
+    # Try GitHub repo first
+    if GITHUB_REPO:
+        headers = {"Accept": "application/vnd.github.v3.raw"}
+        if GITHUB_TOKEN:
+            headers["Authorization"] = f"token {GITHUB_TOKEN}"
+        for branch in ("main", "master"):
+            url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/prezzi_riferimento.json"
+            try:
+                r = requests.get(url, headers=headers, timeout=15)
+                if r.ok:
+                    return r.json()
+            except Exception:
+                continue
+
+    # Fallback: local file bundled in the repo
+    local = BASE_DIR / "prezzi_riferimento.json"
+    if local.exists():
+        import json as _json
+        with open(local, "r", encoding="utf-8") as f:
+            return _json.load(f)
     return {}
 
 
