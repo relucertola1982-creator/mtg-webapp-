@@ -76,7 +76,7 @@
           <th data-i18n="th-version">Versione</th>
           <th data-i18n="th-lang">Lingua</th>
           <th style="text-align:right;" data-i18n="th-price">Prezzo</th>
-          <th data-i18n="th-updated">Aggiornato</th>
+          <th class="hide-mobile" data-i18n="th-updated">Aggiornato</th>
           <th></th>
         </tr>
       </thead>
@@ -123,7 +123,7 @@
                      font-weight:700; color:var(--gold-light); white-space:nowrap;">
             €{{ "%.2f"|format(c.prezzo) }}
           </td>
-          <td style="color:rgba(200,200,220,0.38); font-size:0.78rem; white-space:nowrap;">
+          <td class="hide-mobile" style="color:rgba(200,200,220,0.38); font-size:0.78rem; white-space:nowrap;">
             {% if c.ultimo_aggiornamento %}{{ c.ultimo_aggiornamento[:16]|replace("T"," ") }}{% endif %}
           </td>
           <td style="text-align:right; white-space:nowrap; display:flex; gap:0.5rem; justify-content:flex-end; align-items:center;">
@@ -198,31 +198,62 @@ document.getElementById('q').addEventListener('input', filter);
 document.getElementById('foil-f').addEventListener('change', filter);
 document.getElementById('sort-f').addEventListener('change', filter);
 
-// ── Hover card preview ─────────────────────────────────────────
+// ── Card preview (hover on desktop, tap on mobile) ─────────────
 const preview  = document.getElementById('hover-preview');
 const hoverImg = document.getElementById('hover-img');
 const imgCache = {};
+const isTouch  = () => window.matchMedia('(hover: none)').matches;
+let activeTouchRow = null;
+
+async function loadImg(set, num) {
+  const key = `${set}/${num}`;
+  if (!imgCache[key]) {
+    try {
+      const r = await fetch(`https://api.scryfall.com/cards/${set}/${num}`);
+      const d = await r.json();
+      imgCache[key] = d.image_uris?.normal || d.card_faces?.[0]?.image_uris?.normal || '';
+    } catch(_) { imgCache[key] = ''; }
+  }
+  return imgCache[key];
+}
 
 rows.forEach(row => {
+  // Desktop hover
   row.addEventListener('mouseenter', async () => {
-    const set = row.dataset.set;
-    const num = row.dataset.num;
-    if (!set || !num) return;
-    const key = `${set}/${num}`;
-    if (!imgCache[key]) {
-      try {
-        const r = await fetch(`https://api.scryfall.com/cards/${set}/${num}`);
-        const d = await r.json();
-        imgCache[key] = d.image_uris?.normal || d.card_faces?.[0]?.image_uris?.normal || '';
-      } catch(_) { imgCache[key] = ''; }
-    }
-    if (imgCache[key]) { hoverImg.src = imgCache[key]; preview.style.display = 'block'; }
+    if (isTouch()) return;
+    const url = await loadImg(row.dataset.set, row.dataset.num);
+    if (url) { hoverImg.src = url; preview.style.display = 'block'; }
   });
   row.addEventListener('mousemove', e => {
+    if (isTouch()) return;
     preview.style.left = (e.clientX + 18) + 'px';
     preview.style.top  = Math.max(10, e.clientY - 120) + 'px';
   });
   row.addEventListener('mouseleave', () => { preview.style.display = 'none'; });
+
+  // Mobile tap: toggle preview centered on screen
+  row.addEventListener('touchend', async e => {
+    if (!isTouch()) return;
+    if (activeTouchRow === row) {
+      preview.style.display = 'none'; activeTouchRow = null; return;
+    }
+    e.preventDefault();
+    activeTouchRow = row;
+    const url = await loadImg(row.dataset.set, row.dataset.num);
+    if (url) {
+      hoverImg.src = url;
+      preview.style.left = '50%';
+      preview.style.top  = '50%';
+      preview.style.transform = 'translate(-50%, -50%)';
+      preview.style.display = 'block';
+    }
+  });
+});
+
+document.addEventListener('touchend', e => {
+  if (!e.target.closest('.row') && activeTouchRow) {
+    preview.style.display = 'none'; activeTouchRow = null;
+  }
 });
 </script>
 {% endblock %}
