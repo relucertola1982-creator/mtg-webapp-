@@ -142,17 +142,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T13:59:57.956819"
   },
-  "SOS_310_normal_en": {
-    "nome": "Erode",
-    "set": "Secrets of Strixhaven",
-    "set_code": "SOS",
-    "collector_number": "310",
-    "prezzo": 10.04,
-    "foil": false,
-    "finish": "normal",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T13:59:58.204858"
-  },
   "SOS_325_foil_en": {
     "nome": "Grave Researcher // Reanimate",
     "set": "Secrets of Strixhaven",
@@ -394,17 +383,6 @@
     "finish": "normal",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:03.721152"
-  },
-  "SOS_115_normal_en": {
-    "nome": "Flashback",
-    "set": "Secrets of Strixhaven",
-    "set_code": "SOS",
-    "collector_number": "115",
-    "prezzo": 5.27,
-    "foil": false,
-    "finish": "normal",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:03.968700"
   },
   "SOS_201_normal_en": {
     "nome": "Lorehold, the Historian",
