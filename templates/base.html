@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}MTG Price Tracker{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold:       #c89b3c;
+      --gold-light: #e8c469;
+      --gold-dim:   rgba(200,155,60,0.25);
+      --bg:         #07070f;
+      --glass:      rgba(12,12,28,0.82);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: #ddd;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── P9 Background ─────────────────────────────────────── */
+    #p9-bg {
+      position: fixed; inset: 0;
+      z-index: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      opacity: 0.13;
+      pointer-events: none;
+      filter: blur(3px) saturate(0.6);
+      transform: scale(1.06);
+    }
+    .p9-card {
+      background-size: cover;
+      background-position: center top;
+    }
+    #p9-overlay {
+      position: fixed; inset: 0; z-index: 1;
+      background: radial-gradient(ellipse at 50% 40%,
+        rgba(7,7,15,0.55) 0%,
+        rgba(7,7,15,0.97) 100%);
+      pointer-events: none;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────── */
+    nav {
+      position: relative; z-index: 20;
+      background: rgba(7,7,15,0.92);
+      border-bottom: 1px solid var(--gold-dim);
+      backdrop-filter: blur(24px);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-shadow: 0 0 24px rgba(200,155,60,0.45);
+    }
+    .nav-logo span { color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 0.25rem; }
+    .nav-links a {
+      color: rgba(210,210,210,0.7);
+      text-decoration: none;
+      font-size: 0.875rem; font-weight: 500;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      transition: background 0.18s, color 0.18s;
+    }
+    .nav-links a:hover { background: var(--gold-dim); color: var(--gold-light); }
+    .nav-badge {
+      background: var(--gold-dim);
+      color: var(--gold-light);
+      font-size: 0.7rem; font-weight: 700;
+      padding: 0.15rem 0.5rem; border-radius: 20px;
+      margin-left: 0.4rem; vertical-align: middle;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
+    main {
+      position: relative; z-index: 10;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    /* ── Glass card ────────────────────────────────────────── */
+    .glass {
+      background: var(--glass);
+      border: 1px solid rgba(200,155,60,0.18);
+      border-radius: 14px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6),
+                  inset 0 1px 0 rgba(200,155,60,0.08);
+    }
+
+    /* ── Stat card ─────────────────────────────────────────── */
+    .stat-card {
+      background: linear-gradient(135deg, rgba(200,155,60,0.08), rgba(12,12,28,0.9));
+      border: 1px solid rgba(200,155,60,0.22);
+      border-radius: 14px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Cinzel', serif;
+      font-size: 1.9rem; font-weight: 700;
+      color: var(--gold);
+      line-height: 1.1;
+    }
+    .stat-lbl {
+      font-size: 0.72rem; font-weight: 600;
+      color: rgba(200,200,200,0.5);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Page header ───────────────────────────────────────── */
+    .page-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem; font-weight: 700;
+      color: var(--gold);
+      text-shadow: 0 0 32px rgba(200,155,60,0.28);
+      line-height: 1.2;
+    }
+    .page-sub {
+      color: rgba(200,200,200,0.45);
+      font-size: 0.875rem; margin-top: 0.35rem;
+    }
+
+    /* ── Table ─────────────────────────────────────────────── */
+    .mtg-table { width: 100%; border-collapse: collapse; }
+    .mtg-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--gold);
+      padding: 1rem 1.1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(200,155,60,0.18);
+      background: rgba(0,0,0,0.25);
+      white-space: nowrap;
+    }
+    .mtg-table td {
+      padding: 0.8rem 1.1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.875rem;
+      color: rgba(220,220,220,0.88);
+      vertical-align: middle;
+    }
+    .mtg-table tbody tr { transition: background 0.15s; }
+    .mtg-table tbody tr:hover td { background: rgba(200,155,60,0.05); }
+    .mtg-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ── Badges ────────────────────────────────────────────── */
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 0.18rem 0.55rem; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600; white-space: nowrap;
+    }
+    .badge-foil {
+      background: linear-gradient(135deg, rgba(200,155,60,0.22), rgba(232,196,105,0.12));
+      border: 1px solid rgba(200,155,60,0.45);
+      color: var(--gold-light);
+    }
+    .badge-normal {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(200,200,200,0.65);
+    }
+    .badge-admin {
+      background: rgba(200,155,60,0.15);
+      border: 1px solid rgba(200,155,60,0.4);
+      color: var(--gold);
+    }
+
+    /* ── Inputs ────────────────────────────────────────────── */
+    .inp {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(200,155,60,0.2);
+      border-radius: 8px; padding: 0.6rem 1rem;
+      color: #fff; font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s;
+    }
+    .inp:focus { border-color: rgba(200,155,60,0.55); }
+    .inp::placeholder { color: rgba(200,200,200,0.25); }
+
+    /* ── Buttons ───────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.4rem;
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600;
+      padding: 0.6rem 1.4rem; border-radius: 8px;
+      border: none; cursor: pointer;
+      transition: opacity 0.18s, transform 0.12s;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn-gold {
+      background: linear-gradient(135deg, #c89b3c, #a07428);
+      color: #140e02;
+    }
+    .btn-danger {
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.3);
+      color: #f87171;
+    }
+    .btn-danger:hover { background: rgba(248,113,113,0.22); }
+    .btn-ghost {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(200,200,200,0.7);
+    }
+
+    /* ── Misc ──────────────────────────────────────────────── */
+    .card-link {
+      color: rgba(220,220,220,0.88);
+      text-decoration: none; font-weight: 500;
+      transition: color 0.18s;
+    }
+    .card-link:hover { color: var(--gold); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(200,155,60,0.15);
+      margin: 1.5rem 0;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(0,0,0,0.15); }
+    ::-webkit-scrollbar-thumb { background: rgba(200,155,60,0.28); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(200,155,60,0.5); }
+
+    select option { background: #1a1a2e; color: #ddd; }
+
+    @media (max-width: 768px) {
+      main { padding: 1rem 1rem 3rem; }
+      nav  { padding: 0 1rem; }
+      .page-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="p9-bg"></div>
+<div id="p9-overlay"></div>
+
+{% if user %}
+<nav>
+  <a href="/" class="nav-logo">⚔️ MTG <span>Price Tracker</span></a>
+  <div class="nav-links">
+    <a href="/">🃏 Collezione</a>
+    {% if user.is_admin %}<a href="/admin">⚙️ Admin <span class="nav-badge">Admin</span></a>{% endif %}
+    <a href="/logout">🚪 Esci</a>
+  </div>
+</nav>
+{% endif %}
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<script>
+(async function loadP9() {
+  const names = ["Black Lotus","Ancestral Recall","Time Walk","Timetwister",
+                 "Mox Pearl","Mox Sapphire","Mox Jet","Mox Ruby","Mox Emerald"];
+  const bg = document.getElementById('p9-bg');
+  try {
+    const r = await fetch('https://api.scryfall.com/cards/collection', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ identifiers: names.map(n => ({ name: n, set: 'lea' })) })
+    });
+    const { data } = await r.json();
+    for (const card of (data || [])) {
+      const url = card.image_uris?.normal || card.card_faces?.[0]?.image_uris?.normal;
+      if (url) {
+        const d = document.createElement('div');
+        d.className = 'p9-card';
+        d.style.backgroundImage = `url(${url})`;
+        bg.appendChild(d);
+      }
+    }
+  } catch (_) {}
+})();
+</script>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>

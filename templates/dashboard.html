@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}Collezione — MTG Price Tracker{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div style="display:flex; align-items:flex-end; justify-content:space-between;
+            flex-wrap:wrap; gap:1rem; margin-bottom:1.8rem;">
+  <div>
+    <h1 class="page-title">La tua Collezione</h1>
+    <p class="page-sub">{{ total_cards }} carte monitorate · Ultimo aggiornamento: {{ last_fetch }}</p>
+  </div>
+  <form method="post" action="/refresh" style="display:inline;">
+    <button type="submit" class="btn btn-ghost" style="font-size:0.8rem;">
+      🔄 Aggiorna prezzi
+    </button>
+  </form>
+</div>
+
+<!-- Stats -->
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:1rem; margin-bottom:2rem;">
+  <div class="stat-card">
+    <div class="stat-val">€{{ "%.2f"|format(total_value) }}</div>
+    <div class="stat-lbl">Valore Totale</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ total_cards }}</div>
+    <div class="stat-lbl">Carte Monitorate</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ foil_count }}</div>
+    <div class="stat-lbl">Di cui Foil</div>
+  </div>
+  <div class="stat-card">
+    {% if top_card %}
+    <div class="stat-val">€{{ "%.2f"|format(top_card[1].prezzo) }}</div>
+    <div class="stat-lbl">Carta più Preziosa</div>
+    {% else %}
+    <div class="stat-val">—</div>
+    <div class="stat-lbl">Carta più Preziosa</div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Search bar -->
+<div class="glass" style="padding:1.2rem 1.4rem; margin-bottom:1.2rem;
+                          display:flex; align-items:center; gap:0.9rem; flex-wrap:wrap;">
+  <input type="text" id="q" class="inp" placeholder="🔍  Cerca per nome..." style="width:260px; flex-shrink:0;">
+
+  <select id="foil-f" class="inp" style="width:160px;">
+    <option value="">Tutte le carte</option>
+    <option value="foil">Solo Foil ✨</option>
+    <option value="normal">Solo Normal 📄</option>
+  </select>
+
+  <select id="sort-f" class="inp" style="width:160px;">
+    <option value="price-d">Prezzo ↓</option>
+    <option value="price-a">Prezzo ↑</option>
+    <option value="name-a">Nome A→Z</option>
+  </select>
+
+  <div style="margin-left:auto; color:rgba(200,200,200,0.4); font-size:0.82rem;">
+    <span id="cnt">{{ total_cards }}</span> risultati
+  </div>
+</div>
+
+<!-- Table -->
+<div class="glass" style="overflow:hidden;">
+  {% if prices %}
+  <div style="overflow-x:auto;">
+    <table class="mtg-table">
+      <thead>
+        <tr>
+          <th>Carta</th>
+          <th>Set</th>
+          <th>Tipo</th>
+          <th style="text-align:right;">Prezzo</th>
+          <th>Aggiornato</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        {% for key, c in prices %}
+        <tr class="row"
+            data-name="{{ c.nome|lower }}"
+            data-foil="{{ 'foil' if c.foil else 'normal' }}"
+            data-price="{{ c.prezzo }}">
+          <td>
+            <a href="/card/{{ key }}" class="card-link">{{ c.nome }}</a>
+          </td>
+          <td style="color:rgba(200,200,200,0.55); font-size:0.82rem; white-space:nowrap;">
+            {{ c.set_code|upper }}
+            {% if c.set_name and c.set_name != c.set_code %}
+            <span title="{{ c.set_name }}" style="cursor:default;">
+              · <span style="max-width:160px; display:inline-block; overflow:hidden;
+                             text-overflow:ellipsis; vertical-align:bottom; white-space:nowrap;">
+                  {{ c.set_name }}
+                </span>
+            </span>
+            {% endif %}
+            {% if c.collector_number %}<span style="opacity:0.55;"> #{{ c.collector_number }}</span>{% endif %}
+          </td>
+          <td>
+            {% if c.foil %}
+              <span class="badge badge-foil">✨ Foil</span>
+            {% else %}
+              <span class="badge badge-normal">📄 Normal</span>
+            {% endif %}
+          </td>
+          <td style="text-align:right; font-family:'Cinzel',serif; font-size:1rem;
+                     font-weight:700; color:var(--gold-light); white-space:nowrap;">
+            €{{ "%.2f"|format(c.prezzo) }}
+          </td>
+          <td style="color:rgba(200,200,200,0.4); font-size:0.78rem; white-space:nowrap;">
+            {% if c.ultimo_aggiornamento %}{{ c.ultimo_aggiornamento[:16]|replace("T"," ") }}{% endif %}
+          </td>
+          <td style="text-align:right;">
+            <a href="/card/{{ key }}"
+               style="color:rgba(200,155,60,0.55); font-size:0.8rem; text-decoration:none;
+                      transition:color 0.18s; white-space:nowrap;"
+               onmouseover="this.style.color='var(--gold)'"
+               onmouseout="this.style.color='rgba(200,155,60,0.55)'">
+              Storico →
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div style="padding:4rem 2rem; text-align:center; color:rgba(200,200,200,0.35);">
+    <div style="font-size:3rem; margin-bottom:1rem;">🃏</div>
+    <p style="font-size:1rem;">Nessuna carta trovata.</p>
+    <p style="font-size:0.85rem; margin-top:0.4rem;">
+      Configura <code>GITHUB_REPO</code> su Railway e clicca "Aggiorna prezzi".
+    </p>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const rows  = Array.from(document.querySelectorAll('.row'));
+const tbody = document.getElementById('tbody');
+
+function filter() {
+  const q    = document.getElementById('q').value.toLowerCase();
+  const foil = document.getElementById('foil-f').value;
+  const sort = document.getElementById('sort-f').value;
+
+  let vis = rows.filter(r =>
+    r.dataset.name.includes(q) && (!foil || r.dataset.foil === foil)
+  );
+
+  vis.sort((a, b) => {
+    if (sort === 'price-d') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+    if (sort === 'price-a') return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+    return a.dataset.name.localeCompare(b.dataset.name);
+  });
+
+  rows.forEach(r => r.style.display = 'none');
+  vis.forEach(r => { r.style.display = ''; tbody.appendChild(r); });
+  document.getElementById('cnt').textContent = vis.length;
+}
+
+document.getElementById('q').addEventListener('input', filter);
+document.getElementById('foil-f').addEventListener('change', filter);
+document.getElementById('sort-f').addEventListener('change', filter);
+</script>
+{% endblock %}

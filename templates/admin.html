@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Admin — MTG Price Tracker{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:2rem;">
+  <h1 class="page-title">Pannello Admin</h1>
+  <p class="page-sub">Gestisci gli utenti che possono accedere all'app</p>
+</div>
+
+<!-- Add user -->
+<div class="glass" style="padding:2rem; margin-bottom:2rem;">
+  <h2 style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.9rem;
+             text-transform:uppercase; letter-spacing:0.12em; margin-bottom:1.4rem;">
+    ➕ Aggiungi Utente
+  </h2>
+  <form method="post" action="/admin/add-user"
+        style="display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end;">
+    <div>
+      <label style="display:block; font-size:0.7rem; font-weight:600;
+                    color:rgba(200,200,200,0.45); text-transform:uppercase;
+                    letter-spacing:0.1em; margin-bottom:0.4rem;">Username</label>
+      <input type="text" name="username" required class="inp" style="width:180px;" placeholder="username">
+    </div>
+    <div>
+      <label style="display:block; font-size:0.7rem; font-weight:600;
+                    color:rgba(200,200,200,0.45); text-transform:uppercase;
+                    letter-spacing:0.1em; margin-bottom:0.4rem;">Password</label>
+      <input type="password" name="password" required class="inp" style="width:180px;" placeholder="••••••••">
+    </div>
+    <div>
+      <label style="display:block; font-size:0.7rem; font-weight:600;
+                    color:rgba(200,200,200,0.45); text-transform:uppercase;
+                    letter-spacing:0.1em; margin-bottom:0.4rem;">Telegram Chat ID <span style="opacity:0.5;">(opzionale)</span></label>
+      <input type="text" name="telegram_chat_id" class="inp" style="width:200px;" placeholder="es. 1161277005">
+    </div>
+    <button type="submit" class="btn btn-gold">Aggiungi</button>
+  </form>
+</div>
+
+<!-- Users list -->
+<div class="glass" style="overflow:hidden;">
+  <div style="padding:1.4rem 1.6rem; border-bottom:1px solid rgba(200,155,60,0.15);
+              display:flex; align-items:center; justify-content:space-between;">
+    <h2 style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.9rem;
+               text-transform:uppercase; letter-spacing:0.12em;">
+      Utenti Registrati
+    </h2>
+    <span style="font-size:0.82rem; color:rgba(200,200,200,0.4);">{{ users|length }} totali</span>
+  </div>
+
+  <table class="mtg-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Telegram Chat ID</th>
+        <th>Ruolo</th>
+        <th>Registrato</th>
+        <th>Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td style="color:rgba(200,200,200,0.3); font-size:0.8rem;">{{ u.id }}</td>
+        <td style="font-weight:500;">{{ u.username }}</td>
+        <td style="color:rgba(200,200,200,0.55); font-size:0.82rem; font-family:monospace;">
+          {{ u.telegram_chat_id or '—' }}
+        </td>
+        <td>
+          {% if u.is_admin %}
+            <span class="badge badge-admin">⭐ Admin</span>
+          {% else %}
+            <span class="badge badge-normal">Utente</span>
+          {% endif %}
+        </td>
+        <td style="color:rgba(200,200,200,0.4); font-size:0.8rem;">
+          {{ u.created_at[:10] if u.created_at else '—' }}
+        </td>
+        <td>
+          {% if not u.is_admin %}
+          <form method="post" action="/admin/delete-user/{{ u.id }}" style="display:inline;"
+                onsubmit="return confirm('Eliminare l\'utente {{ u.username }}?')">
+            <button type="submit" class="btn btn-danger" style="padding:0.3rem 0.8rem; font-size:0.78rem;">
+              Elimina
+            </button>
+          </form>
+          {% else %}
+          <span style="color:rgba(200,200,200,0.2); font-size:0.8rem;">—</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

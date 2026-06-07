@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}{{ card.nome }} — MTG Price Tracker{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:1.4rem;">
+  <a href="/" style="color:rgba(200,155,60,0.65); text-decoration:none; font-size:0.875rem;
+                     transition:color 0.18s;"
+     onmouseover="this.style.color='var(--gold)'"
+     onmouseout="this.style.color='rgba(200,155,60,0.65)'">
+    ← Torna alla collezione
+  </a>
+</div>
+
+<div style="display:grid; grid-template-columns:280px 1fr; gap:2rem; align-items:start;">
+
+  <!-- Card image -->
+  <div>
+    <div id="img-wrap" class="glass"
+         style="border-radius:16px; overflow:hidden; aspect-ratio:5/7;
+                background:rgba(0,0,0,0.45);
+                display:flex; align-items:center; justify-content:center;">
+      <div style="color:rgba(200,200,200,0.2); font-size:4rem;">🃏</div>
+    </div>
+
+    <!-- Quick info below image -->
+    <div class="glass" style="margin-top:1rem; padding:1.1rem;">
+      <div style="font-size:0.75rem; color:rgba(200,200,200,0.45);
+                  text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.6rem;">
+        Dettagli
+      </div>
+      <table style="width:100%; font-size:0.82rem; border-collapse:collapse;">
+        <tr>
+          <td style="color:rgba(200,200,200,0.45); padding:0.25rem 0;">Set</td>
+          <td style="text-align:right; color:#ddd;">
+            {{ card.set_code|upper }}{% if card.collector_number %} #{{ card.collector_number }}{% endif %}
+          </td>
+        </tr>
+        {% if card.set_name %}
+        <tr>
+          <td style="color:rgba(200,200,200,0.45); padding:0.25rem 0;">Nome Set</td>
+          <td style="text-align:right; color:#ddd;">{{ card.set_name }}</td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td style="color:rgba(200,200,200,0.45); padding:0.25rem 0;">Tipo</td>
+          <td style="text-align:right;">
+            {% if card.foil %}
+              <span class="badge badge-foil">✨ Foil</span>
+            {% else %}
+              <span class="badge badge-normal">📄 Normal</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td style="color:rgba(200,200,200,0.45); padding:0.25rem 0;">Ultima modifica</td>
+          <td style="text-align:right; color:rgba(200,200,200,0.5); font-size:0.78rem;">
+            {% if card.ultimo_aggiornamento %}
+              {{ card.ultimo_aggiornamento[:16]|replace("T"," ") }}
+            {% else %}—{% endif %}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div>
+    <div style="margin-bottom:1.6rem;">
+      <div style="display:flex; align-items:center; gap:0.8rem; flex-wrap:wrap; margin-bottom:0.3rem;">
+        <h1 class="page-title" style="font-size:2rem;">{{ card.nome }}</h1>
+        {% if card.foil %}
+          <span class="badge badge-foil" style="font-size:0.85rem; padding:0.25rem 0.75rem;">✨ Foil</span>
+        {% else %}
+          <span class="badge badge-normal" style="font-size:0.85rem; padding:0.25rem 0.75rem;">📄 Normal</span>
+        {% endif %}
+      </div>
+      <p class="page-sub">{{ card.set_name or card.set_code|upper }}</p>
+    </div>
+
+    <!-- Price stats -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2rem;">
+      <div class="stat-card">
+        <div class="stat-val" style="font-size:1.7rem;">
+          €{{ "%.2f"|format(card.prezzo) }}
+        </div>
+        <div class="stat-lbl">Prezzo Attuale</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="font-size:1.7rem;" id="p-min">—</div>
+        <div class="stat-lbl">Minimo Storico</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="font-size:1.7rem;" id="p-max">—</div>
+        <div class="stat-lbl">Massimo Storico</div>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1.4rem;">
+        <h3 style="font-family:'Cinzel',serif; color:var(--gold);
+                   font-size:0.9rem; text-transform:uppercase; letter-spacing:0.12em;">
+          Storico Prezzi
+        </h3>
+        {% if history|length > 1 %}
+        <span style="font-size:0.75rem; color:rgba(200,200,200,0.35);">
+          {{ history|length }} rilevamenti
+        </span>
+        {% endif %}
+      </div>
+
+      {% if history|length > 1 %}
+        <canvas id="chart" style="max-height:280px;"></canvas>
+      {% else %}
+        <div style="padding:3.5rem 1rem; text-align:center; color:rgba(200,200,200,0.3);">
+          <div style="font-size:2.5rem; margin-bottom:0.6rem;">📊</div>
+          <p>Dati insufficienti per il grafico.</p>
+          <p style="font-size:0.8rem; margin-top:0.3rem; opacity:0.7;">
+            Il grafico si popolerà dopo più rilevamenti orari.
+          </p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+const history = {{ history | tojson }};
+
+// Load card image from Scryfall
+(async function() {
+  const set = "{{ card.set_code|lower if card.set_code else '' }}";
+  const num = "{{ card.collector_number if card.collector_number else '' }}";
+  if (!set || !num) return;
+  try {
+    const r = await fetch(`https://api.scryfall.com/cards/${set}/${num}`);
+    if (!r.ok) return;
+    const d = await r.json();
+    const url = d.image_uris?.large || d.image_uris?.normal
+             || d.card_faces?.[0]?.image_uris?.large;
+    if (url) {
+      document.getElementById('img-wrap').innerHTML =
+        `<img src="${url}" style="width:100%;height:100%;object-fit:cover;" alt="{{ card.nome }}">`;
+    }
+  } catch(_) {}
+})();
+
+// Price stats
+if (history.length > 0) {
+  const prices = history.map(h => h.price);
+  document.getElementById('p-min').textContent = '€' + Math.min(...prices).toFixed(2);
+  document.getElementById('p-max').textContent = '€' + Math.max(...prices).toFixed(2);
+}
+
+// Chart
+{% if history|length > 1 %}
+const ctx = document.getElementById('chart').getContext('2d');
+const labels = history.map(h => {
+  const d = new Date(h.date);
+  return d.toLocaleDateString('it-IT', { day:'2-digit', month:'2-digit' })
+       + ' ' + d.toLocaleTimeString('it-IT', { hour:'2-digit', minute:'2-digit' });
+});
+const vals = history.map(h => h.price);
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [{
+      data: vals,
+      borderColor: '#c89b3c',
+      backgroundColor: 'rgba(200,155,60,0.08)',
+      borderWidth: 2.5,
+      pointBackgroundColor: '#c89b3c',
+      pointRadius: 3.5,
+      pointHoverRadius: 6,
+      fill: true,
+      tension: 0.35,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(7,7,15,0.96)',
+        borderColor: 'rgba(200,155,60,0.3)',
+        borderWidth: 1,
+        titleColor: '#c89b3c',
+        bodyColor: '#ddd',
+        padding: 10,
+        callbacks: { label: c => ` €${c.parsed.y.toFixed(2)}` }
+      }
+    },
+    scales: {
+      x: {
+        grid:  { color: 'rgba(255,255,255,0.04)' },
+        ticks: { color: 'rgba(200,200,200,0.4)', font:{size:11}, maxTicksLimit:8, maxRotation:30 }
+      },
+      y: {
+        grid:  { color: 'rgba(255,255,255,0.04)' },
+        ticks: {
+          color: 'rgba(200,200,200,0.4)',
+          callback: v => '€' + v.toFixed(2)
+        }
+      }
+    }
+  }
+});
+{% endif %}
+</script>
+{% endblock %}

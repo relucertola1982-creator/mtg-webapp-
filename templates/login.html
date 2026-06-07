@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Accedi — MTG Price Tracker{% endblock %}
+
+{% block content %}
+<div style="min-height:calc(100vh - 60px); display:flex; align-items:center; justify-content:center; padding:2rem;">
+  <div class="glass" style="width:100%; max-width:420px; padding:3rem 2.5rem; text-align:center;">
+
+    <!-- Logo -->
+    <div style="margin-bottom:2.2rem;">
+      <div style="font-size:3.5rem; line-height:1; margin-bottom:0.7rem;
+                  filter: drop-shadow(0 0 18px rgba(200,155,60,0.5));">⚔️</div>
+      <h1 style="font-family:'Cinzel',serif; font-size:1.55rem; font-weight:700;
+                 color:var(--gold); text-shadow:0 0 24px rgba(200,155,60,0.4);
+                 letter-spacing:0.04em;">MTG Price Tracker</h1>
+      <p style="color:rgba(200,200,200,0.45); font-size:0.85rem; margin-top:0.4rem;">
+        Accedi alla tua collezione
+      </p>
+    </div>
+
+    <!-- Error -->
+    {% if error %}
+    <div style="background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3);
+                border-radius:8px; padding:0.75rem 1rem; margin-bottom:1.5rem;
+                color:#f87171; font-size:0.875rem;">
+      ⚠️ {{ error }}
+    </div>
+    {% endif %}
+
+    <!-- Form -->
+    <form method="post" action="/login">
+      <div style="margin-bottom:1.1rem; text-align:left;">
+        <label style="display:block; font-size:0.72rem; font-weight:600;
+                      color:rgba(200,200,200,0.5); text-transform:uppercase;
+                      letter-spacing:0.1em; margin-bottom:0.45rem;">Username</label>
+        <input type="text" name="username" required autofocus
+               class="inp" style="width:100%;" placeholder="il tuo username">
+      </div>
+
+      <div style="margin-bottom:2rem; text-align:left;">
+        <label style="display:block; font-size:0.72rem; font-weight:600;
+                      color:rgba(200,200,200,0.5); text-transform:uppercase;
+                      letter-spacing:0.1em; margin-bottom:0.45rem;">Password</label>
+        <input type="password" name="password" required
+               class="inp" style="width:100%;" placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn btn-gold" style="width:100%; padding:0.85rem; font-size:1rem;">
+        Accedi →
+      </button>
+    </form>
+
+    <p style="margin-top:2rem; font-size:0.75rem; color:rgba(200,200,200,0.25);">
+      Ale823 · MTG Collection Manager
+    </p>
+  </div>
+</div>
+{% endblock %}

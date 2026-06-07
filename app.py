@@ -1,0 +1,327 @@
+from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
+import sqlite3
+import hashlib
+import requests
+import os
+from datetime import datetime, timedelta
+import secrets
+from pathlib import Path
+
+app = FastAPI(title="MTG Price Tracker")
+
+SECRET_KEY = os.environ.get("SECRET_KEY", secrets.token_hex(32))
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY, max_age=86400)
+
+GITHUB_REPO    = os.environ.get("GITHUB_REPO", "")
+GITHUB_TOKEN   = os.environ.get("GITHUB_TOKEN", "")
+ADMIN_USER     = os.environ.get("ADMIN_USER", "admin")
+ADMIN_PASS     = os.environ.get("ADMIN_PASS", "changeme")
+CACHE_MINUTES  = int(os.environ.get("CACHE_MINUTES", "30"))
+
+DB_PATH  = "mtg_webapp.db"
+BASE_DIR = Path(__file__).parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+
+static_dir = BASE_DIR / "static"
+static_dir.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
+
+# ── Database ──────────────────────────────────────────────────────────────────
+
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_db():
+    conn = get_db()
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS users (
+            id              INTEGER PRIMARY KEY AUTOINCREMENT,
+            username        TEXT UNIQUE NOT NULL,
+            password_hash   TEXT NOT NULL,
+            telegram_chat_id TEXT,
+            is_admin        INTEGER DEFAULT 0,
+            created_at      TEXT DEFAULT (datetime('now'))
+        );
+        CREATE TABLE IF NOT EXISTS price_history (
+            id               INTEGER PRIMARY KEY AUTOINCREMENT,
+            card_key         TEXT NOT NULL,
+            card_name        TEXT NOT NULL,
+            set_code         TEXT DEFAULT '',
+            set_name         TEXT DEFAULT '',
+            collector_number TEXT DEFAULT '',
+            foil             INTEGER DEFAULT 0,
+            price            REAL NOT NULL,
+            recorded_at      TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS fetch_log (
+            id          INTEGER PRIMARY KEY AUTOINCREMENT,
+            fetched_at  TEXT DEFAULT (datetime('now')),
+            cards_count INTEGER DEFAULT 0
+        );
+        CREATE INDEX IF NOT EXISTS idx_ph_key ON price_history(card_key);
+    """)
+    conn.execute(
+        "INSERT OR IGNORE INTO users (username, password_hash, is_admin) VALUES (?, ?, 1)",
+        (ADMIN_USER, _hash(ADMIN_PASS))
+    )
+    conn.commit()
+    conn.close()
+
+
+def _hash(pwd: str) -> str:
+    return hashlib.sha256(pwd.encode()).hexdigest()
+
+
+# ── GitHub fetch ──────────────────────────────────────────────────────────────
+
+def _fetch_github() -> dict:
+    if not GITHUB_REPO:
+        return {}
+    headers = {"Accept": "application/vnd.github.v3.raw"}
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"token {GITHUB_TOKEN}"
+    for branch in ("main", "master"):
+        url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/prezzi_riferimento.json"
+        try:
+            r = requests.get(url, headers=headers, timeout=15)
+            if r.ok:
+                return r.json()
+        except Exception:
+            continue
+    return {}
+
+
+def get_prices(force: bool = False) -> dict:
+    conn = get_db()
+
+    # Decide whether to refresh from GitHub
+    should_fetch = force
+    if not should_fetch:
+        last = conn.execute(
+            "SELECT fetched_at FROM fetch_log ORDER BY id DESC LIMIT 1"
+        ).fetchone()
+        if not last:
+            should_fetch = True
+        else:
+            age = datetime.now() - datetime.fromisoformat(last["fetched_at"])
+            if age > timedelta(minutes=CACHE_MINUTES):
+                should_fetch = True
+
+    if should_fetch:
+        raw = _fetch_github()
+        if raw:
+            now = datetime.now().isoformat()
+            for key, d in raw.items():
+                # Only insert if price changed
+                last_price = conn.execute(
+                    "SELECT price FROM price_history WHERE card_key=? ORDER BY id DESC LIMIT 1",
+                    (key,)
+                ).fetchone()
+                if not last_price or abs(last_price["price"] - d["prezzo"]) > 0.001:
+                    conn.execute(
+                        """INSERT INTO price_history
+                           (card_key, card_name, set_code, set_name, collector_number, foil, price, recorded_at)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                        (key, d.get("nome", ""), d.get("set_code", ""), d.get("set", ""),
+                         d.get("collector_number", ""), 1 if d.get("foil") else 0,
+                         d["prezzo"], d.get("ultimo_aggiornamento", now))
+                    )
+            conn.execute("INSERT INTO fetch_log (cards_count) VALUES (?)", (len(raw),))
+            conn.commit()
+
+    rows = conn.execute("""
+        SELECT ph.card_key, ph.card_name, ph.set_code, ph.set_name,
+               ph.collector_number, ph.foil, ph.price, ph.recorded_at
+        FROM price_history ph
+        INNER JOIN (
+            SELECT card_key, MAX(id) AS mid FROM price_history GROUP BY card_key
+        ) latest ON ph.id = latest.mid
+        ORDER BY ph.price DESC
+    """).fetchall()
+    conn.close()
+
+    if not rows:
+        raw = _fetch_github()
+        return raw
+
+    return {
+        row["card_key"]: {
+            "nome":             row["card_name"],
+            "set_code":         row["set_code"],
+            "set_name":         row["set_name"],
+            "collector_number": row["collector_number"],
+            "foil":             bool(row["foil"]),
+            "prezzo":           row["price"],
+            "ultimo_aggiornamento": row["recorded_at"],
+        }
+        for row in rows
+    }
+
+
+# ── Auth helpers ──────────────────────────────────────────────────────────────
+
+def current_user(request: Request):
+    return request.session.get("user")
+
+
+# ── Routes ────────────────────────────────────────────────────────────────────
+
+@app.on_event("startup")
+async def on_startup():
+    init_db()
+
+
+@app.get("/", response_class=HTMLResponse)
+async def dashboard(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    prices = get_prices()
+    items  = list(prices.items())
+    total_value  = sum(v["prezzo"] for v in prices.values())
+    foil_count   = sum(1 for v in prices.values() if v["foil"])
+    top_card     = items[0] if items else None
+
+    conn = get_db()
+    last_fetch = conn.execute(
+        "SELECT fetched_at FROM fetch_log ORDER BY id DESC LIMIT 1"
+    ).fetchone()
+    conn.close()
+
+    return templates.TemplateResponse("dashboard.html", {
+        "request": request, "user": user,
+        "prices": items,
+        "total_value": total_value,
+        "foil_count": foil_count,
+        "total_cards": len(prices),
+        "top_card": top_card,
+        "last_fetch": last_fetch["fetched_at"][:16].replace("T", " ") if last_fetch else "—",
+    })
+
+
+@app.post("/refresh")
+async def refresh(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    get_prices(force=True)
+    return RedirectResponse("/", status_code=302)
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_get(request: Request):
+    if current_user(request):
+        return RedirectResponse("/", status_code=302)
+    return templates.TemplateResponse("login.html", {"request": request, "user": None, "error": None})
+
+
+@app.post("/login", response_class=HTMLResponse)
+async def login_post(request: Request, username: str = Form(...), password: str = Form(...)):
+    conn = get_db()
+    u = conn.execute(
+        "SELECT * FROM users WHERE username=? AND password_hash=?",
+        (username, _hash(password))
+    ).fetchone()
+    conn.close()
+
+    if u:
+        request.session["user"] = {
+            "id": u["id"], "username": u["username"], "is_admin": bool(u["is_admin"])
+        }
+        return RedirectResponse("/", status_code=302)
+    return templates.TemplateResponse("login.html", {
+        "request": request, "user": None, "error": "Credenziali non valide"
+    })
+
+
+@app.get("/logout")
+async def logout(request: Request):
+    request.session.clear()
+    return RedirectResponse("/login", status_code=302)
+
+
+@app.get("/card/{card_key:path}", response_class=HTMLResponse)
+async def card_detail(request: Request, card_key: str):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    prices = get_prices()
+    card   = prices.get(card_key)
+    if not card:
+        raise HTTPException(status_code=404, detail="Carta non trovata")
+
+    conn = get_db()
+    history = conn.execute(
+        "SELECT price, recorded_at FROM price_history WHERE card_key=? ORDER BY recorded_at ASC",
+        (card_key,)
+    ).fetchall()
+    conn.close()
+
+    history_data = [{"price": h["price"], "date": h["recorded_at"]} for h in history]
+
+    return templates.TemplateResponse("card.html", {
+        "request": request, "user": user,
+        "card_key": card_key, "card": card, "history": history_data,
+    })
+
+
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_get(request: Request):
+    user = current_user(request)
+    if not user or not user.get("is_admin"):
+        return RedirectResponse("/", status_code=302)
+
+    conn = get_db()
+    users = conn.execute(
+        "SELECT id, username, telegram_chat_id, is_admin, created_at FROM users ORDER BY id"
+    ).fetchall()
+    conn.close()
+    return templates.TemplateResponse("admin.html", {"request": request, "user": user, "users": users})
+
+
+@app.post("/admin/add-user")
+async def admin_add_user(request: Request,
+                         username: str = Form(...), password: str = Form(...),
+                         telegram_chat_id: str = Form("")):
+    user = current_user(request)
+    if not user or not user.get("is_admin"):
+        raise HTTPException(status_code=403)
+    conn = get_db()
+    try:
+        conn.execute(
+            "INSERT INTO users (username, password_hash, telegram_chat_id) VALUES (?, ?, ?)",
+            (username, _hash(password), telegram_chat_id.strip() or None)
+        )
+        conn.commit()
+    except sqlite3.IntegrityError:
+        pass
+    conn.close()
+    return RedirectResponse("/admin", status_code=302)
+
+
+@app.post("/admin/delete-user/{user_id}")
+async def admin_delete_user(request: Request, user_id: int):
+    user = current_user(request)
+    if not user or not user.get("is_admin"):
+        raise HTTPException(status_code=403)
+    conn = get_db()
+    conn.execute("DELETE FROM users WHERE id=? AND id!=?", (user_id, user["id"]))
+    conn.commit()
+    conn.close()
+    return RedirectResponse("/admin", status_code=302)
+
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
