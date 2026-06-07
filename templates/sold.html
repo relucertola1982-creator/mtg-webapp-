@@ -90,10 +90,18 @@
           <td style="color:rgba(200,200,220,0.38); font-size:0.78rem; white-space:nowrap;">
             {% if c.sold_at %}{{ c.sold_at[:16]|replace("T"," ") }}{% else %}—{% endif %}
           </td>
-          <td>
+          <td style="white-space:nowrap; display:flex; gap:0.6rem; align-items:center; justify-content:flex-end;">
+            <form method="post" action="/sold/relist/{{ c.id }}"
+                  onsubmit="return confirm('Rimettere \'{{ c.card_name }}\' nella collezione attiva?')">
+              <button type="submit" title="Rimetti in collezione"
+                style="background:none; border:none; cursor:pointer; color:rgba(56,189,248,0.45);
+                       font-size:1rem; padding:0; transition:color 0.18s; white-space:nowrap;"
+                onmouseover="this.style.color='#38bdf8'"
+                onmouseout="this.style.color='rgba(56,189,248,0.45)'">↩</button>
+            </form>
             <form method="post" action="/sold/delete/{{ c.id }}"
-                  onsubmit="return confirm('Rimuovere dalla lista vendute?')">
-              <button type="submit" title="Rimuovi dalla lista"
+                  onsubmit="return confirm('Eliminare definitivamente \'{{ c.card_name }}\' dalla lista vendute?')">
+              <button type="submit" title="Elimina dalla lista vendute"
                 style="background:none; border:none; cursor:pointer; color:rgba(248,113,113,0.38);
                        font-size:1rem; padding:0; transition:color 0.18s;"
                 onmouseover="this.style.color='#f87171'"

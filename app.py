@@ -706,6 +706,79 @@ async def sold_delete(request: Request, sold_id: str):
     return RedirectResponse("/sold", status_code=302)
 
 
+@app.post("/sold/relist/{sold_id}")
+async def sold_relist(request: Request, sold_id: str):
+    """Move a sold card back into the active collection."""
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    import json as _json
+
+    # 1. Find and remove from vendute.json on GitHub
+    current_sold = _load_sold_from_github()
+    entry = next((e for e in current_sold if str(e.get("id", "")) == sold_id), None)
+    if not entry:
+        return RedirectResponse("/sold", status_code=302)
+
+    new_sold = [e for e in current_sold if str(e.get("id", "")) != sold_id]
+    _save_sold_to_github(new_sold, f"Relist {entry.get('card_name', sold_id)}")
+
+    # 2. Add back to ManaBox_Collection.csv on GitHub
+    name        = entry.get("card_name", "")
+    set_code    = (entry.get("set_code") or "").upper()
+    set_name    = entry.get("set_name") or ""
+    col_num     = entry.get("collector_number") or ""
+    finish      = entry.get("finish") or "normal"
+    language    = entry.get("language") or "en"
+    now_str     = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
+
+    # Try to get scryfall_id + rarity from Scryfall
+    scryfall_id = ""
+    rarity = "unknown"
+    if set_code and col_num:
+        try:
+            r = requests.get(
+                f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}",
+                headers={"User-Agent": "MTGPriceTracker/1.0"}, timeout=8
+            )
+            if r.ok:
+                cd = r.json()
+                scryfall_id = cd.get("id", "")
+                rarity = cd.get("rarity", "unknown")
+        except Exception:
+            pass
+
+    set_name_safe = set_name.replace('"', '""')
+    new_row = (f'webapp,binder,{name},{set_code},"{set_name_safe}",'
+               f'{col_num},{finish},{rarity},1,,{scryfall_id},'
+               f'0,false,false,near_mint,{language},EUR,{now_str}\n')
+
+    csv_content, csv_sha = _get_csv_from_github()
+    if csv_content and csv_sha:
+        updated = csv_content.rstrip("\n") + "\n" + new_row
+        _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})")
+
+    # 3. Add back to prezzi_riferimento.json with current Scryfall price
+    if scryfall_id:
+        _add_card_to_prezzi(name, set_code, set_name, col_num, finish, language, scryfall_id)
+    elif set_code and col_num:
+        # Fallback: fetch price directly by set/number
+        try:
+            r = requests.get(
+                f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}",
+                headers={"User-Agent": "MTGPriceTracker/1.0"}, timeout=8
+            )
+            if r.ok:
+                cd = r.json()
+                _add_card_to_prezzi(name, set_code, set_name, col_num,
+                                    finish, language, cd["id"])
+        except Exception:
+            pass
+
+    return RedirectResponse("/sold", status_code=302)
+
+
 @app.get("/sold/export")
 async def sold_export(request: Request):
     user = current_user(request)
