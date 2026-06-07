@@ -134,10 +134,18 @@
               Storico →
             </a>
             <form method="post" action="/delete-card/{{ key }}" style="display:inline;"
-                  onsubmit="return confirm('Venduta/rimossa \'{{ c.nome }}\'?\nSarà eliminata dalla collezione.')">
-              <button type="submit" title="Carta venduta — rimuovi"
+                  onsubmit="return confirm('Segna come venduta \'{{ c.nome }}\'?\nVerrà aggiunta allo storico vendite.')">
+              <button type="submit" title="Carta venduta — aggiungi allo storico"
+                style="background:none; border:none; cursor:pointer; color:rgba(74,222,128,0.45);
+                       font-size:0.95rem; padding:0; transition:color 0.18s; line-height:1;"
+                onmouseover="this.style.color='#4ade80'"
+                onmouseout="this.style.color='rgba(74,222,128,0.45)'">💰</button>
+            </form>
+            <form method="post" action="/remove-card/{{ key }}" style="display:inline;"
+                  onsubmit="return confirm('Elimina \'{{ c.nome }}\' dalla collezione?\nNON verrà aggiunta allo storico vendite.')">
+              <button type="submit" title="Elimina senza registrare come venduta"
                 style="background:none; border:none; cursor:pointer; color:rgba(248,113,113,0.38);
-                       font-size:1rem; padding:0; transition:color 0.18s; line-height:1;"
+                       font-size:0.95rem; padding:0; transition:color 0.18s; line-height:1;"
                 onmouseover="this.style.color='#f87171'"
                 onmouseout="this.style.color='rgba(248,113,113,0.38)'">🗑</button>
             </form>

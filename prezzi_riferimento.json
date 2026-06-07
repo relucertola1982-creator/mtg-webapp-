@@ -230,17 +230,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:00.651947"
   },
-  "SOC_75_normal_it": {
-    "nome": "Defiling Daemogoth",
-    "set": "Secrets of Strixhaven Commander",
-    "set_code": "SOC",
-    "collector_number": "75",
-    "prezzo": 1.16,
-    "foil": false,
-    "finish": "normal",
-    "language": "it",
-    "ultimo_aggiornamento": "2026-06-07T14:00:01.205916"
-  },
   "SOS_347_normal_en": {
     "nome": "Cauldron of Essence",
     "set": "Secrets of Strixhaven",
@@ -372,5 +361,16 @@
     "finish": "normal",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T16:38:01.528977"
+  },
+  "SOC_75_normal_en": {
+    "nome": "Defiling Daemogoth",
+    "set": "Secrets of Strixhaven Commander",
+    "set_code": "SOC",
+    "collector_number": "75",
+    "prezzo": 1.16,
+    "foil": false,
+    "finish": "normal",
+    "language": "en",
+    "ultimo_aggiornamento": "2026-06-07T14:00:01.205916"
   }
 }

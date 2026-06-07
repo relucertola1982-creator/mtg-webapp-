@@ -608,6 +608,57 @@ async def delete_card(request: Request, card_key: str):
     return RedirectResponse("/", status_code=302)
 
 
+@app.post("/remove-card/{card_key:path}")
+async def remove_card(request: Request, card_key: str):
+    """Remove card from collection WITHOUT adding to sold history."""
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    import json as _json
+
+    conn = get_db()
+    conn.execute("DELETE FROM price_history WHERE card_key=?", (card_key,))
+    conn.commit()
+    conn.close()
+
+    json_content, json_sha = _get_json_from_github()
+    if json_content and json_sha:
+        try:
+            data = _json.loads(json_content)
+            if card_key in data:
+                del data[card_key]
+                _update_json_on_github(
+                    _json.dumps(data, indent=2, ensure_ascii=False),
+                    json_sha,
+                    f"Remove {card_key} (correction)"
+                )
+        except Exception:
+            pass
+
+    parts = card_key.split("_")
+    if len(parts) >= 4:
+        c_set  = parts[0].upper()
+        c_num  = parts[1]
+        c_fin  = parts[2]
+        c_lang = parts[3]
+        csv_content, csv_sha = _get_csv_from_github()
+        if csv_content and csv_sha:
+            lines = csv_content.splitlines(keepends=True)
+            new_lines = [
+                l for l in lines
+                if not (c_set.lower() in l.lower() and c_num in l and
+                        c_fin in l and c_lang in l)
+            ]
+            if len(new_lines) < len(lines):
+                _update_csv_on_github(
+                    "".join(new_lines), csv_sha,
+                    f"Remove {card_key} from collection (correction)"
+                )
+
+    return RedirectResponse("/", status_code=302)
+
+
 # ── Sold cards ───────────────────────────────────────────────────────────────
 
 @app.get("/sold", response_class=HTMLResponse)
