@@ -209,17 +209,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:00.152809"
   },
-  "SOA_185_foil_en": {
-    "nome": "Pick Your Poison",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "185",
-    "prezzo": 6.15,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:00.651947"
-  },
   "SOS_347_normal_en": {
     "nome": "Cauldron of Essence",
     "set": "Secrets of Strixhaven",
@@ -2083,5 +2072,17 @@
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:51:19.897240",
     "frame_effects": "silverscroll"
+  },
+  "SOA_185_foil_ja": {
+    "nome": "Pick Your Poison",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "185",
+    "prezzo": 6.15,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:51:53.068240",
+    "frame_effects": ""
   }
 }
