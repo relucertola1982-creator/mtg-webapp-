@@ -31,67 +31,70 @@ def invia_telegram(messaggio):
         print(f"Errore Telegram: {e}")
         return False
 
-def get_prezzo_scryfall(nome, set_code, collector_number, foil=False, scryfall_id=None):
-    """Cerca prezzo su Scryfall con metodi multipli"""
+def get_prezzo_scryfall(nome, set_code, collector_number, foil=False, scryfall_id=None, language="en"):
+    """Cerca prezzo su Scryfall con metodi multipli. Ritorna (prezzo, nome, frame_effects)."""
 
-    # Metodo 1: set code + collector number (più preciso)
+    def _pick_price(data, foil):
+        prezzi = data.get("prices", {})
+        eur_foil   = prezzi.get("eur_foil")
+        eur_normal = prezzi.get("eur")
+        if foil and eur_foil:   return float(eur_foil)
+        if not foil and eur_normal: return float(eur_normal)
+        if eur_foil:  return float(eur_foil)
+        if eur_normal: return float(eur_normal)
+        return None
+
+    def _fx(data):
+        return ",".join(data.get("frame_effects") or [])
+
+    # Metodo 1: set+numero+lingua (più preciso per varianti JA ecc.)
+    if language and language != "en":
+        try:
+            url = f"https://api.scryfall.com/cards/{set_code.lower()}/{collector_number}/{language}"
+            r = requests.get(url, headers=HEADERS, timeout=10)
+            if r.ok:
+                data = r.json()
+                p = _pick_price(data, foil)
+                if p: return p, data.get("name", nome), _fx(data)
+        except Exception:
+            pass
+
+    # Metodo 2: set + collector number
     try:
         url = f"https://api.scryfall.com/cards/{set_code.lower()}/{collector_number}"
         r = requests.get(url, headers=HEADERS, timeout=10)
         if r.ok:
             data = r.json()
-            prezzi = data.get("prices", {})
-            eur_foil = prezzi.get("eur_foil")
-            eur_normal = prezzi.get("eur")
-            # Se foil ma non c'è prezzo foil, prova normal (e viceversa)
-            if foil and eur_foil:
-                return float(eur_foil), data.get("name", nome)
-            elif not foil and eur_normal:
-                return float(eur_normal), data.get("name", nome)
-            elif eur_foil:
-                return float(eur_foil), data.get("name", nome)
-            elif eur_normal:
-                return float(eur_normal), data.get("name", nome)
-    except Exception as e:
+            p = _pick_price(data, foil)
+            if p: return p, data.get("name", nome), _fx(data)
+    except Exception:
         pass
 
-    # Metodo 2: Scryfall ID diretto
+    # Metodo 3: Scryfall ID diretto
     if scryfall_id:
         try:
             url = f"https://api.scryfall.com/cards/{scryfall_id}"
             r = requests.get(url, headers=HEADERS, timeout=10)
             if r.ok:
                 data = r.json()
-                prezzi = data.get("prices", {})
-                eur = prezzi.get("eur_foil") if foil else prezzi.get("eur")
-                if eur:
-                    return float(eur), data.get("name", nome)
-                # Fallback sull'altro tipo
-                eur = prezzi.get("eur") or prezzi.get("eur_foil")
-                if eur:
-                    return float(eur), data.get("name", nome)
-        except:
+                p = _pick_price(data, foil)
+                if p: return p, data.get("name", nome), _fx(data)
+        except Exception:
             pass
 
-    # Metodo 3: nome fuzzy (ultimo tentativo)
+    # Metodo 4: nome fuzzy
     try:
         nome_ricerca = nome.split(" // ")[0].strip()
         url = "https://api.scryfall.com/cards/named"
-        params = {"fuzzy": nome_ricerca, "set": set_code.lower()}
-        r = requests.get(url, headers=HEADERS, params=params, timeout=10)
+        r = requests.get(url, headers=HEADERS, params={"fuzzy": nome_ricerca, "set": set_code.lower()}, timeout=10)
         if r.ok:
             data = r.json()
-            prezzi = data.get("prices", {})
-            eur = prezzi.get("eur_foil") if foil else prezzi.get("eur")
-            if eur:
-                return float(eur), data.get("name", nome)
-            eur = prezzi.get("eur") or prezzi.get("eur_foil")
-            if eur:
-                return float(eur), data.get("name", nome)
-    except:
+            p = _pick_price(data, foil)
+            if p: return p, data.get("name", nome), _fx(data)
+    except Exception:
         pass
 
-    return None, nome
+    return None, nome, ""
 
 def carica_prezzi_salvati():
     if os.path.exists(PREZZI_SALVATI_PATH):
@@ -164,8 +167,8 @@ def controlla_prezzi():
         scryfall_id = carta["scryfall_id"]
         chiave = f"{set_code}_{collector_number}_{finish}_{language}"
 
-        prezzo_attuale, nome_trovato = get_prezzo_scryfall(
-            nome, set_code, collector_number, foil, scryfall_id
+        prezzo_attuale, nome_trovato, frame_effects = get_prezzo_scryfall(
+            nome, set_code, collector_number, foil, scryfall_id, language
         )
         time.sleep(SLEEP_TRA_CARTE)
 
@@ -182,6 +185,7 @@ def controlla_prezzi():
             "foil": foil,
             "finish": finish,
             "language": language,
+            "frame_effects": frame_effects,
             "ultimo_aggiornamento": datetime.now().isoformat()
         }
 
