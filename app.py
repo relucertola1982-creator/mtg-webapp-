@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Form, HTTPException
+from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -859,6 +859,177 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         return True
     except Exception:
         return False
+
+
+@app.get("/import-csv", response_class=HTMLResponse)
+async def import_csv_get(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    return templates.TemplateResponse("import_csv.html", {"request": request, "user": user,
+                                                           "result": None, "error": None})
+
+
+@app.post("/import-csv", response_class=HTMLResponse)
+async def import_csv_post(request: Request, file: UploadFile = File(...)):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    ctx = {"request": request, "user": user, "result": None, "error": None}
+
+    # --- 1. Read uploaded file ---
+    try:
+        raw = await file.read()
+        text = raw.decode("utf-8-sig")  # handle BOM
+    except Exception:
+        ctx["error"] = "Impossibile leggere il file. Assicurati che sia UTF-8."
+        return templates.TemplateResponse("import_csv.html", ctx)
+
+    try:
+        reader = csv.DictReader(io.StringIO(text))
+        uploaded_rows = list(reader)
+    except Exception:
+        ctx["error"] = "Formato CSV non riconosciuto."
+        return templates.TemplateResponse("import_csv.html", ctx)
+
+    required = {"Name", "Set code", "Collector number", "Foil", "Language"}
+    if not required.issubset(set(reader.fieldnames or [])):
+        ctx["error"] = f"CSV non valido. Colonne attese: {', '.join(required)}"
+        return templates.TemplateResponse("import_csv.html", ctx)
+
+    # --- 2. Load existing CSV from GitHub ---
+    existing_content, existing_sha = _get_csv_from_github()
+    if existing_content is None:
+        ctx["error"] = "Impossibile leggere il CSV corrente da GitHub."
+        return templates.TemplateResponse("import_csv.html", ctx)
+
+    existing_reader = csv.DictReader(io.StringIO(existing_content))
+    existing_rows = list(existing_reader)
+    fieldnames = existing_reader.fieldnames
+
+    # Dedup key: (set_code, collector_number, finish, language)
+    existing_keys = {
+        (r["Set code"].upper(), r["Collector number"], r["Foil"], r["Language"])
+        for r in existing_rows
+    }
+
+    # --- 3. Find new rows ---
+    new_rows = []
+    for r in uploaded_rows:
+        key = (r["Set code"].upper(), r["Collector number"], r["Foil"], r["Language"])
+        if key not in existing_keys:
+            new_rows.append(r)
+
+    if not new_rows:
+        ctx["result"] = {"added": 0, "skipped": len(uploaded_rows), "prices_fetched": 0}
+        return templates.TemplateResponse("import_csv.html", ctx)
+
+    # --- 4. Append new rows to CSV on GitHub ---
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+    writer.writerows(new_rows)
+    updated_content = existing_content.rstrip("\n") + "\n" + buf.getvalue()
+
+    for _ in range(2):
+        ok_csv = _update_csv_on_github(
+            updated_content, existing_sha,
+            f"Import {len(new_rows)} cards from ManaBox CSV"
+        )
+        if ok_csv:
+            break
+        existing_content, existing_sha = _get_csv_from_github()
+
+    # --- 5. Batch-fetch prices from Scryfall (75 cards per request) ---
+    prices_fetched = 0
+    try:
+        json_content, json_sha = _get_json_from_github()
+        prezzi = json.loads(json_content) if json_content else {}
+        now_iso = datetime.now().isoformat()
+
+        BATCH = 75
+        for i in range(0, len(new_rows), BATCH):
+            batch = new_rows[i:i + BATCH]
+            identifiers = []
+            for r in batch:
+                sid = r.get("Scryfall ID", "").strip()
+                if sid:
+                    identifiers.append({"id": sid})
+                elif r.get("Set code") and r.get("Collector number"):
+                    identifiers.append({"set": r["Set code"].lower(),
+                                        "collector_number": r["Collector number"]})
+
+            if not identifiers:
+                continue
+
+            resp = requests.post(
+                "https://api.scryfall.com/cards/collection",
+                headers={"User-Agent": "MTGPriceTracker/1.0",
+                         "Content-Type": "application/json"},
+                json={"identifiers": identifiers},
+                timeout=20
+            )
+            if not resp.ok:
+                continue
+
+            for card in resp.json().get("data", []):
+                # Find matching row in batch by set+number
+                finish_map = {}
+                for r in batch:
+                    sid = r.get("Scryfall ID", "").strip()
+                    if sid == card.get("id") or (
+                        r["Set code"].lower() == card["set"] and
+                        r["Collector number"] == card["collector_number"]
+                    ):
+                        finish_map = r
+                        break
+
+                finish   = (finish_map.get("Foil") or "normal")
+                language = (finish_map.get("Language") or "en")
+                is_foil  = finish in ("foil", "etched")
+                prices_d = card.get("prices", {})
+                price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
+                            else (prices_d.get("eur") or prices_d.get("eur_foil"))
+                if not price_str:
+                    continue
+
+                card_key = f"{card['set'].upper()}_{card['collector_number']}_{finish}_{language}"
+                prezzi[card_key] = {
+                    "nome": card["name"],
+                    "set": card.get("set_name", ""),
+                    "set_code": card["set"].upper(),
+                    "collector_number": card["collector_number"],
+                    "prezzo": float(price_str),
+                    "foil": is_foil,
+                    "finish": finish,
+                    "language": language,
+                    "ultimo_aggiornamento": now_iso,
+                }
+                prices_fetched += 1
+
+        # Write updated prezzi to GitHub with retry
+        new_prezzi = json.dumps(prezzi, ensure_ascii=False, indent=2)
+        for _ in range(2):
+            if _update_json_on_github(new_prezzi, json_sha,
+                                      f"Add prices for {prices_fetched} imported cards"):
+                break
+            json_content, json_sha = _get_json_from_github()
+            prezzi_existing = json.loads(json_content) if json_content else {}
+            prezzi_existing.update(prezzi)
+            new_prezzi = json.dumps(prezzi_existing, ensure_ascii=False, indent=2)
+
+        # Also update local file
+        (BASE_DIR / "prezzi_riferimento.json").write_text(new_prezzi, encoding="utf-8")
+
+    except Exception:
+        pass  # prices will be picked up by tracker on next run
+
+    ctx["result"] = {
+        "added": len(new_rows),
+        "skipped": len(uploaded_rows) - len(new_rows),
+        "prices_fetched": prices_fetched,
+    }
+    return templates.TemplateResponse("import_csv.html", ctx)
 
 
 @app.get("/add-card", response_class=HTMLResponse)

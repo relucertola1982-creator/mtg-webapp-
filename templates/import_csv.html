@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Importa CSV — MTG Price Tracker{% endblock %}
+
+{% block content %}
+<div style="max-width:600px; margin:0 auto;">
+
+  <div style="margin-bottom:2rem;">
+    <h1 class="page-title">Importa da ManaBox</h1>
+    <p class="page-sub">Carica il file CSV esportato da ManaBox per aggiungere più carte in una volta</p>
+  </div>
+
+  {% if result %}
+  <div style="background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.28);
+              border-radius:14px; padding:1.5rem 1.8rem; margin-bottom:1.8rem;">
+    <div style="font-family:'Cinzel',serif; color:#4ade80; font-size:0.75rem;
+                text-transform:uppercase; letter-spacing:0.14em; margin-bottom:1rem;">
+      Importazione completata
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.2rem;">
+      <div class="stat-card">
+        <div class="stat-val" style="color:#4ade80; font-size:1.6rem;">{{ result.added }}</div>
+        <div class="stat-lbl">Carte aggiunte</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="font-size:1.6rem;">{{ result.prices_fetched }}</div>
+        <div class="stat-lbl">Prezzi trovati</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" style="color:rgba(200,200,220,0.4); font-size:1.6rem;">{{ result.skipped }}</div>
+        <div class="stat-lbl">Già presenti</div>
+      </div>
+    </div>
+    {% if result.added > result.prices_fetched %}
+    <p style="font-size:0.8rem; color:rgba(200,200,220,0.45); margin:0;">
+      {{ result.added - result.prices_fetched }} carte non hanno un prezzo su Scryfall — verranno rilevate al prossimo aggiornamento orario.
+    </p>
+    {% endif %}
+    <div style="display:flex; gap:0.8rem; margin-top:1.2rem;">
+      <a href="/" class="btn btn-gold" style="text-decoration:none; font-size:0.9rem;">🃏 Vai alla collezione</a>
+      <a href="/import-csv" class="btn btn-ghost" style="text-decoration:none; font-size:0.9rem;">📥 Importa altro</a>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if error %}
+  <div style="background:rgba(248,113,113,0.08); border:1px solid rgba(248,113,113,0.28);
+              border-radius:14px; padding:1rem 1.4rem; margin-bottom:1.5rem; color:#f87171;">
+    ⚠️ {{ error }}
+  </div>
+  {% endif %}
+
+  {% if not result %}
+  <div class="glass" style="padding:2rem;">
+
+    <form method="post" action="/import-csv" enctype="multipart/form-data" id="import-form">
+
+      <!-- Drop zone -->
+      <div id="drop-zone" style="
+        border:2px dashed rgba(200,155,60,0.3); border-radius:14px;
+        padding:2.5rem 1.5rem; text-align:center; cursor:pointer;
+        transition:all 0.2s; margin-bottom:1.5rem;"
+        onclick="document.getElementById('csv-file').click()"
+        ondragover="event.preventDefault(); this.style.borderColor='var(--gold)'; this.style.background='rgba(200,155,60,0.06)'"
+        ondragleave="this.style.borderColor='rgba(200,155,60,0.3)'; this.style.background=''"
+        ondrop="handleDrop(event)">
+        <div style="font-size:2.5rem; margin-bottom:0.6rem;">📥</div>
+        <div id="drop-label" style="color:rgba(200,200,220,0.55); font-size:0.9rem;">
+          Clicca o trascina il file CSV qui
+        </div>
+        <div style="font-size:0.75rem; color:rgba(200,200,220,0.28); margin-top:0.4rem;">
+          Esporta da ManaBox → Binder → Esporta CSV
+        </div>
+      </div>
+
+      <input type="file" id="csv-file" name="file" accept=".csv"
+             style="display:none;" onchange="onFileSelect(this)">
+
+      <button type="submit" id="submit-btn" disabled class="btn btn-gold"
+              style="width:100%; padding:0.9rem; font-size:1rem; opacity:0.4; cursor:not-allowed;">
+        ➕ Importa carte
+      </button>
+
+    </form>
+
+    <div style="margin-top:1.8rem; padding-top:1.4rem;
+                border-top:1px solid rgba(200,200,220,0.07);">
+      <div style="font-size:0.68rem; font-weight:700; color:rgba(200,200,220,0.35);
+                  text-transform:uppercase; letter-spacing:0.14em; margin-bottom:0.7rem;">
+        Come esportare da ManaBox
+      </div>
+      <ol style="color:rgba(200,200,220,0.45); font-size:0.82rem; line-height:1.9; margin:0; padding-left:1.2rem;">
+        <li>Apri ManaBox sul telefono</li>
+        <li>Vai nel tuo Binder</li>
+        <li>Tocca i tre puntini ··· in alto a destra</li>
+        <li>Seleziona <strong style="color:rgba(200,200,220,0.7);">Esporta CSV</strong></li>
+        <li>Invia il file al computer e caricalo qui</li>
+      </ol>
+    </div>
+
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function onFileSelect(input) {
+  if (input.files.length) {
+    showFile(input.files[0]);
+  }
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').style.borderColor = 'rgba(200,155,60,0.3)';
+  document.getElementById('drop-zone').style.background  = '';
+  const f = e.dataTransfer.files[0];
+  if (!f) return;
+  const dt = new DataTransfer();
+  dt.items.add(f);
+  document.getElementById('csv-file').files = dt.files;
+  showFile(f);
+}
+
+function showFile(f) {
+  document.getElementById('drop-label').innerHTML =
+    `<strong style="color:var(--gold-light);">${f.name}</strong>` +
+    `<span style="color:rgba(200,200,220,0.4); font-size:0.8rem; margin-left:0.5rem;">(${(f.size/1024).toFixed(0)} KB)</span>`;
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor  = 'pointer';
+}
+
+document.getElementById('import-form')?.addEventListener('submit', () => {
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = '⏳ Importazione in corso...';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+});
+</script>
+{% endblock %}
