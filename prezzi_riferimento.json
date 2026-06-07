@@ -1727,17 +1727,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
   },
-  "SOA_9_normal_ja": {
-    "nome": "Reprieve",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "9",
-    "prezzo": 1.14,
-    "foil": false,
-    "finish": "normal",
-    "language": "ja",
-    "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
-  },
   "SOS_35_foil_ja": {
     "nome": "Stirring Hopesinger",
     "set": "Secrets of Strixhaven",
@@ -2085,5 +2074,17 @@
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T18:40:35.856880",
     "frame_effects": "silverscroll"
+  },
+  "SOA_9_normal_de": {
+    "nome": "Reprieve",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "9",
+    "prezzo": 1.14,
+    "foil": false,
+    "finish": "normal",
+    "language": "de",
+    "ultimo_aggiornamento": "2026-06-07T18:41:11.495145",
+    "frame_effects": ""
   }
 }
