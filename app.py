@@ -13,6 +13,7 @@ import secrets
 import io
 import csv
 from pathlib import Path
+import json
 
 app = FastAPI(title="MTG Price Tracker")
 
@@ -685,6 +686,51 @@ async def sold_export(request: Request):
 
 # ── Add card routes ───────────────────────────────────────────────────────────
 
+def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
+                        collector_number: str, finish: str,
+                        language: str, scryfall_id: str) -> bool:
+    """Fetch current price from Scryfall and add card to prezzi_riferimento.json on GitHub."""
+    try:
+        r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
+        if not r.ok:
+            return False
+        card_data = r.json()
+        is_foil = finish in ("foil", "etched")
+        prices = card_data.get("prices", {})
+        price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
+                    else (prices.get("eur") or prices.get("eur_foil"))
+        if not price_str:
+            return False
+
+        card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
+        entry = {
+            "nome": name,
+            "set": set_name,
+            "set_code": set_code.upper(),
+            "collector_number": collector_number,
+            "prezzo": float(price_str),
+            "foil": is_foil,
+            "finish": finish,
+            "language": language,
+            "ultimo_aggiornamento": datetime.now().isoformat(),
+        }
+
+        json_content, sha = _get_json_from_github()
+        prezzi = json.loads(json_content) if json_content else {}
+        prezzi[card_key] = entry
+        new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
+
+        if sha:
+            _update_json_on_github(new_content, sha, f"Add {name} price via webapp")
+
+        local = BASE_DIR / "prezzi_riferimento.json"
+        with open(local, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        return True
+    except Exception:
+        return False
+
+
 @app.get("/add-card", response_class=HTMLResponse)
 async def add_card_get(request: Request):
     user = current_user(request)
@@ -732,7 +778,9 @@ async def add_card_post(
     ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp")
 
     if ok:
-        ctx["success"] = f"'{name}' aggiunta! Sarà monitorata dal prossimo aggiornamento prezzi."
+        _add_card_to_prezzi(name, set_code, set_name, collector_number,
+                            foil, language, scryfall_id)
+        ctx["success"] = f"'{name}' aggiunta alla collezione!"
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
     return templates.TemplateResponse("add_card.html", ctx)
