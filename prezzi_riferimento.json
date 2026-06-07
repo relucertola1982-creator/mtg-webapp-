@@ -924,17 +924,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
   },
-  "SOA_132_foil_ja": {
-    "nome": "Angel's Grace",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "132",
-    "prezzo": 34.04,
-    "foil": true,
-    "finish": "foil",
-    "language": "ja",
-    "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
-  },
   "SOA_53_normal_de": {
     "nome": "Glimpse of Nature",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2078,6 +2067,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:15:58.289405",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_132_foil_ja": {
+    "nome": "Angel's Grace",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "132",
+    "prezzo": 34.04,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:16:07.843551",
     "frame_effects": "silverscroll"
   }
 }
