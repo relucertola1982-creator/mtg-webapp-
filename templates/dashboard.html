@@ -85,7 +85,9 @@
         <tr class="row"
             data-name="{{ c.nome|lower }}"
             data-foil="{{ 'foil' if c.foil else 'normal' }}"
-            data-price="{{ c.prezzo }}">
+            data-price="{{ c.prezzo }}"
+            data-set="{{ c.set_code|lower }}"
+            data-num="{{ c.collector_number }}">
           <td>
             <a href="/card/{{ key }}" class="card-link">{{ c.nome }}</a>
           </td>
@@ -142,6 +144,17 @@
 
 {% endblock %}
 
+<!-- Hover preview -->
+<div id="hover-preview" style="
+  display:none; position:fixed; z-index:9999; pointer-events:none;
+  width:200px; border-radius:12px; overflow:hidden;
+  box-shadow:0 16px 48px rgba(0,0,0,0.8), 0 0 0 1px rgba(200,155,60,0.3);
+  transition:opacity 0.15s;">
+  <img id="hover-img" src="" style="width:100%; display:block;" alt="">
+</div>
+
+{% endblock %}
+
 {% block scripts %}
 <script>
 const rows  = Array.from(document.querySelectorAll('.row'));
@@ -170,5 +183,45 @@ function filter() {
 document.getElementById('q').addEventListener('input', filter);
 document.getElementById('foil-f').addEventListener('change', filter);
 document.getElementById('sort-f').addEventListener('change', filter);
+
+// ── Hover card preview ────────────────────────────────────────
+const preview  = document.getElementById('hover-preview');
+const hoverImg = document.getElementById('hover-img');
+const imgCache = {};
+
+rows.forEach(row => {
+  row.addEventListener('mouseenter', async () => {
+    const set = row.dataset.set;
+    const num = row.dataset.num;
+    if (!set || !num) return;
+    const key = `${set}/${num}`;
+
+    if (!imgCache[key]) {
+      try {
+        const r = await fetch(`https://api.scryfall.com/cards/${set}/${num}`);
+        const d = await r.json();
+        imgCache[key] = d.image_uris?.normal
+                     || d.card_faces?.[0]?.image_uris?.normal
+                     || '';
+      } catch(_) { imgCache[key] = ''; }
+    }
+
+    if (imgCache[key]) {
+      hoverImg.src = imgCache[key];
+      preview.style.display = 'block';
+    }
+  });
+
+  row.addEventListener('mousemove', e => {
+    const x = e.clientX + 18;
+    const y = Math.max(10, e.clientY - 120);
+    preview.style.left = x + 'px';
+    preview.style.top  = y + 'px';
+  });
+
+  row.addEventListener('mouseleave', () => {
+    preview.style.display = 'none';
+  });
+});
 </script>
 {% endblock %}

@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+{% block title %}Aggiungi Carta — MTG Price Tracker{% endblock %}
+
+{% block content %}
+<div style="max-width:760px; margin:0 auto;">
+
+  <div style="margin-bottom:2rem;">
+    <h1 class="page-title">Aggiungi Carta</h1>
+    <p class="page-sub">Cerca la carta su Scryfall, scegli la versione e salvala nella tua collezione</p>
+  </div>
+
+  <!-- Alert messages -->
+  {% if success %}
+  <div style="background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.35);
+              border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem;
+              color:#4ade80; display:flex; align-items:center; gap:0.7rem;">
+    ✅ {{ success }}
+  </div>
+  {% endif %}
+  {% if error %}
+  <div style="background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.35);
+              border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem;
+              color:#f87171; display:flex; align-items:center; gap:0.7rem;">
+    ⚠️ {{ error }}
+  </div>
+  {% endif %}
+
+  <div style="display:grid; grid-template-columns:1fr 220px; gap:1.5rem; align-items:start;">
+
+    <!-- Form panel -->
+    <div class="glass" style="padding:2rem;">
+
+      <!-- Search -->
+      <div style="margin-bottom:1.5rem;">
+        <label style="display:block; font-size:0.72rem; font-weight:600;
+                      color:rgba(200,200,200,0.5); text-transform:uppercase;
+                      letter-spacing:0.1em; margin-bottom:0.5rem;">Cerca Carta</label>
+        <div style="position:relative;">
+          <input type="text" id="search-input" class="inp" style="width:100%; padding-right:2.5rem;"
+                 placeholder="es. Black Lotus, Lightning Bolt..." autocomplete="off">
+          <div id="search-spinner" style="display:none; position:absolute; right:0.8rem; top:50%;
+               transform:translateY(-50%); color:rgba(200,155,60,0.6); font-size:1rem;">⟳</div>
+        </div>
+        <!-- Autocomplete dropdown -->
+        <div id="autocomplete" style="
+          display:none; position:absolute; z-index:100;
+          background:rgba(12,12,28,0.98); border:1px solid rgba(200,155,60,0.25);
+          border-radius:10px; margin-top:4px; overflow:hidden;
+          box-shadow:0 8px 32px rgba(0,0,0,0.7); max-height:260px; overflow-y:auto;">
+        </div>
+      </div>
+
+      <!-- Set picker -->
+      <div id="set-section" style="display:none; margin-bottom:1.5rem;">
+        <label style="display:block; font-size:0.72rem; font-weight:600;
+                      color:rgba(200,200,200,0.5); text-transform:uppercase;
+                      letter-spacing:0.1em; margin-bottom:0.5rem;">Edizione / Set</label>
+        <select id="set-select" class="inp" style="width:100%;">
+        </select>
+      </div>
+
+      <!-- Foil toggle -->
+      <div id="foil-section" style="display:none; margin-bottom:1.5rem;">
+        <label style="display:block; font-size:0.72rem; font-weight:600;
+                      color:rgba(200,200,200,0.5); text-transform:uppercase;
+                      letter-spacing:0.1em; margin-bottom:0.7rem;">Tipo</label>
+        <div style="display:flex; gap:0.7rem;">
+          <label id="lbl-normal" style="
+            flex:1; text-align:center; padding:0.65rem; border-radius:8px; cursor:pointer;
+            border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05);
+            color:rgba(200,200,200,0.7); transition:all 0.18s; user-select:none;">
+            <input type="radio" name="foil-type" value="normal" style="display:none;" checked>
+            📄 Normal
+          </label>
+          <label id="lbl-foil" style="
+            flex:1; text-align:center; padding:0.65rem; border-radius:8px; cursor:pointer;
+            border:1px solid rgba(200,155,60,0.2); background:rgba(200,155,60,0.05);
+            color:rgba(200,200,200,0.7); transition:all 0.18s; user-select:none;">
+            <input type="radio" name="foil-type" value="foil" style="display:none;">
+            ✨ Foil
+          </label>
+        </div>
+      </div>
+
+      <!-- Price + Quantity -->
+      <div id="price-section" style="display:none; margin-bottom:2rem;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div>
+            <label style="display:block; font-size:0.72rem; font-weight:600;
+                          color:rgba(200,200,200,0.5); text-transform:uppercase;
+                          letter-spacing:0.1em; margin-bottom:0.5rem;">Prezzo Acquisto (€)</label>
+            <input type="number" id="price-input" class="inp" style="width:100%;"
+                   min="0" step="0.01" value="0.00" placeholder="0.00">
+          </div>
+          <div>
+            <label style="display:block; font-size:0.72rem; font-weight:600;
+                          color:rgba(200,200,200,0.5); text-transform:uppercase;
+                          letter-spacing:0.1em; margin-bottom:0.5rem;">Quantità</label>
+            <input type="number" id="qty-input" class="inp" style="width:100%;"
+                   min="1" value="1">
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden form for submit -->
+      <form method="post" action="/add-card" id="submit-form">
+        <input type="hidden" name="name"             id="f-name">
+        <input type="hidden" name="set_code"         id="f-set-code">
+        <input type="hidden" name="set_name"         id="f-set-name">
+        <input type="hidden" name="collector_number" id="f-collector-number">
+        <input type="hidden" name="scryfall_id"      id="f-scryfall-id">
+        <input type="hidden" name="rarity"           id="f-rarity">
+        <input type="hidden" name="foil"             id="f-foil" value="normal">
+        <input type="hidden" name="purchase_price"   id="f-price" value="0">
+        <input type="hidden" name="quantity"         id="f-qty" value="1">
+
+        <button type="submit" id="submit-btn" disabled class="btn btn-gold"
+                style="width:100%; padding:0.9rem; font-size:1rem; opacity:0.4; cursor:not-allowed;">
+          ➕ Aggiungi alla Collezione
+        </button>
+      </form>
+
+    </div>
+
+    <!-- Card image preview -->
+    <div>
+      <div id="preview-wrap" style="
+        border-radius:14px; overflow:hidden; aspect-ratio:5/7;
+        background:rgba(0,0,0,0.3); border:1px solid rgba(200,155,60,0.15);
+        display:flex; align-items:center; justify-content:center;
+        transition:all 0.3s;">
+        <div style="text-align:center; color:rgba(200,200,200,0.2);">
+          <div style="font-size:3rem; margin-bottom:0.5rem;">🃏</div>
+          <div style="font-size:0.75rem;">Cerca una carta</div>
+        </div>
+      </div>
+      <div id="card-meta" style="margin-top:0.8rem; display:none;">
+        <div id="meta-name" style="font-family:'Cinzel',serif; color:var(--gold);
+             font-size:0.95rem; font-weight:600; margin-bottom:0.2rem;"></div>
+        <div id="meta-set" style="color:rgba(200,200,200,0.5); font-size:0.78rem;"></div>
+        <div id="meta-price" style="color:#4ade80; font-size:0.85rem; margin-top:0.3rem; font-weight:600;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let selectedCard = null;
+let allPrintings = [];
+let debounceTimer = null;
+
+const searchInput   = document.getElementById('search-input');
+const autocomplete  = document.getElementById('autocomplete');
+const setSection    = document.getElementById('set-section');
+const setSelect     = document.getElementById('set-select');
+const foilSection   = document.getElementById('foil-section');
+const priceSection  = document.getElementById('price-section');
+const submitBtn     = document.getElementById('submit-btn');
+const previewWrap   = document.getElementById('preview-wrap');
+const cardMeta      = document.getElementById('card-meta');
+
+// ── Autocomplete ──────────────────────────────────────────────
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  const q = searchInput.value.trim();
+  if (q.length < 2) { autocomplete.style.display = 'none'; return; }
+  debounceTimer = setTimeout(() => fetchAutocomplete(q), 280);
+});
+
+async function fetchAutocomplete(q) {
+  try {
+    const r = await fetch(`https://api.scryfall.com/cards/autocomplete?q=${encodeURIComponent(q)}`);
+    const d = await r.json();
+    showAutocomplete(d.data || []);
+  } catch(_) {}
+}
+
+function showAutocomplete(names) {
+  if (!names.length) { autocomplete.style.display = 'none'; return; }
+  autocomplete.innerHTML = names.slice(0, 12).map(n =>
+    `<div class="ac-item" style="
+      padding:0.65rem 1rem; cursor:pointer; font-size:0.875rem;
+      color:rgba(220,220,220,0.9); transition:background 0.15s;"
+      onmouseover="this.style.background='rgba(200,155,60,0.1)'"
+      onmouseout="this.style.background=''"
+      onclick="selectName('${n.replace(/'/g, "\\'")}')">${n}</div>`
+  ).join('');
+  // Position below input
+  const rect = searchInput.getBoundingClientRect();
+  autocomplete.style.width = searchInput.offsetWidth + 'px';
+  autocomplete.style.left  = searchInput.offsetLeft + 'px';
+  autocomplete.style.display = 'block';
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#search-input') && !e.target.closest('#autocomplete'))
+    autocomplete.style.display = 'none';
+});
+
+// ── Select card name → load all printings ────────────────────
+async function selectName(name) {
+  autocomplete.style.display = 'none';
+  searchInput.value = name;
+  setSection.style.display = 'none';
+  foilSection.style.display = 'none';
+  priceSection.style.display = 'none';
+  disableSubmit();
+
+  try {
+    const r = await fetch(
+      `https://api.scryfall.com/cards/search?q=!"${encodeURIComponent(name)}"&unique=prints&order=released&dir=asc`
+    );
+    const d = await r.json();
+    allPrintings = d.data || [];
+    if (!allPrintings.length) return;
+    buildSetSelector(allPrintings);
+    setSection.style.display = 'block';
+    selectPrinting(allPrintings[0]);
+  } catch(_) {}
+}
+
+function buildSetSelector(printings) {
+  setSelect.innerHTML = printings.map((c, i) =>
+    `<option value="${i}">${c.set_name} (${c.set.toUpperCase()}) #${c.collector_number} — ${c.rarity}</option>`
+  ).join('');
+}
+
+setSelect.addEventListener('change', () => {
+  const idx = parseInt(setSelect.value);
+  selectPrinting(allPrintings[idx]);
+});
+
+// ── Load one printing ────────────────────────────────────────
+function selectPrinting(card) {
+  selectedCard = card;
+  updatePreview(card);
+  foilSection.style.display = 'block';
+  priceSection.style.display = 'block';
+
+  // Pre-fill price with Scryfall EUR price
+  const priceInput = document.getElementById('price-input');
+  const foilRadio  = document.querySelector('input[name="foil-type"]:checked');
+  const isFoil     = foilRadio && foilRadio.value === 'foil';
+  const eur = isFoil
+    ? (card.prices?.eur_foil || card.prices?.eur || '0')
+    : (card.prices?.eur || card.prices?.eur_foil || '0');
+  priceInput.value = parseFloat(eur || 0).toFixed(2);
+
+  enableSubmit();
+}
+
+function updatePreview(card) {
+  const imgUrl = card.image_uris?.normal
+              || card.image_uris?.large
+              || card.card_faces?.[0]?.image_uris?.normal;
+
+  if (imgUrl) {
+    previewWrap.innerHTML = `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;" alt="${card.name}">`;
+  }
+
+  const eur = card.prices?.eur || card.prices?.eur_foil;
+  document.getElementById('meta-name').textContent  = card.name;
+  document.getElementById('meta-set').textContent   = `${card.set_name} · #${card.collector_number} · ${card.rarity}`;
+  document.getElementById('meta-price').textContent = eur ? `Prezzo attuale: €${eur}` : '';
+  cardMeta.style.display = 'block';
+}
+
+// ── Foil toggle style ────────────────────────────────────────
+document.querySelectorAll('input[name="foil-type"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const isFoil = radio.value === 'foil';
+    document.getElementById('lbl-foil').style.borderColor   = isFoil ? 'rgba(200,155,60,0.6)' : 'rgba(200,155,60,0.2)';
+    document.getElementById('lbl-foil').style.background    = isFoil ? 'rgba(200,155,60,0.15)' : 'rgba(200,155,60,0.05)';
+    document.getElementById('lbl-foil').style.color         = isFoil ? '#e8c469' : 'rgba(200,200,200,0.7)';
+    document.getElementById('lbl-normal').style.borderColor = !isFoil ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.12)';
+    document.getElementById('lbl-normal').style.background  = !isFoil ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
+    document.getElementById('lbl-normal').style.color       = !isFoil ? '#fff' : 'rgba(200,200,200,0.7)';
+
+    // Update suggested price
+    if (selectedCard) {
+      const eur = isFoil
+        ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
+        : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
+      document.getElementById('price-input').value = parseFloat(eur || 0).toFixed(2);
+    }
+  });
+});
+
+// ── Submit ───────────────────────────────────────────────────
+function enableSubmit() {
+  submitBtn.disabled = false;
+  submitBtn.style.opacity = '1';
+  submitBtn.style.cursor  = 'pointer';
+}
+function disableSubmit() {
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = '0.4';
+  submitBtn.style.cursor  = 'not-allowed';
+}
+
+document.getElementById('submit-form').addEventListener('submit', () => {
+  if (!selectedCard) return;
+  const foilVal = document.querySelector('input[name="foil-type"]:checked').value;
+  document.getElementById('f-name').value             = selectedCard.name;
+  document.getElementById('f-set-code').value         = selectedCard.set;
+  document.getElementById('f-set-name').value         = selectedCard.set_name;
+  document.getElementById('f-collector-number').value = selectedCard.collector_number;
+  document.getElementById('f-scryfall-id').value      = selectedCard.id;
+  document.getElementById('f-rarity').value           = selectedCard.rarity;
+  document.getElementById('f-foil').value             = foilVal;
+  document.getElementById('f-price').value            = document.getElementById('price-input').value;
+  document.getElementById('f-qty').value              = document.getElementById('qty-input').value;
+});
+</script>
+{% endblock %}

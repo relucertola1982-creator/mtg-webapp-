@@ -6,6 +6,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import sqlite3
 import hashlib
 import requests
+import base64
 import os
 from datetime import datetime, timedelta
 import secrets
@@ -326,6 +327,97 @@ async def admin_delete_user(request: Request, user_id: int):
     conn.commit()
     conn.close()
     return RedirectResponse("/admin", status_code=302)
+
+
+# ── GitHub CSV helpers ────────────────────────────────────────────────────────
+
+def _gh_headers():
+    h = {"Accept": "application/vnd.github.v3+json"}
+    if GITHUB_TOKEN:
+        h["Authorization"] = f"token {GITHUB_TOKEN}"
+    return h
+
+
+def _get_csv_from_github():
+    if not GITHUB_REPO:
+        return None, None
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/ManaBox_Collection.csv"
+    try:
+        r = requests.get(url, headers=_gh_headers(), timeout=15)
+        if r.ok:
+            data = r.json()
+            content = base64.b64decode(data["content"]).decode("utf-8")
+            return content, data["sha"]
+    except Exception:
+        pass
+    return None, None
+
+
+def _update_csv_on_github(new_content: str, sha: str, message: str) -> bool:
+    if not GITHUB_REPO or not GITHUB_TOKEN:
+        return False
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/ManaBox_Collection.csv"
+    encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
+    try:
+        r = requests.put(url, headers=_gh_headers(), json={
+            "message": message, "content": encoded, "sha": sha
+        }, timeout=15)
+        return r.ok
+    except Exception:
+        return False
+
+
+# ── Add card routes ───────────────────────────────────────────────────────────
+
+@app.get("/add-card", response_class=HTMLResponse)
+async def add_card_get(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    return templates.TemplateResponse("add_card.html", {
+        "request": request, "user": user, "error": None, "success": None
+    })
+
+
+@app.post("/add-card", response_class=HTMLResponse)
+async def add_card_post(
+    request: Request,
+    name: str = Form(...),
+    set_code: str = Form(...),
+    set_name: str = Form(...),
+    collector_number: str = Form(...),
+    scryfall_id: str = Form(...),
+    rarity: str = Form("common"),
+    foil: str = Form("normal"),
+    purchase_price: str = Form("0"),
+    quantity: str = Form("1"),
+):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    ctx = {"request": request, "user": user, "error": None, "success": None}
+
+    csv_content, sha = _get_csv_from_github()
+    if csv_content is None:
+        ctx["error"] = "Impossibile leggere il CSV da GitHub. Controlla GITHUB_TOKEN e GITHUB_REPO su Railway."
+        return templates.TemplateResponse("add_card.html", ctx)
+
+    foil_val = "foil" if foil == "foil" else "normal"
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    set_name_safe = set_name.replace('"', '""')
+    new_row = (f'webapp,binder,{name},{set_code.upper()},"{set_name_safe}",'
+               f'{collector_number},{foil_val},{rarity},{quantity},,{scryfall_id},'
+               f'{purchase_price},false,false,near_mint,en,EUR,{now}\n')
+
+    updated = csv_content.rstrip("\n") + "\n" + new_row
+    ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp")
+
+    if ok:
+        ctx["success"] = f"'{name}' aggiunta! Sarà monitorata dal prossimo aggiornamento prezzi."
+    else:
+        ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
+    return templates.TemplateResponse("add_card.html", ctx)
 
 
 if __name__ == "__main__":
