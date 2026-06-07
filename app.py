@@ -590,15 +590,16 @@ def _save_sold_to_github(entries: list, message: str, collection="") -> bool:
         return False
 
 
-def _update_json_on_github(new_content: str, sha: str, message: str, collection="") -> bool:
+def _update_json_on_github(new_content: str, sha, message: str, collection="") -> bool:
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('prezzi_riferimento.json', collection)}"
     encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
+    payload = {"message": message, "content": encoded}
+    if sha:
+        payload["sha"] = sha
     try:
-        r = requests.put(url, headers=_gh_headers(), json={
-            "message": message, "content": encoded, "sha": sha
-        }, timeout=15)
+        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=15)
         return r.ok
     except Exception:
         return False
@@ -1031,16 +1032,16 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         prices = card_data.get("prices", {})
         price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
                     else (prices.get("eur") or prices.get("eur_foil"))
-        if not price_str:
-            return False
+        # Always add the card even with no EUR price (shows as 0.00, tracker will fill it in)
+        price_val = float(price_str) if price_str else 0.0
 
         card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
         entry = {
             "nome": name,
-            "set": set_name,
+            "set": set_name or card_data.get("set_name", ""),
             "set_code": set_code.upper(),
             "collector_number": collector_number,
-            "prezzo": float(price_str),
+            "prezzo": price_val,
             "foil": is_foil,
             "finish": finish,
             "language": language,
@@ -1197,8 +1198,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                 prices_d = card.get("prices", {})
                 price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
                             else (prices_d.get("eur") or prices_d.get("eur_foil"))
-                if not price_str:
-                    continue
+                price_val = float(price_str) if price_str else 0.0
 
                 card_key = f"{card['set'].upper()}_{card['collector_number']}_{finish}_{language}"
                 prezzi[card_key] = {
@@ -1206,7 +1206,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                     "set": card.get("set_name", ""),
                     "set_code": card["set"].upper(),
                     "collector_number": card["collector_number"],
-                    "prezzo": float(price_str),
+                    "prezzo": price_val,
                     "foil": is_foil,
                     "finish": finish,
                     "language": language,
@@ -1275,8 +1275,9 @@ async def add_card_post(
     coll = user.get("collection", "")
     csv_content, sha = _get_csv_from_github(coll)
     if csv_content is None:
-        ctx["error"] = "Impossibile leggere il CSV da GitHub. Controlla GITHUB_TOKEN e GITHUB_REPO su Railway."
-        return templates.TemplateResponse("add_card.html", ctx)
+        # New collection: start with an empty CSV
+        csv_content = "Source,Trade In,Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,Language,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Currency,Added\n"
+        sha = None
 
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
     name_safe     = name.replace('"', '""')
