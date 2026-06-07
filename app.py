@@ -1196,6 +1196,198 @@ async def add_card_post(
     return templates.TemplateResponse("add_card.html", ctx)
 
 
+# ── Sealed products ──────────────────────────────────────────────────────────
+
+SEALED_JSON = "sealed_products.json"
+
+def _get_sealed_from_github():
+    try:
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SEALED_JSON}"
+        r = requests.get(url, headers=_gh_headers(), timeout=15)
+        if r.ok:
+            d = r.json()
+            return base64.b64decode(d["content"]).decode("utf-8"), d["sha"]
+        if r.status_code == 404:
+            return "[]", None
+    except Exception:
+        pass
+    return None, None
+
+def _update_sealed_on_github(content: str, sha, message: str) -> bool:
+    try:
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SEALED_JSON}"
+        payload = {"message": message, "content": base64.b64encode(content.encode()).decode()}
+        if sha:
+            payload["sha"] = sha
+        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=15)
+        return r.status_code in (200, 201)
+    except Exception:
+        return False
+
+def _load_sealed_local():
+    local = BASE_DIR / SEALED_JSON
+    if local.exists():
+        try:
+            return json.loads(local.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    content, _ = _get_sealed_from_github()
+    if content:
+        try:
+            return json.loads(content)
+        except Exception:
+            pass
+    return []
+
+def _fetch_mtggoldfish_price(url: str):
+    """Best-effort price scrape from a MTGGoldfish page. Returns float or None."""
+    try:
+        import re
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
+        r = requests.get(url, headers=headers, timeout=12)
+        if not r.ok:
+            return None
+        html = r.text
+        # EUR price: €123.45 or € 123,45
+        m = re.search(r'€\s*([0-9]+[.,][0-9]{2})', html)
+        if m:
+            return round(float(m.group(1).replace(',', '.')), 2)
+        # JSON-like: "price":"123.45" or price: 123.45
+        m = re.search(r'"price"\s*:\s*"?([0-9]+\.[0-9]{2})"?', html)
+        if m:
+            return round(float(m.group(1)), 2)
+        return None
+    except Exception:
+        return None
+
+
+@app.get("/sealed", response_class=HTMLResponse)
+async def sealed_list(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    products = _load_sealed_local()
+    total_purchase = sum(float(p.get("purchase_price", 0)) * int(p.get("quantity", 1))
+                         for p in products)
+    total_current  = sum((float(p.get("current_price") or p.get("purchase_price", 0)))
+                         * int(p.get("quantity", 1)) for p in products)
+    return templates.TemplateResponse("sealed.html", {
+        "request": request, "user": user,
+        "products": products,
+        "total_purchase": total_purchase,
+        "total_current":  total_current,
+        "gain": total_current - total_purchase,
+    })
+
+
+@app.post("/sealed/add")
+async def sealed_add(request: Request,
+                     name: str          = Form(...),
+                     set_name: str      = Form(""),
+                     product_type: str  = Form("Collector Booster Box"),
+                     quantity: str      = Form("1"),
+                     purchase_price: str = Form("0"),
+                     current_price: str = Form(""),
+                     mtggoldfish_url: str = Form("")):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    purchase = float(purchase_price) if purchase_price else 0.0
+    current  = float(current_price)  if current_price  else purchase
+    qty      = max(1, int(quantity)  if quantity        else 1)
+    for _ in range(2):
+        content, sha = _get_sealed_from_github()
+        if content is None:
+            break
+        products = json.loads(content)
+        new_id = str(max((int(p.get("id", 0)) for p in products), default=0) + 1)
+        products.append({
+            "id": new_id, "name": name, "set_name": set_name,
+            "product_type": product_type, "quantity": qty,
+            "purchase_price": purchase, "current_price": current,
+            "mtggoldfish_url": mtggoldfish_url.strip(),
+            "added_at": datetime.now().isoformat(),
+            "last_updated": datetime.now().isoformat(),
+        })
+        new_content = json.dumps(products, ensure_ascii=False, indent=2)
+        if _update_sealed_on_github(new_content, sha, f"Add sealed: {name}"):
+            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+            break
+    return RedirectResponse("/sealed", status_code=302)
+
+
+@app.post("/sealed/update/{item_id}")
+async def sealed_update(request: Request, item_id: str,
+                        current_price: str = Form(...)):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    for _ in range(2):
+        content, sha = _get_sealed_from_github()
+        if content is None:
+            break
+        products = json.loads(content)
+        for p in products:
+            if str(p.get("id")) == item_id:
+                p["current_price"] = float(current_price)
+                p["last_updated"]  = datetime.now().isoformat()
+                break
+        new_content = json.dumps(products, ensure_ascii=False, indent=2)
+        if _update_sealed_on_github(new_content, sha, f"Update sealed price id={item_id}"):
+            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+            break
+    return RedirectResponse("/sealed", status_code=302)
+
+
+@app.post("/sealed/fetch/{item_id}")
+async def sealed_fetch(request: Request, item_id: str):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    content_raw, _ = _get_sealed_from_github()
+    if not content_raw:
+        return RedirectResponse("/sealed", status_code=302)
+    products = json.loads(content_raw)
+    target = next((p for p in products if str(p.get("id")) == item_id), None)
+    if not target or not target.get("mtggoldfish_url"):
+        return RedirectResponse("/sealed", status_code=302)
+    price = _fetch_mtggoldfish_price(target["mtggoldfish_url"])
+    if price:
+        for _ in range(2):
+            content, sha = _get_sealed_from_github()
+            if content is None:
+                break
+            products = json.loads(content)
+            for p in products:
+                if str(p.get("id")) == item_id:
+                    p["current_price"] = price
+                    p["last_updated"]  = datetime.now().isoformat()
+                    break
+            new_content = json.dumps(products, ensure_ascii=False, indent=2)
+            if _update_sealed_on_github(new_content, sha, f"Fetch sealed price id={item_id}"):
+                (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+                break
+    return RedirectResponse("/sealed", status_code=302)
+
+
+@app.post("/sealed/delete/{item_id}")
+async def sealed_delete(request: Request, item_id: str):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    for _ in range(2):
+        content, sha = _get_sealed_from_github()
+        if content is None:
+            break
+        products = json.loads(content)
+        products = [p for p in products if str(p.get("id")) != item_id]
+        new_content = json.dumps(products, ensure_ascii=False, indent=2)
+        if _update_sealed_on_github(new_content, sha, f"Delete sealed id={item_id}"):
+            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+            break
+    return RedirectResponse("/sealed", status_code=302)
+
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))

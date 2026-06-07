@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.inp { background:rgba(255,255,255,0.04); border:1px solid rgba(200,200,220,0.15);
+       border-radius:10px; color:#e2e8f0; padding:0.55rem 0.85rem; font-size:0.88rem;
+       transition:border-color 0.18s; outline:none; }
+.inp:focus { border-color:rgba(200,155,60,0.5); }
+.gain-pos { color:#4ade80; }
+.gain-neg { color:#f87171; }
+.gain-zero { color:rgba(200,200,220,0.38); }
+</style>
+
+<!-- Stats -->
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+            gap:1rem; margin-bottom:1.4rem;">
+  <div class="glass" style="padding:1.2rem 1.4rem; text-align:center;">
+    <div style="font-family:'Cinzel',serif; color:var(--gold); font-size:1.3rem; font-weight:700;">
+      {{ products|length }}
+    </div>
+    <div style="font-size:0.72rem; color:rgba(200,200,220,0.45); text-transform:uppercase; letter-spacing:0.1em;">Prodotti</div>
+  </div>
+  <div class="glass" style="padding:1.2rem 1.4rem; text-align:center;">
+    <div style="font-family:'Cinzel',serif; color:var(--gold); font-size:1.3rem; font-weight:700;">
+      €{{ "%.2f"|format(total_purchase) }}
+    </div>
+    <div style="font-size:0.72rem; color:rgba(200,200,220,0.45); text-transform:uppercase; letter-spacing:0.1em;">Investito</div>
+  </div>
+  <div class="glass" style="padding:1.2rem 1.4rem; text-align:center;">
+    <div style="font-family:'Cinzel',serif; color:var(--gold); font-size:1.3rem; font-weight:700;">
+      €{{ "%.2f"|format(total_current) }}
+    </div>
+    <div style="font-size:0.72rem; color:rgba(200,200,220,0.45); text-transform:uppercase; letter-spacing:0.1em;">Valore Attuale</div>
+  </div>
+  <div class="glass" style="padding:1.2rem 1.4rem; text-align:center;">
+    {% set g = gain %}
+    <div style="font-family:'Cinzel',serif; font-size:1.3rem; font-weight:700;
+                color:{% if g > 0 %}#4ade80{% elif g < 0 %}#f87171{% else %}rgba(200,200,220,0.38){% endif %};">
+      {% if g > 0 %}+{% endif %}€{{ "%.2f"|format(g) }}
+    </div>
+    <div style="font-size:0.72rem; color:rgba(200,200,220,0.45); text-transform:uppercase; letter-spacing:0.1em;">Guadagno / Perdita</div>
+  </div>
+</div>
+
+<!-- Add product form -->
+<div class="glass" style="padding:1.4rem 1.6rem; margin-bottom:1.4rem;">
+  <div style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.75rem;
+              text-transform:uppercase; letter-spacing:0.14em; margin-bottom:1.1rem;">
+    ➕ Aggiungi Prodotto Sealed
+  </div>
+  <form method="post" action="/sealed/add">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:0.8rem; margin-bottom:0.8rem;">
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Nome prodotto *</label>
+        <input class="inp" name="name" required placeholder="es. Strixhaven Collector Box" style="width:100%;">
+      </div>
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Tipo</label>
+        <select class="inp" name="product_type" style="width:100%;">
+          <option>Collector Booster Box</option>
+          <option>Draft Booster Box</option>
+          <option>Set Booster Box</option>
+          <option>Play Booster Box</option>
+          <option>Bundle</option>
+          <option>Collector Booster Pack</option>
+          <option>Commander Deck</option>
+          <option>Secret Lair</option>
+          <option>Altro</option>
+        </select>
+      </div>
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Set / Espansione</label>
+        <input class="inp" name="set_name" placeholder="es. Strixhaven" style="width:100%;">
+      </div>
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Quantità</label>
+        <input class="inp" name="quantity" type="number" min="1" value="1" style="width:100%;">
+      </div>
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Prezzo acquisto (€)</label>
+        <input class="inp" name="purchase_price" type="number" step="0.01" min="0" placeholder="0.00" style="width:100%;">
+      </div>
+      <div>
+        <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">Prezzo attuale (€)</label>
+        <input class="inp" name="current_price" type="number" step="0.01" min="0"
+               placeholder="= acquisto se vuoto" style="width:100%;">
+      </div>
+    </div>
+    <div style="margin-bottom:0.9rem;">
+      <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
+                    text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">
+        URL MTGGoldfish <span style="color:rgba(200,200,220,0.25); font-size:0.6rem; text-transform:none;">(opzionale — per aggiornamento automatico prezzo)</span>
+      </label>
+      <input class="inp" name="mtggoldfish_url" type="url" placeholder="https://www.mtggoldfish.com/..."
+             style="width:100%; max-width:520px;">
+    </div>
+    <button type="submit"
+      style="padding:0.65rem 1.6rem; border-radius:10px;
+             border:1px solid rgba(200,155,60,0.35); background:rgba(200,155,60,0.1);
+             color:var(--gold); cursor:pointer; font-size:0.9rem; font-weight:600;
+             transition:all 0.18s;"
+      onmouseover="this.style.background='rgba(200,155,60,0.22)'"
+      onmouseout="this.style.background='rgba(200,155,60,0.1)'">
+      ➕ Aggiungi
+    </button>
+  </form>
+</div>
+
+<!-- Products list -->
+{% if products %}
+<div class="glass" style="overflow:hidden;">
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:0.88rem;">
+      <thead>
+        <tr style="border-bottom:1px solid rgba(200,200,220,0.08);">
+          <th style="padding:0.9rem 1rem; text-align:left; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;">Nome</th>
+          <th style="padding:0.9rem 0.7rem; text-align:left; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;" class="hide-mobile">Tipo</th>
+          <th style="padding:0.9rem 0.7rem; text-align:center; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;">Qty</th>
+          <th style="padding:0.9rem 0.7rem; text-align:right; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;">Acquistato</th>
+          <th style="padding:0.9rem 0.7rem; text-align:right; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;">Attuale</th>
+          <th style="padding:0.9rem 0.7rem; text-align:right; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;" class="hide-mobile">+/-</th>
+          <th style="padding:0.9rem 0.7rem; text-align:right; font-size:0.65rem;
+                     text-transform:uppercase; letter-spacing:0.12em; color:rgba(200,200,220,0.38); font-weight:600;" class="hide-mobile">Aggiornato</th>
+          <th style="padding:0.9rem 1rem; text-align:right;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in products %}
+        {% set pur = p.purchase_price|float %}
+        {% set cur = (p.current_price or p.purchase_price)|float %}
+        {% set qty = p.quantity|int %}
+        {% set diff = (cur - pur) * qty %}
+        {% set pct  = ((cur - pur) / pur * 100) if pur > 0 else 0 %}
+        <tr style="border-bottom:1px solid rgba(200,200,220,0.05); transition:background 0.15s;"
+            onmouseover="this.style.background='rgba(255,255,255,0.025)'"
+            onmouseout="this.style.background='transparent'">
+          <td style="padding:0.85rem 1rem;">
+            <div style="font-weight:600; color:#e2e8f0;">{{ p.name }}</div>
+            {% if p.set_name %}
+            <div style="font-size:0.72rem; color:rgba(200,200,220,0.38); margin-top:1px;">{{ p.set_name }}</div>
+            {% endif %}
+          </td>
+          <td style="padding:0.85rem 0.7rem; color:rgba(200,200,220,0.55); font-size:0.8rem;" class="hide-mobile">
+            {{ p.product_type }}
+          </td>
+          <td style="padding:0.85rem 0.7rem; text-align:center; color:rgba(200,200,220,0.55);">
+            {{ qty }}
+          </td>
+          <td style="padding:0.85rem 0.7rem; text-align:right; color:rgba(200,200,220,0.55); font-family:monospace;">
+            €{{ "%.2f"|format(pur) }}
+          </td>
+          <td style="padding:0.85rem 0.7rem; text-align:right; font-family:'Cinzel',serif; font-weight:700; color:var(--gold-light);">
+            €{{ "%.2f"|format(cur) }}
+          </td>
+          <td style="padding:0.85rem 0.7rem; text-align:right; font-weight:600; white-space:nowrap;" class="hide-mobile">
+            {% if diff > 0 %}
+              <span class="gain-pos">+€{{ "%.2f"|format(diff) }}</span>
+              <span style="font-size:0.7rem; color:rgba(74,222,128,0.6); display:block;">+{{ "%.1f"|format(pct) }}%</span>
+            {% elif diff < 0 %}
+              <span class="gain-neg">-€{{ "%.2f"|format(diff|abs) }}</span>
+              <span style="font-size:0.7rem; color:rgba(248,113,113,0.6); display:block;">{{ "%.1f"|format(pct) }}%</span>
+            {% else %}
+              <span class="gain-zero">—</span>
+            {% endif %}
+          </td>
+          <td style="padding:0.85rem 0.7rem; color:rgba(200,200,220,0.28); font-size:0.72rem; white-space:nowrap;" class="hide-mobile">
+            {% if p.last_updated %}{{ p.last_updated[:10] }}{% endif %}
+          </td>
+          <td style="padding:0.85rem 1rem; text-align:right; white-space:nowrap;">
+            <div style="display:flex; gap:0.5rem; justify-content:flex-end; align-items:center;">
+              <!-- Fetch from MTGGoldfish -->
+              {% if p.mtggoldfish_url %}
+              <form method="post" action="/sealed/fetch/{{ p.id }}" style="display:inline;"
+                    title="Aggiorna prezzo da MTGGoldfish">
+                <button type="submit"
+                  style="background:none; border:none; cursor:pointer; color:rgba(56,189,248,0.45);
+                         font-size:0.9rem; padding:0; transition:color 0.18s;"
+                  onmouseover="this.style.color='#38bdf8'"
+                  onmouseout="this.style.color='rgba(56,189,248,0.45)'">🔄</button>
+              </form>
+              {% endif %}
+              <!-- Manual price update -->
+              <button type="button" title="Aggiorna prezzo manualmente"
+                onclick="openUpdateModal('{{ p.id }}', {{ cur }})"
+                style="background:none; border:none; cursor:pointer; color:rgba(200,155,60,0.45);
+                       font-size:0.9rem; padding:0; transition:color 0.18s;"
+                onmouseover="this.style.color='var(--gold)'"
+                onmouseout="this.style.color='rgba(200,155,60,0.45)'">✏️</button>
+              <!-- Delete -->
+              <form method="post" action="/sealed/delete/{{ p.id }}" style="display:inline;"
+                    onsubmit="return confirm('Elimina \'{{ p.name }}\'?')">
+                <button type="submit"
+                  style="background:none; border:none; cursor:pointer; color:rgba(248,113,113,0.38);
+                         font-size:0.9rem; padding:0; transition:color 0.18s;"
+                  onmouseover="this.style.color='#f87171'"
+                  onmouseout="this.style.color='rgba(248,113,113,0.38)'">🗑</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="glass" style="padding:3rem; text-align:center; color:rgba(200,200,220,0.3);">
+  Nessun prodotto sealed ancora. Aggiungine uno qui sopra.
+</div>
+{% endif %}
+
+<!-- Update price modal -->
+<div id="upd-overlay" onclick="closeUpdateModal()" style="
+  display:none; position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,0.72); backdrop-filter:blur(4px);"></div>
+
+<div id="upd-modal" style="
+  display:none; position:fixed; z-index:10001;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  width:min(320px, 92vw);
+  background:rgba(12,12,28,0.97); border:1px solid rgba(200,155,60,0.28);
+  border-radius:18px; padding:2rem; box-shadow:0 24px 64px rgba(0,0,0,0.85);">
+  <div style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.75rem;
+              text-transform:uppercase; letter-spacing:0.14em; margin-bottom:1.2rem;">
+    Aggiorna Prezzo
+  </div>
+  <form id="upd-form" method="post">
+    <label style="display:block; font-size:0.68rem; font-weight:700;
+                  color:rgba(200,200,220,0.42); text-transform:uppercase;
+                  letter-spacing:0.14em; margin-bottom:0.5rem;">Nuovo prezzo (€)</label>
+    <input id="upd-price" class="inp" name="current_price" type="number" step="0.01" min="0"
+           style="width:100%; margin-bottom:1.5rem;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+      <button type="button" onclick="closeUpdateModal()"
+        style="padding:0.75rem; border-radius:10px; border:1px solid rgba(200,200,220,0.15);
+               background:rgba(255,255,255,0.04); color:rgba(200,200,220,0.6);
+               cursor:pointer; font-size:0.9rem; transition:all 0.18s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.08)'"
+        onmouseout="this.style.background='rgba(255,255,255,0.04)'">Annulla</button>
+      <button type="submit"
+        style="padding:0.75rem; border-radius:10px; border:1px solid rgba(200,155,60,0.35);
+               background:rgba(200,155,60,0.1); color:var(--gold);
+               cursor:pointer; font-size:0.9rem; font-weight:600; transition:all 0.18s;"
+        onmouseover="this.style.background='rgba(200,155,60,0.2)'"
+        onmouseout="this.style.background='rgba(200,155,60,0.1)'">✏️ Salva</button>
+    </div>
+  </form>
+</div>
+
+<script>
+function openUpdateModal(id, currentPrice) {
+  document.getElementById('upd-form').action = '/sealed/update/' + id;
+  document.getElementById('upd-price').value  = currentPrice;
+  document.getElementById('upd-overlay').style.display = 'block';
+  document.getElementById('upd-modal').style.display   = 'block';
+  document.getElementById('upd-price').focus();
+  document.getElementById('upd-price').select();
+}
+function closeUpdateModal() {
+  document.getElementById('upd-overlay').style.display = 'none';
+  document.getElementById('upd-modal').style.display   = 'none';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeUpdateModal(); });
+</script>
+
+{% endblock %}
