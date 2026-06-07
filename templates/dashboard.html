@@ -133,14 +133,12 @@
                onmouseout="this.style.color='rgba(200,155,60,0.5)'">
               Storico →
             </a>
-            <form method="post" action="/delete-card/{{ key }}" style="display:inline;"
-                  onsubmit="return confirm('Segna come venduta \'{{ c.nome }}\'?\nVerrà aggiunta allo storico vendite.')">
-              <button type="submit" title="Carta venduta — aggiungi allo storico"
-                style="background:none; border:none; cursor:pointer; color:rgba(74,222,128,0.45);
-                       font-size:0.95rem; padding:0; transition:color 0.18s; line-height:1;"
-                onmouseover="this.style.color='#4ade80'"
-                onmouseout="this.style.color='rgba(74,222,128,0.45)'">💰</button>
-            </form>
+            <button type="button" title="Carta venduta — aggiungi allo storico"
+              onclick="openSellModal('{{ key }}', '{{ c.nome|replace("'","\\'")|replace('"','\\"') }}', {{ c.prezzo }})"
+              style="background:none; border:none; cursor:pointer; color:rgba(74,222,128,0.45);
+                     font-size:0.95rem; padding:0; transition:color 0.18s; line-height:1;"
+              onmouseover="this.style.color='#4ade80'"
+              onmouseout="this.style.color='rgba(74,222,128,0.45)'">💰</button>
             <form method="post" action="/remove-card/{{ key }}" style="display:inline;"
                   onsubmit="return confirm('Elimina \'{{ c.nome }}\' dalla collezione?\nNON verrà aggiunta allo storico vendite.')">
               <button type="submit" title="Elimina senza registrare come venduta"
@@ -166,6 +164,54 @@
   {% endif %}
 </div>
 
+<!-- Sell modal -->
+<div id="sell-overlay" onclick="closeSellModal()" style="
+  display:none; position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,0.72); backdrop-filter:blur(4px);"></div>
+
+<div id="sell-modal" style="
+  display:none; position:fixed; z-index:10001;
+  top:50%; left:50%; transform:translate(-50%,-50%);
+  width:min(420px, 92vw);
+  background:rgba(12,12,28,0.97); border:1px solid rgba(200,155,60,0.28);
+  border-radius:18px; padding:2rem; box-shadow:0 24px 64px rgba(0,0,0,0.85);">
+  <div style="font-family:'Cinzel',serif; color:var(--gold);
+              font-size:0.75rem; text-transform:uppercase; letter-spacing:0.14em;
+              margin-bottom:0.5rem;">Carta Venduta</div>
+  <div id="sell-name" style="font-size:1.15rem; font-weight:700;
+       color:#e2e2f0; margin-bottom:1.6rem;"></div>
+  <form id="sell-form" method="post">
+    <input type="hidden" name="sold_price" id="sell-price-input">
+    <label style="display:block; font-size:0.68rem; font-weight:700;
+                  color:rgba(200,200,220,0.42); text-transform:uppercase;
+                  letter-spacing:0.14em; margin-bottom:0.5rem;">
+      Prezzo di vendita (€)
+    </label>
+    <input type="number" id="sell-price-display" class="inp"
+           min="0" step="0.01" style="width:100%; font-size:1.2rem;
+           font-family:'Cinzel',serif; color:var(--gold); text-align:center;
+           margin-bottom:1.6rem;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+      <button type="button" onclick="closeSellModal()"
+        style="padding:0.75rem; border-radius:10px; border:1px solid rgba(200,200,220,0.15);
+               background:rgba(255,255,255,0.04); color:rgba(200,200,220,0.6);
+               cursor:pointer; font-size:0.9rem; transition:all 0.18s;"
+        onmouseover="this.style.background='rgba(255,255,255,0.08)'"
+        onmouseout="this.style.background='rgba(255,255,255,0.04)'">
+        Annulla
+      </button>
+      <button type="submit" onclick="confirmSell()"
+        style="padding:0.75rem; border-radius:10px; border:1px solid rgba(74,222,128,0.35);
+               background:rgba(74,222,128,0.1); color:#4ade80;
+               cursor:pointer; font-size:0.9rem; font-weight:600; transition:all 0.18s;"
+        onmouseover="this.style.background='rgba(74,222,128,0.2)'"
+        onmouseout="this.style.background='rgba(74,222,128,0.1)'">
+        💰 Conferma vendita
+      </button>
+    </div>
+  </form>
+</div>
+
 <!-- Hover preview -->
 <div id="hover-preview" style="
   display:none; position:fixed; z-index:9999; pointer-events:none;
@@ -179,6 +225,28 @@
 
 {% block scripts %}
 <script>
+// ── Sell modal ──────────────────────────────────────────────────────────────
+function openSellModal(key, name, currentPrice) {
+  document.getElementById('sell-name').textContent = name;
+  document.getElementById('sell-price-display').value = currentPrice.toFixed(2);
+  document.getElementById('sell-form').action = '/delete-card/' + key;
+  document.getElementById('sell-overlay').style.display = 'block';
+  document.getElementById('sell-modal').style.display = 'block';
+  setTimeout(() => document.getElementById('sell-price-display').select(), 50);
+}
+function closeSellModal() {
+  document.getElementById('sell-overlay').style.display = 'none';
+  document.getElementById('sell-modal').style.display = 'none';
+}
+function confirmSell() {
+  const v = parseFloat(document.getElementById('sell-price-display').value);
+  document.getElementById('sell-price-input').value = isNaN(v) ? 0 : v;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSellModal();
+});
+
+// ── Filter / sort ───────────────────────────────────────────────────────────
 const rows  = Array.from(document.querySelectorAll('.row'));
 const tbody = document.getElementById('tbody');
 

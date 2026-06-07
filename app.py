@@ -514,7 +514,8 @@ def _update_json_on_github(new_content: str, sha: str, message: str) -> bool:
 # ── Delete card route ─────────────────────────────────────────────────────────
 
 @app.post("/delete-card/{card_key:path}")
-async def delete_card(request: Request, card_key: str):
+async def delete_card(request: Request, card_key: str,
+                      sold_price: str = Form(None)):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
@@ -532,6 +533,10 @@ async def delete_card(request: Request, card_key: str):
     if last:
         sold_at = datetime.now().isoformat()
         entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")  # unique string ID
+        try:
+            final_price = float(sold_price) if sold_price else last["price"]
+        except (ValueError, TypeError):
+            final_price = last["price"]
         entry = {
             "id": entry_id,
             "card_key": card_key,
@@ -542,7 +547,7 @@ async def delete_card(request: Request, card_key: str):
             "finish": last["finish"] or "normal",
             "language": last["language"] or "en",
             "frame_effects": last["frame_effects"] or "",
-            "last_price": last["price"],
+            "last_price": final_price,
             "sold_at": sold_at,
         }
         # Save to GitHub (persistent)
