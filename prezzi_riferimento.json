@@ -2062,18 +2062,6 @@
     "ultimo_aggiornamento": "2026-06-07T17:51:19.897240",
     "frame_effects": "silverscroll"
   },
-  "SOA_185_foil_ja": {
-    "nome": "Pick Your Poison",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "185",
-    "prezzo": 6.15,
-    "foil": true,
-    "finish": "foil",
-    "language": "ja",
-    "ultimo_aggiornamento": "2026-06-07T17:51:53.068240",
-    "frame_effects": ""
-  },
   "SOA_147_foil_ja": {
     "nome": "Disdainful Stroke",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2084,6 +2072,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:52:34.451092",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_185_foil_ja": {
+    "nome": "Pick Your Poison",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "185",
+    "prezzo": 6.15,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T18:40:35.856880",
     "frame_effects": "silverscroll"
   }
 }
