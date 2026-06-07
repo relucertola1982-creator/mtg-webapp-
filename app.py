@@ -1259,6 +1259,55 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
     except Exception:
         pass  # prices will be picked up by tracker on next run
 
+    # ── Sync quantities for ALL uploaded rows (new + already-existing) ──────────
+    # The new-card batch above only processes cards not in the existing GitHub CSV.
+    # This pass updates quantity for every card in the uploaded file.
+    try:
+        qjson, qsha = _get_json_from_github(coll)
+        qprezzi = json.loads(qjson) if qjson else {}
+        qty_changed = 0
+        conn_q = get_db()
+        for r in uploaded_rows:
+            sc  = r.get("Set code", "").upper()
+            cn  = r.get("Collector number", "")
+            fn  = r.get("Foil") or "normal"
+            lg  = r.get("Language") or "en"
+            qty = max(1, int(r.get("Quantity") or 1))
+            ck  = f"{sc}_{cn}_{fn}_{lg}"
+            if ck in qprezzi:
+                qprezzi[ck]["quantity"] = qty
+                qty_changed += 1
+            # Update SQLite for this card
+            conn_q.execute(
+                """UPDATE price_history SET quantity=?
+                   WHERE collection=? AND card_key=? AND id=(
+                     SELECT MAX(id) FROM price_history WHERE card_key=? AND collection=?
+                   )""",
+                (qty, coll, ck, ck, coll)
+            )
+        conn_q.commit()
+        conn_q.close()
+        if qty_changed:
+            new_qprezzi = json.dumps(qprezzi, ensure_ascii=False, indent=2)
+            for _ in range(2):
+                if _update_json_on_github(new_qprezzi, qsha,
+                                          f"Sync quantities for {qty_changed} cards", coll):
+                    break
+                qjson, qsha = _get_json_from_github(coll)
+                qprezzi2 = json.loads(qjson) if qjson else {}
+                for r in uploaded_rows:
+                    sc  = r.get("Set code", "").upper()
+                    cn  = r.get("Collector number", "")
+                    fn  = r.get("Foil") or "normal"
+                    lg  = r.get("Language") or "en"
+                    qty = max(1, int(r.get("Quantity") or 1))
+                    ck  = f"{sc}_{cn}_{fn}_{lg}"
+                    if ck in qprezzi2:
+                        qprezzi2[ck]["quantity"] = qty
+                new_qprezzi = json.dumps(qprezzi2, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
     get_prices(force=True, collection=coll)  # sync SQLite so cards appear immediately
 
     ctx["result"] = {
