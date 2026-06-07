@@ -35,6 +35,16 @@
       </label>
       <input type="text" name="telegram_chat_id" class="inp" style="width:200px;" placeholder="es. 1161277005">
     </div>
+    <div>
+      <label style="display:block; font-size:0.68rem; font-weight:700;
+                    color:rgba(200,200,220,0.4); text-transform:uppercase;
+                    letter-spacing:0.14em; margin-bottom:0.4rem;">
+        Collezione <span style="opacity:0.45; font-weight:400;">(lascia vuoto = tua stessa collezione)</span>
+      </label>
+      <input type="text" name="collection" class="inp" style="width:160px;"
+             placeholder="es. amico" pattern="[a-z0-9_]*"
+             title="Solo lettere minuscole, numeri e underscore">
+    </div>
     <button type="submit" class="btn btn-gold" data-i18n="admin-add-user">Aggiungi</button>
   </form>
 </div>
@@ -55,6 +65,7 @@
         <th>#</th>
         <th>Username</th>
         <th>Telegram Chat ID</th>
+        <th>Collezione</th>
         <th data-i18n="admin-role">Ruolo</th>
         <th data-i18n="admin-registered">Registrato</th>
         <th data-i18n="admin-actions">Azioni</th>
@@ -67,6 +78,9 @@
         <td style="font-weight:500;">{{ u.username }}</td>
         <td style="color:rgba(200,200,220,0.52); font-size:0.82rem; font-family:monospace;">
           {{ u.telegram_chat_id or '—' }}
+        </td>
+        <td style="font-size:0.82rem; color:rgba(56,189,248,0.7); font-family:monospace;">
+          {{ u.collection or '(default)' }}
         </td>
         <td>
           {% if u.is_admin %}

@@ -93,6 +93,10 @@ def init_db():
         "ALTER TABLE price_history ADD COLUMN finish TEXT DEFAULT 'normal'",
         "ALTER TABLE price_history ADD COLUMN language TEXT DEFAULT 'en'",
         "ALTER TABLE price_history ADD COLUMN frame_effects TEXT DEFAULT ''",
+        "ALTER TABLE price_history ADD COLUMN collection TEXT DEFAULT ''",
+        "ALTER TABLE sold_cards ADD COLUMN collection TEXT DEFAULT ''",
+        "ALTER TABLE fetch_log ADD COLUMN collection TEXT DEFAULT ''",
+        "ALTER TABLE users ADD COLUMN collection TEXT DEFAULT ''",
     ]:
         try:
             conn.execute(col)
@@ -112,14 +116,14 @@ def _hash(pwd: str) -> str:
 
 # ── GitHub fetch ──────────────────────────────────────────────────────────────
 
-def _fetch_github() -> dict:
-    # Try GitHub repo first
+def _fetch_github(collection="") -> dict:
+    fname = _cf("prezzi_riferimento.json", collection)
     if GITHUB_REPO:
         headers = {"Accept": "application/vnd.github.v3.raw"}
         if GITHUB_TOKEN:
             headers["Authorization"] = f"token {GITHUB_TOKEN}"
         for branch in ("main", "master"):
-            url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/prezzi_riferimento.json"
+            url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/{fname}"
             try:
                 r = requests.get(url, headers=headers, timeout=15)
                 if r.ok:
@@ -127,8 +131,7 @@ def _fetch_github() -> dict:
             except Exception:
                 continue
 
-    # Fallback: local file bundled in the repo
-    local = BASE_DIR / "prezzi_riferimento.json"
+    local = BASE_DIR / fname
     if local.exists():
         try:
             import json as _json
@@ -140,14 +143,14 @@ def _fetch_github() -> dict:
     return {}
 
 
-def get_prices(force: bool = False) -> dict:
+def get_prices(force: bool = False, collection: str = "") -> dict:
     conn = get_db()
 
-    # Decide whether to refresh from GitHub
     should_fetch = force
     if not should_fetch:
         last = conn.execute(
-            "SELECT fetched_at FROM fetch_log ORDER BY id DESC LIMIT 1"
+            "SELECT fetched_at FROM fetch_log WHERE collection=? ORDER BY id DESC LIMIT 1",
+            (collection,)
         ).fetchone()
         if not last:
             should_fetch = True
@@ -157,28 +160,28 @@ def get_prices(force: bool = False) -> dict:
                 should_fetch = True
 
     if should_fetch:
-        raw = _fetch_github()
+        raw = _fetch_github(collection)
         if raw:
             now = datetime.now().isoformat()
             for key, d in raw.items():
-                # Only insert if price changed
                 last_price = conn.execute(
-                    "SELECT price FROM price_history WHERE card_key=? ORDER BY id DESC LIMIT 1",
-                    (key,)
+                    "SELECT price FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
+                    (key, collection)
                 ).fetchone()
                 if not last_price or abs(last_price["price"] - d["prezzo"]) > 0.001:
                     conn.execute(
                         """INSERT INTO price_history
                            (card_key, card_name, set_code, set_name, collector_number,
-                            foil, finish, language, frame_effects, price, recorded_at)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            foil, finish, language, frame_effects, price, recorded_at, collection)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (key, d.get("nome", ""), d.get("set_code", ""), d.get("set", ""),
                          d.get("collector_number", ""), 1 if d.get("foil") else 0,
                          d.get("finish", "foil" if d.get("foil") else "normal"),
                          d.get("language", "en"), d.get("frame_effects", ""),
-                         d["prezzo"], d.get("ultimo_aggiornamento", now))
+                         d["prezzo"], d.get("ultimo_aggiornamento", now), collection)
                     )
-            conn.execute("INSERT INTO fetch_log (cards_count) VALUES (?)", (len(raw),))
+            conn.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?, ?)",
+                         (len(raw), collection))
             conn.commit()
 
     rows = conn.execute("""
@@ -187,14 +190,15 @@ def get_prices(force: bool = False) -> dict:
                ph.frame_effects, ph.price, ph.recorded_at
         FROM price_history ph
         INNER JOIN (
-            SELECT card_key, MAX(id) AS mid FROM price_history GROUP BY card_key
+            SELECT card_key, MAX(id) AS mid FROM price_history
+            WHERE collection=? GROUP BY card_key
         ) latest ON ph.id = latest.mid
         ORDER BY ph.price DESC
-    """).fetchall()
+    """, (collection,)).fetchall()
     conn.close()
 
     if not rows:
-        raw = _fetch_github()
+        raw = _fetch_github(collection)
         return raw
 
     return {
@@ -233,7 +237,8 @@ async def dashboard(request: Request):
     if not user:
         return RedirectResponse("/login", status_code=302)
 
-    prices = get_prices()
+    coll = user.get("collection", "")
+    prices = get_prices(collection=coll)
     items  = list(prices.items())
     total_value  = sum(v["prezzo"] for v in prices.values())
     foil_count   = sum(1 for v in prices.values() if v["foil"])
@@ -241,7 +246,8 @@ async def dashboard(request: Request):
 
     conn = get_db()
     last_fetch = conn.execute(
-        "SELECT fetched_at FROM fetch_log ORDER BY id DESC LIMIT 1"
+        "SELECT fetched_at FROM fetch_log WHERE collection=? ORDER BY id DESC LIMIT 1",
+        (coll,)
     ).fetchone()
     conn.close()
 
@@ -261,7 +267,7 @@ async def refresh(request: Request):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    get_prices(force=True)
+    get_prices(force=True, collection=user.get("collection", ""))
     return RedirectResponse("/", status_code=302)
 
 
@@ -283,7 +289,9 @@ async def login_post(request: Request, username: str = Form(...), password: str 
 
     if u:
         request.session["user"] = {
-            "id": u["id"], "username": u["username"], "is_admin": bool(u["is_admin"])
+            "id": u["id"], "username": u["username"],
+            "is_admin": bool(u["is_admin"]),
+            "collection": u["collection"] or "",
         }
         return RedirectResponse("/", status_code=302)
     return templates.TemplateResponse("login.html", {
@@ -303,20 +311,20 @@ async def card_detail(request: Request, card_key: str):
     if not user:
         return RedirectResponse("/login", status_code=302)
 
-    prices = get_prices()
+    coll = user.get("collection", "")
+    prices = get_prices(collection=coll)
     card   = prices.get(card_key)
     if not card:
         raise HTTPException(status_code=404, detail="Carta non trovata")
 
-    # GitHub is the persistent source; DB is a short-lived fallback
-    gh_history = _get_history_from_github(card_key)
+    gh_history = _get_history_from_github(card_key, coll)
     if gh_history:
         history_data = [{"price": h["price"], "date": h["date"]} for h in gh_history]
     else:
         conn = get_db()
         rows = conn.execute(
-            "SELECT price, recorded_at FROM price_history WHERE card_key=? ORDER BY recorded_at ASC",
-            (card_key,)
+            "SELECT price, recorded_at FROM price_history WHERE card_key=? AND collection=? ORDER BY recorded_at ASC",
+            (card_key, coll)
         ).fetchall()
         conn.close()
         history_data = [{"price": h["price"], "date": h["recorded_at"]} for h in rows]
@@ -344,15 +352,16 @@ async def admin_get(request: Request):
 @app.post("/admin/add-user")
 async def admin_add_user(request: Request,
                          username: str = Form(...), password: str = Form(...),
-                         telegram_chat_id: str = Form("")):
+                         telegram_chat_id: str = Form(""),
+                         collection: str = Form("")):
     user = current_user(request)
     if not user or not user.get("is_admin"):
         raise HTTPException(status_code=403)
     conn = get_db()
     try:
         conn.execute(
-            "INSERT INTO users (username, password_hash, telegram_chat_id) VALUES (?, ?, ?)",
-            (username, _hash(password), telegram_chat_id.strip() or None)
+            "INSERT INTO users (username, password_hash, telegram_chat_id, collection) VALUES (?, ?, ?, ?)",
+            (username, _hash(password), telegram_chat_id.strip() or None, collection.strip().lower())
         )
         conn.commit()
     except sqlite3.IntegrityError:
@@ -382,10 +391,15 @@ def _gh_headers():
     return h
 
 
-def _get_csv_from_github():
+def _cf(filename: str, collection: str = "") -> str:
+    """Return GitHub filename prefixed by collection (e.g. 'amico_prezzi_riferimento.json')."""
+    return f"{collection}_{filename}" if collection else filename
+
+
+def _get_csv_from_github(collection=""):
     if not GITHUB_REPO:
         return None, None
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/ManaBox_Collection.csv"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('ManaBox_Collection.csv', collection)}"
     try:
         r = requests.get(url, headers=_gh_headers(), timeout=15)
         if r.ok:
@@ -397,10 +411,10 @@ def _get_csv_from_github():
     return None, None
 
 
-def _update_csv_on_github(new_content: str, sha: str, message: str) -> bool:
+def _update_csv_on_github(new_content: str, sha: str, message: str, collection="") -> bool:
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/ManaBox_Collection.csv"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('ManaBox_Collection.csv', collection)}"
     encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
     try:
         r = requests.put(url, headers=_gh_headers(), json={
@@ -411,10 +425,10 @@ def _update_csv_on_github(new_content: str, sha: str, message: str) -> bool:
         return False
 
 
-def _get_json_from_github():
+def _get_json_from_github(collection=""):
     if not GITHUB_REPO:
         return None, None
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/prezzi_riferimento.json"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('prezzi_riferimento.json', collection)}"
     try:
         r = requests.get(url, headers=_gh_headers(), timeout=15)
         if r.ok:
@@ -426,23 +440,23 @@ def _get_json_from_github():
     return None, None
 
 
-def _get_history_from_github(card_key: str) -> list:
+def _get_history_from_github(card_key: str, collection="") -> list:
     """Read price history for one card from storico_prezzi.json on GitHub."""
     if not GITHUB_REPO:
         return []
     headers = {"Accept": "application/vnd.github.v3.raw"}
     if GITHUB_TOKEN:
         headers["Authorization"] = f"token {GITHUB_TOKEN}"
+    fname = _cf("storico_prezzi.json", collection)
     for branch in ("main", "master"):
-        url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/storico_prezzi.json"
+        url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/{fname}"
         try:
             r = requests.get(url, headers=headers, timeout=15)
             if r.ok:
                 return r.json().get(card_key, [])
         except Exception:
             continue
-    # Fallback: local file (populated after first tracker run)
-    local = BASE_DIR / "storico_prezzi.json"
+    local = BASE_DIR / fname
     if local.exists():
         try:
             import json as _json
@@ -453,12 +467,12 @@ def _get_history_from_github(card_key: str) -> list:
     return []
 
 
-def _load_sold_from_github() -> list:
+def _load_sold_from_github(collection="") -> list:
     """Read vendute.json from GitHub. Returns list of dicts (newest first)."""
     if not GITHUB_REPO:
         return []
     import json as _json
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/vendute.json"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('vendute.json', collection)}"
     try:
         r = requests.get(url, headers=_gh_headers(), timeout=15)
         if r.ok:
@@ -470,16 +484,15 @@ def _load_sold_from_github() -> list:
     return []
 
 
-def _save_sold_to_github(entries: list, message: str) -> bool:
+def _save_sold_to_github(entries: list, message: str, collection="") -> bool:
     """Create or update vendute.json on GitHub with the given list."""
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
     import json as _json
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/vendute.json"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('vendute.json', collection)}"
     encoded = base64.b64encode(
         _json.dumps(entries, indent=2, ensure_ascii=False).encode("utf-8")
     ).decode("ascii")
-    # Fetch current SHA (needed for update; absent on first create)
     sha = None
     try:
         r = requests.get(url, headers=_gh_headers(), timeout=10)
@@ -497,10 +510,10 @@ def _save_sold_to_github(entries: list, message: str) -> bool:
         return False
 
 
-def _update_json_on_github(new_content: str, sha: str, message: str) -> bool:
+def _update_json_on_github(new_content: str, sha: str, message: str, collection="") -> bool:
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/prezzi_riferimento.json"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('prezzi_riferimento.json', collection)}"
     encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
     try:
         r = requests.put(url, headers=_gh_headers(), json={
@@ -524,15 +537,17 @@ async def delete_card(request: Request, card_key: str,
 
     conn = get_db()
 
+    coll = user.get("collection", "")
+
     # 1. Save to sold_cards (DB + GitHub)
     last = conn.execute(
         "SELECT card_name, set_code, set_name, collector_number, finish, language, frame_effects, price "
-        "FROM price_history WHERE card_key=? ORDER BY id DESC LIMIT 1",
-        (card_key,)
+        "FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
+        (card_key, coll)
     ).fetchone()
     if last:
         sold_at = datetime.now().isoformat()
-        entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")  # unique string ID
+        entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
         try:
             final_price = float(sold_price) if sold_price else last["price"]
         except (ValueError, TypeError):
@@ -550,29 +565,26 @@ async def delete_card(request: Request, card_key: str,
             "last_price": final_price,
             "sold_at": sold_at,
         }
-        # Save to GitHub (persistent)
-        current_sold = _load_sold_from_github()
+        current_sold = _load_sold_from_github(coll)
         current_sold.insert(0, entry)
-        _save_sold_to_github(current_sold, f"Sell {card_key}")
-        # Save to DB (local cache fallback)
+        _save_sold_to_github(current_sold, f"Sell {card_key}", coll)
         conn.execute(
             """INSERT INTO sold_cards
                (card_key, card_name, set_code, set_name, collector_number,
-                finish, language, frame_effects, last_price)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                finish, language, frame_effects, last_price, collection)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (card_key, last["card_name"], last["set_code"] or "", last["set_name"] or "",
              last["collector_number"] or "", last["finish"] or "normal",
              last["language"] or "en", last["frame_effects"] or "",
-             last["price"])
+             last["price"], coll)
         )
 
     # 2. Remove from price_history DB
-    conn.execute("DELETE FROM price_history WHERE card_key=?", (card_key,))
+    conn.execute("DELETE FROM price_history WHERE card_key=? AND collection=?", (card_key, coll))
     conn.commit()
     conn.close()
 
-    # 2. Remove from prezzi_riferimento.json on GitHub
-    json_content, json_sha = _get_json_from_github()
+    json_content, json_sha = _get_json_from_github(coll)
     if json_content and json_sha:
         try:
             data = _json.loads(json_content)
@@ -580,21 +592,18 @@ async def delete_card(request: Request, card_key: str,
                 del data[card_key]
                 _update_json_on_github(
                     _json.dumps(data, indent=2, ensure_ascii=False),
-                    json_sha,
-                    f"Remove {card_key} (sold)"
+                    json_sha, f"Remove {card_key} (sold)", coll
                 )
         except Exception:
             pass
 
-    # 3. Remove matching row(s) from CSV on GitHub
-    # card_key format: {set_code}_{collector_num}_{finish}_{lang}
     parts = card_key.split("_")
     if len(parts) >= 4:
         c_set  = parts[0].upper()
         c_num  = parts[1]
         c_fin  = parts[2]
         c_lang = parts[3]
-        csv_content, csv_sha = _get_csv_from_github()
+        csv_content, csv_sha = _get_csv_from_github(coll)
         if csv_content and csv_sha:
             lines = csv_content.splitlines(keepends=True)
             new_lines = []
@@ -602,12 +611,12 @@ async def delete_card(request: Request, card_key: str,
                 low = line.lower()
                 if (c_set.lower() in low and c_num in low and
                         c_fin in low and c_lang in low):
-                    continue  # skip = delete
+                    continue
                 new_lines.append(line)
             if len(new_lines) < len(lines):
                 _update_csv_on_github(
                     "".join(new_lines), csv_sha,
-                    f"Remove {card_key} from collection (sold)"
+                    f"Remove {card_key} from collection (sold)", coll
                 )
 
     return RedirectResponse("/", status_code=302)
@@ -622,12 +631,13 @@ async def remove_card(request: Request, card_key: str):
 
     import json as _json
 
+    coll = user.get("collection", "")
     conn = get_db()
-    conn.execute("DELETE FROM price_history WHERE card_key=?", (card_key,))
+    conn.execute("DELETE FROM price_history WHERE card_key=? AND collection=?", (card_key, coll))
     conn.commit()
     conn.close()
 
-    json_content, json_sha = _get_json_from_github()
+    json_content, json_sha = _get_json_from_github(coll)
     if json_content and json_sha:
         try:
             data = _json.loads(json_content)
@@ -635,8 +645,7 @@ async def remove_card(request: Request, card_key: str):
                 del data[card_key]
                 _update_json_on_github(
                     _json.dumps(data, indent=2, ensure_ascii=False),
-                    json_sha,
-                    f"Remove {card_key} (correction)"
+                    json_sha, f"Remove {card_key} (correction)", coll
                 )
         except Exception:
             pass
@@ -647,7 +656,7 @@ async def remove_card(request: Request, card_key: str):
         c_num  = parts[1]
         c_fin  = parts[2]
         c_lang = parts[3]
-        csv_content, csv_sha = _get_csv_from_github()
+        csv_content, csv_sha = _get_csv_from_github(coll)
         if csv_content and csv_sha:
             lines = csv_content.splitlines(keepends=True)
             new_lines = [
@@ -658,7 +667,7 @@ async def remove_card(request: Request, card_key: str):
             if len(new_lines) < len(lines):
                 _update_csv_on_github(
                     "".join(new_lines), csv_sha,
-                    f"Remove {card_key} from collection (correction)"
+                    f"Remove {card_key} from collection (correction)", coll
                 )
 
     return RedirectResponse("/", status_code=302)
@@ -707,9 +716,11 @@ async def edit_card_lang(request: Request, card_key: str,
         except Exception:
             pass
 
+    coll = user.get("collection", "")
+
     # Update prezzi_riferimento.json (with retry)
     for _ in range(2):
-        json_content, json_sha = _get_json_from_github()
+        json_content, json_sha = _get_json_from_github(coll)
         if not json_content:
             break
         prezzi = json.loads(json_content)
@@ -722,14 +733,14 @@ async def edit_card_lang(request: Request, card_key: str,
             old_entry["ultimo_aggiornamento"] = datetime.now().isoformat()
             prezzi[new_key] = old_entry
         new_json = json.dumps(prezzi, ensure_ascii=False, indent=2)
-        if _update_json_on_github(new_json, json_sha, f"Edit card {card_key}->{new_key} fx={manual_fx}"):
-            (BASE_DIR / "prezzi_riferimento.json").write_text(new_json, encoding="utf-8")
+        if _update_json_on_github(new_json, json_sha, f"Edit card {card_key}->{new_key} fx={manual_fx}", coll):
+            (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(new_json, encoding="utf-8")
             break
 
-    # Rename key in storico_prezzi.json only if language changed
     if lang_changed:
         try:
-            url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/storico_prezzi.json"
+            storico_fname = _cf("storico_prezzi.json", coll)
+            url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{storico_fname}"
             r_st = requests.get(url_st, headers=_gh_headers(), timeout=15)
             if r_st.ok:
                 st_data = r_st.json()
@@ -745,8 +756,7 @@ async def edit_card_lang(request: Request, card_key: str,
         except Exception:
             pass
 
-        # Update CSV language
-        csv_content, csv_sha = _get_csv_from_github()
+        csv_content, csv_sha = _get_csv_from_github(coll)
         if csv_content and csv_sha:
             lines = csv_content.splitlines(keepends=True)
             new_lines = []
@@ -757,13 +767,12 @@ async def edit_card_lang(request: Request, card_key: str,
                     line = line.replace(f",{old_lang},", f",{new_lang},")
                 new_lines.append(line)
             _update_csv_on_github("".join(new_lines), csv_sha,
-                                  f"Edit lang {card_key}->{new_lang}")
+                                  f"Edit lang {card_key}->{new_lang}", coll)
 
-    # Update DB
     conn = get_db()
     conn.execute(
-        "UPDATE price_history SET card_key=?, language=?, frame_effects=? WHERE card_key=?",
-        (new_key, new_lang, manual_fx, card_key))
+        "UPDATE price_history SET card_key=?, language=?, frame_effects=? WHERE card_key=? AND collection=?",
+        (new_key, new_lang, manual_fx, card_key, coll))
     conn.commit()
     conn.close()
 
@@ -777,11 +786,13 @@ async def sold_list(request: Request):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    # GitHub is the source of truth; fallback to local DB
-    cards = _load_sold_from_github()
+    coll = user.get("collection", "")
+    cards = _load_sold_from_github(coll)
     if not cards:
         conn = get_db()
-        rows = conn.execute("SELECT * FROM sold_cards ORDER BY sold_at DESC").fetchall()
+        rows = conn.execute(
+            "SELECT * FROM sold_cards WHERE collection=? ORDER BY sold_at DESC", (coll,)
+        ).fetchall()
         conn.close()
         cards = [dict(row) for row in rows]
     total_sold_value = sum(float(c.get("last_price") or 0) for c in cards)
@@ -796,15 +807,14 @@ async def sold_delete(request: Request, sold_id: str):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    # Remove from GitHub
-    current_sold = _load_sold_from_github()
+    coll = user.get("collection", "")
+    current_sold = _load_sold_from_github(coll)
     new_sold = [e for e in current_sold if str(e.get("id", "")) != sold_id]
     if len(new_sold) < len(current_sold):
-        _save_sold_to_github(new_sold, f"Remove sold entry {sold_id}")
-    # Remove from DB (legacy integer IDs)
+        _save_sold_to_github(new_sold, f"Remove sold entry {sold_id}", coll)
     conn = get_db()
     try:
-        conn.execute("DELETE FROM sold_cards WHERE id=?", (int(sold_id),))
+        conn.execute("DELETE FROM sold_cards WHERE id=? AND collection=?", (int(sold_id), coll))
         conn.commit()
     except (ValueError, Exception):
         pass
@@ -821,14 +831,16 @@ async def sold_relist(request: Request, sold_id: str):
 
     import json as _json
 
+    coll = user.get("collection", "")
+
     # 1. Find and remove from vendute.json on GitHub
-    current_sold = _load_sold_from_github()
+    current_sold = _load_sold_from_github(coll)
     entry = next((e for e in current_sold if str(e.get("id", "")) == sold_id), None)
     if not entry:
         return RedirectResponse("/sold", status_code=302)
 
     new_sold = [e for e in current_sold if str(e.get("id", "")) != sold_id]
-    _save_sold_to_github(new_sold, f"Relist {entry.get('card_name', sold_id)}")
+    _save_sold_to_github(new_sold, f"Relist {entry.get('card_name', sold_id)}", coll)
 
     # 2. Add back to ManaBox_Collection.csv on GitHub
     name        = entry.get("card_name", "")
@@ -861,16 +873,15 @@ async def sold_relist(request: Request, sold_id: str):
                f'{col_num},{finish},{rarity},1,,{scryfall_id},'
                f'0,false,false,near_mint,{language},EUR,{now_str}\n')
 
-    csv_content, csv_sha = _get_csv_from_github()
+    csv_content, csv_sha = _get_csv_from_github(coll)
     if csv_content and csv_sha:
         updated = csv_content.rstrip("\n") + "\n" + new_row
-        _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})")
+        _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})", coll)
 
     # 3. Add back to prezzi_riferimento.json with current Scryfall price
     if scryfall_id:
-        _add_card_to_prezzi(name, set_code, set_name, col_num, finish, language, scryfall_id)
+        _add_card_to_prezzi(name, set_code, set_name, col_num, finish, language, scryfall_id, coll)
     elif set_code and col_num:
-        # Fallback: fetch price directly by set/number
         try:
             r = requests.get(
                 f"https://api.scryfall.com/cards/{set_code.lower()}/{col_num}",
@@ -879,7 +890,7 @@ async def sold_relist(request: Request, sold_id: str):
             if r.ok:
                 cd = r.json()
                 _add_card_to_prezzi(name, set_code, set_name, col_num,
-                                    finish, language, cd["id"])
+                                    finish, language, cd["id"], coll)
         except Exception:
             pass
 
@@ -891,10 +902,13 @@ async def sold_export(request: Request):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    cards = _load_sold_from_github()
+    coll = user.get("collection", "")
+    cards = _load_sold_from_github(coll)
     if not cards:
         conn = get_db()
-        rows = conn.execute("SELECT * FROM sold_cards ORDER BY sold_at DESC").fetchall()
+        rows = conn.execute(
+            "SELECT * FROM sold_cards WHERE collection=? ORDER BY sold_at DESC", (coll,)
+        ).fetchall()
         conn.close()
         cards = [dict(row) for row in rows]
     buf = io.StringIO()
@@ -924,7 +938,8 @@ async def sold_export(request: Request):
 
 def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                         collector_number: str, finish: str,
-                        language: str, scryfall_id: str) -> bool:
+                        language: str, scryfall_id: str,
+                        collection: str = "") -> bool:
     """Fetch current price from Scryfall and add card to prezzi_riferimento.json on GitHub."""
     try:
         r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
@@ -952,16 +967,15 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             "ultimo_aggiornamento": datetime.now().isoformat(),
         }
 
-        # Retry once on SHA conflict (tracker may have pushed between read and write)
         for _ in range(2):
-            json_content, sha = _get_json_from_github()
+            json_content, sha = _get_json_from_github(collection)
             prezzi = json.loads(json_content) if json_content else {}
             prezzi[card_key] = entry
             new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
-            if not sha or _update_json_on_github(new_content, sha, f"Add {name} price via webapp"):
+            if not sha or _update_json_on_github(new_content, sha, f"Add {name} price via webapp", collection):
                 break
 
-        local = BASE_DIR / "prezzi_riferimento.json"
+        local = BASE_DIR / _cf("prezzi_riferimento.json", collection)
         with open(local, "w", encoding="utf-8") as f:
             f.write(new_content)
         return True
@@ -1007,7 +1021,8 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         return templates.TemplateResponse("import_csv.html", ctx)
 
     # --- 2. Load existing CSV from GitHub ---
-    existing_content, existing_sha = _get_csv_from_github()
+    coll = user.get("collection", "")
+    existing_content, existing_sha = _get_csv_from_github(coll)
     if existing_content is None:
         ctx["error"] = "Impossibile leggere il CSV corrente da GitHub."
         return templates.TemplateResponse("import_csv.html", ctx)
@@ -1042,16 +1057,16 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
     for _ in range(2):
         ok_csv = _update_csv_on_github(
             updated_content, existing_sha,
-            f"Import {len(new_rows)} cards from ManaBox CSV"
+            f"Import {len(new_rows)} cards from ManaBox CSV", coll
         )
         if ok_csv:
             break
-        existing_content, existing_sha = _get_csv_from_github()
+        existing_content, existing_sha = _get_csv_from_github(coll)
 
     # --- 5. Batch-fetch prices from Scryfall (75 cards per request) ---
     prices_fetched = 0
     try:
-        json_content, json_sha = _get_json_from_github()
+        json_content, json_sha = _get_json_from_github(coll)
         prezzi = json.loads(json_content) if json_content else {}
         now_iso = datetime.now().isoformat()
 
@@ -1119,15 +1134,14 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         new_prezzi = json.dumps(prezzi, ensure_ascii=False, indent=2)
         for _ in range(2):
             if _update_json_on_github(new_prezzi, json_sha,
-                                      f"Add prices for {prices_fetched} imported cards"):
+                                      f"Add prices for {prices_fetched} imported cards", coll):
                 break
-            json_content, json_sha = _get_json_from_github()
+            json_content, json_sha = _get_json_from_github(coll)
             prezzi_existing = json.loads(json_content) if json_content else {}
             prezzi_existing.update(prezzi)
             new_prezzi = json.dumps(prezzi_existing, ensure_ascii=False, indent=2)
 
-        # Also update local file
-        (BASE_DIR / "prezzi_riferimento.json").write_text(new_prezzi, encoding="utf-8")
+        (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(new_prezzi, encoding="utf-8")
 
     except Exception:
         pass  # prices will be picked up by tracker on next run
@@ -1171,7 +1185,8 @@ async def add_card_post(
 
     ctx = {"request": request, "user": user, "error": None, "success": None}
 
-    csv_content, sha = _get_csv_from_github()
+    coll = user.get("collection", "")
+    csv_content, sha = _get_csv_from_github(coll)
     if csv_content is None:
         ctx["error"] = "Impossibile leggere il CSV da GitHub. Controlla GITHUB_TOKEN e GITHUB_REPO su Railway."
         return templates.TemplateResponse("add_card.html", ctx)
@@ -1185,11 +1200,11 @@ async def add_card_post(
                f'{purchase_price},false,false,near_mint,{lang},EUR,{now}\n')
 
     updated = csv_content.rstrip("\n") + "\n" + new_row
-    ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp")
+    ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp", coll)
 
     if ok:
         _add_card_to_prezzi(name, set_code, set_name, collector_number,
-                            foil, language, scryfall_id)
+                            foil, language, scryfall_id, coll)
         ctx["success"] = f"'{name}' aggiunta alla collezione!"
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
@@ -1200,9 +1215,9 @@ async def add_card_post(
 
 SEALED_JSON = "sealed_products.json"
 
-def _get_sealed_from_github():
+def _get_sealed_from_github(collection=""):
     try:
-        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SEALED_JSON}"
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf(SEALED_JSON, collection)}"
         r = requests.get(url, headers=_gh_headers(), timeout=15)
         if r.ok:
             d = r.json()
@@ -1213,9 +1228,9 @@ def _get_sealed_from_github():
         pass
     return None, None
 
-def _update_sealed_on_github(content: str, sha, message: str) -> bool:
+def _update_sealed_on_github(content: str, sha, message: str, collection="") -> bool:
     try:
-        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SEALED_JSON}"
+        url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf(SEALED_JSON, collection)}"
         payload = {"message": message, "content": base64.b64encode(content.encode()).decode()}
         if sha:
             payload["sha"] = sha
@@ -1224,14 +1239,14 @@ def _update_sealed_on_github(content: str, sha, message: str) -> bool:
     except Exception:
         return False
 
-def _load_sealed_local():
-    local = BASE_DIR / SEALED_JSON
+def _load_sealed_local(collection=""):
+    local = BASE_DIR / _cf(SEALED_JSON, collection)
     if local.exists():
         try:
             return json.loads(local.read_text(encoding="utf-8"))
         except Exception:
             pass
-    content, _ = _get_sealed_from_github()
+    content, _ = _get_sealed_from_github(collection)
     if content:
         try:
             return json.loads(content)
@@ -1246,7 +1261,8 @@ async def sealed_list(request: Request):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    products = _load_sealed_local()
+    coll = user.get("collection", "")
+    products = _load_sealed_local(coll)
     total_purchase = sum(float(p.get("purchase_price", 0)) * int(p.get("quantity", 1))
                          for p in products)
     total_current  = sum((float(p.get("current_price") or p.get("purchase_price", 0)))
@@ -1272,11 +1288,12 @@ async def sealed_add(request: Request,
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
+    coll = user.get("collection", "")
     purchase = float(purchase_price) if purchase_price else 0.0
     current  = float(current_price)  if current_price  else purchase
     qty      = max(1, int(quantity)  if quantity        else 1)
     for _ in range(2):
-        content, sha = _get_sealed_from_github()
+        content, sha = _get_sealed_from_github(coll)
         if content is None:
             break
         products = json.loads(content)
@@ -1290,8 +1307,8 @@ async def sealed_add(request: Request,
             "last_updated": datetime.now().isoformat(),
         })
         new_content = json.dumps(products, ensure_ascii=False, indent=2)
-        if _update_sealed_on_github(new_content, sha, f"Add sealed: {name}"):
-            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+        if _update_sealed_on_github(new_content, sha, f"Add sealed: {name}", coll):
+            (BASE_DIR / _cf(SEALED_JSON, coll)).write_text(new_content, encoding="utf-8")
             break
     return RedirectResponse("/sealed", status_code=302)
 
@@ -1302,8 +1319,9 @@ async def sealed_update(request: Request, item_id: str,
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
+    coll = user.get("collection", "")
     for _ in range(2):
-        content, sha = _get_sealed_from_github()
+        content, sha = _get_sealed_from_github(coll)
         if content is None:
             break
         products = json.loads(content)
@@ -1313,11 +1331,10 @@ async def sealed_update(request: Request, item_id: str,
                 p["last_updated"]  = datetime.now().isoformat()
                 break
         new_content = json.dumps(products, ensure_ascii=False, indent=2)
-        if _update_sealed_on_github(new_content, sha, f"Update sealed price id={item_id}"):
-            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+        if _update_sealed_on_github(new_content, sha, f"Update sealed price id={item_id}", coll):
+            (BASE_DIR / _cf(SEALED_JSON, coll)).write_text(new_content, encoding="utf-8")
             break
     return RedirectResponse("/sealed", status_code=302)
-
 
 
 @app.post("/sealed/delete/{item_id}")
@@ -1325,15 +1342,16 @@ async def sealed_delete(request: Request, item_id: str):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
+    coll = user.get("collection", "")
     for _ in range(2):
-        content, sha = _get_sealed_from_github()
+        content, sha = _get_sealed_from_github(coll)
         if content is None:
             break
         products = json.loads(content)
         products = [p for p in products if str(p.get("id")) != item_id]
         new_content = json.dumps(products, ensure_ascii=False, indent=2)
-        if _update_sealed_on_github(new_content, sha, f"Delete sealed id={item_id}"):
-            (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
+        if _update_sealed_on_github(new_content, sha, f"Delete sealed id={item_id}", coll):
+            (BASE_DIR / _cf(SEALED_JSON, coll)).write_text(new_content, encoding="utf-8")
             break
     return RedirectResponse("/sealed", status_code=302)
 
