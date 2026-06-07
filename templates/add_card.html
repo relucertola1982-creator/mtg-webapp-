@@ -5,20 +5,21 @@
 <div style="max-width:760px; margin:0 auto;">
 
   <div style="margin-bottom:2rem;">
-    <h1 class="page-title">Aggiungi Carta</h1>
-    <p class="page-sub">Cerca la carta su Scryfall, scegli la versione e salvala nella tua collezione</p>
+    <h1 class="page-title" data-i18n="add-title">Aggiungi Carta</h1>
+    <p class="page-sub" data-i18n="add-subtitle">
+      Cerca la carta su Scryfall, scegli la versione e salvala nella tua collezione
+    </p>
   </div>
 
-  <!-- Alert messages -->
   {% if success %}
-  <div style="background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.35);
+  <div style="background:rgba(74,222,128,0.09); border:1px solid rgba(74,222,128,0.32);
               border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem;
               color:#4ade80; display:flex; align-items:center; gap:0.7rem;">
     ✅ {{ success }}
   </div>
   {% endif %}
   {% if error %}
-  <div style="background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.35);
+  <div style="background:rgba(248,113,113,0.09); border:1px solid rgba(248,113,113,0.32);
               border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem;
               color:#f87171; display:flex; align-items:center; gap:0.7rem;">
     ⚠️ {{ error }}
@@ -32,40 +33,41 @@
 
       <!-- Search -->
       <div style="margin-bottom:1.5rem;">
-        <label style="display:block; font-size:0.72rem; font-weight:600;
-                      color:rgba(200,200,200,0.5); text-transform:uppercase;
-                      letter-spacing:0.1em; margin-bottom:0.5rem;">Cerca Carta</label>
+        <label style="display:block; font-size:0.68rem; font-weight:700;
+                      color:rgba(200,200,220,0.4); text-transform:uppercase;
+                      letter-spacing:0.14em; margin-bottom:0.5rem;"
+               data-i18n="add-search-label">Cerca Carta</label>
         <div style="position:relative;">
           <input type="text" id="search-input" class="inp" style="width:100%; padding-right:2.5rem;"
                  placeholder="es. Black Lotus, Lightning Bolt..." autocomplete="off">
           <div id="search-spinner" style="display:none; position:absolute; right:0.8rem; top:50%;
                transform:translateY(-50%); color:rgba(200,155,60,0.6); font-size:1rem;">⟳</div>
         </div>
-        <!-- Autocomplete dropdown -->
         <div id="autocomplete" style="
           display:none; position:absolute; z-index:100;
-          background:rgba(12,12,28,0.98); border:1px solid rgba(200,155,60,0.25);
+          background:rgba(10,10,26,0.98); border:1px solid rgba(200,155,60,0.22);
           border-radius:10px; margin-top:4px; overflow:hidden;
-          box-shadow:0 8px 32px rgba(0,0,0,0.7); max-height:260px; overflow-y:auto;">
+          box-shadow:0 8px 36px rgba(0,0,0,0.7); max-height:260px; overflow-y:auto;">
         </div>
       </div>
 
       <!-- Set picker -->
       <div id="set-section" style="display:none; margin-bottom:1.5rem;">
-        <label style="display:block; font-size:0.72rem; font-weight:600;
-                      color:rgba(200,200,200,0.5); text-transform:uppercase;
-                      letter-spacing:0.1em; margin-bottom:0.5rem;">Edizione / Set</label>
-        <select id="set-select" class="inp" style="width:100%;">
-        </select>
+        <label style="display:block; font-size:0.68rem; font-weight:700;
+                      color:rgba(200,200,220,0.4); text-transform:uppercase;
+                      letter-spacing:0.14em; margin-bottom:0.5rem;"
+               data-i18n="add-set-label">Edizione / Set</label>
+        <select id="set-select" class="inp" style="width:100%;"></select>
       </div>
 
       <!-- Finish + Language -->
       <div id="foil-section" style="display:none; margin-bottom:1.5rem;">
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
           <div>
-            <label style="display:block; font-size:0.72rem; font-weight:600;
-                          color:rgba(200,200,200,0.5); text-transform:uppercase;
-                          letter-spacing:0.1em; margin-bottom:0.5rem;">Finitura</label>
+            <label style="display:block; font-size:0.68rem; font-weight:700;
+                          color:rgba(200,200,220,0.4); text-transform:uppercase;
+                          letter-spacing:0.14em; margin-bottom:0.5rem;"
+                   data-i18n="add-finish-label">Finitura</label>
             <select id="finish-select" class="inp" style="width:100%;">
               <option value="normal">📄 Normal</option>
               <option value="foil">✨ Foil</option>
@@ -73,9 +75,10 @@
             </select>
           </div>
           <div>
-            <label style="display:block; font-size:0.72rem; font-weight:600;
-                          color:rgba(200,200,200,0.5); text-transform:uppercase;
-                          letter-spacing:0.1em; margin-bottom:0.5rem;">Lingua</label>
+            <label style="display:block; font-size:0.68rem; font-weight:700;
+                          color:rgba(200,200,220,0.4); text-transform:uppercase;
+                          letter-spacing:0.14em; margin-bottom:0.5rem;"
+                   data-i18n="add-lang-label">Lingua</label>
             <select id="lang-select" class="inp" style="width:100%;">
               <option value="en">🇬🇧 English</option>
               <option value="it">🇮🇹 Italiano</option>
@@ -91,12 +94,10 @@
             </select>
           </div>
         </div>
-        <!-- Frame effects (auto-detect) -->
         <div id="fx-wrap" style="margin-top:0.8rem; display:none;">
-          <div style="font-size:0.72rem; font-weight:600; color:rgba(200,200,200,0.45);
-                      text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">
-            Versione Speciale
-          </div>
+          <div style="font-size:0.68rem; font-weight:700; color:rgba(200,200,220,0.4);
+                      text-transform:uppercase; letter-spacing:0.14em; margin-bottom:0.4rem;"
+               data-i18n="add-fx-label">Versione Speciale</div>
           <div id="fx-tags" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
         </div>
       </div>
@@ -105,16 +106,18 @@
       <div id="price-section" style="display:none; margin-bottom:2rem;">
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
           <div>
-            <label style="display:block; font-size:0.72rem; font-weight:600;
-                          color:rgba(200,200,200,0.5); text-transform:uppercase;
-                          letter-spacing:0.1em; margin-bottom:0.5rem;">Prezzo Acquisto (€)</label>
+            <label style="display:block; font-size:0.68rem; font-weight:700;
+                          color:rgba(200,200,220,0.4); text-transform:uppercase;
+                          letter-spacing:0.14em; margin-bottom:0.5rem;"
+                   data-i18n="add-price-label">Prezzo Acquisto (€)</label>
             <input type="number" id="price-input" class="inp" style="width:100%;"
                    min="0" step="0.01" value="0.00" placeholder="0.00">
           </div>
           <div>
-            <label style="display:block; font-size:0.72rem; font-weight:600;
-                          color:rgba(200,200,200,0.5); text-transform:uppercase;
-                          letter-spacing:0.1em; margin-bottom:0.5rem;">Quantità</label>
+            <label style="display:block; font-size:0.68rem; font-weight:700;
+                          color:rgba(200,200,220,0.4); text-transform:uppercase;
+                          letter-spacing:0.14em; margin-bottom:0.5rem;"
+                   data-i18n="add-qty-label">Quantità</label>
             <input type="number" id="qty-input" class="inp" style="width:100%;"
                    min="1" value="1">
           </div>
@@ -136,7 +139,8 @@
         <input type="hidden" name="quantity"         id="f-qty" value="1">
 
         <button type="submit" id="submit-btn" disabled class="btn btn-gold"
-                style="width:100%; padding:0.9rem; font-size:1rem; opacity:0.4; cursor:not-allowed;">
+                style="width:100%; padding:0.9rem; font-size:1rem; opacity:0.4; cursor:not-allowed;"
+                data-i18n="add-btn">
           ➕ Aggiungi alla Collezione
         </button>
       </form>
@@ -147,10 +151,10 @@
     <div>
       <div id="preview-wrap" style="
         border-radius:14px; overflow:hidden; aspect-ratio:5/7;
-        background:rgba(0,0,0,0.3); border:1px solid rgba(200,155,60,0.15);
+        background:rgba(0,0,0,0.28); border:1px solid rgba(200,155,60,0.14);
         display:flex; align-items:center; justify-content:center;
         transition:all 0.3s;">
-        <div style="text-align:center; color:rgba(200,200,200,0.2);">
+        <div style="text-align:center; color:rgba(200,200,220,0.18);">
           <div style="font-size:3rem; margin-bottom:0.5rem;">🃏</div>
           <div style="font-size:0.75rem;">Cerca una carta</div>
         </div>
@@ -158,7 +162,7 @@
       <div id="card-meta" style="margin-top:0.8rem; display:none;">
         <div id="meta-name" style="font-family:'Cinzel',serif; color:var(--gold);
              font-size:0.95rem; font-weight:600; margin-bottom:0.2rem;"></div>
-        <div id="meta-set" style="color:rgba(200,200,200,0.5); font-size:0.78rem;"></div>
+        <div id="meta-set" style="color:rgba(200,200,220,0.45); font-size:0.78rem;"></div>
         <div id="meta-price" style="color:#4ade80; font-size:0.85rem; margin-top:0.3rem; font-weight:600;"></div>
       </div>
     </div>
@@ -183,7 +187,6 @@ const submitBtn     = document.getElementById('submit-btn');
 const previewWrap   = document.getElementById('preview-wrap');
 const cardMeta      = document.getElementById('card-meta');
 
-// ── Autocomplete ──────────────────────────────────────────────
 searchInput.addEventListener('input', () => {
   clearTimeout(debounceTimer);
   const q = searchInput.value.trim();
@@ -204,12 +207,11 @@ function showAutocomplete(names) {
   autocomplete.innerHTML = names.slice(0, 12).map(n =>
     `<div class="ac-item" style="
       padding:0.65rem 1rem; cursor:pointer; font-size:0.875rem;
-      color:rgba(220,220,220,0.9); transition:background 0.15s;"
-      onmouseover="this.style.background='rgba(200,155,60,0.1)'"
+      color:rgba(225,225,240,0.88); transition:background 0.15s;"
+      onmouseover="this.style.background='rgba(200,155,60,0.09)'"
       onmouseout="this.style.background=''"
       onclick="selectName('${n.replace(/'/g, "\\'")}')">${n}</div>`
   ).join('');
-  // Position below input
   const rect = searchInput.getBoundingClientRect();
   autocomplete.style.width = searchInput.offsetWidth + 'px';
   autocomplete.style.left  = searchInput.offsetLeft + 'px';
@@ -221,7 +223,6 @@ document.addEventListener('click', e => {
     autocomplete.style.display = 'none';
 });
 
-// ── Select card name → load all printings ────────────────────
 async function selectName(name) {
   autocomplete.style.display = 'none';
   searchInput.value = name;
@@ -229,7 +230,6 @@ async function selectName(name) {
   foilSection.style.display = 'none';
   priceSection.style.display = 'none';
   disableSubmit();
-
   try {
     const r = await fetch(
       `https://api.scryfall.com/cards/search?q=!"${encodeURIComponent(name)}"&unique=prints&order=released&dir=asc`
@@ -250,35 +250,28 @@ function buildSetSelector(printings) {
 }
 
 setSelect.addEventListener('change', () => {
-  const idx = parseInt(setSelect.value);
-  selectPrinting(allPrintings[idx]);
+  selectPrinting(allPrintings[parseInt(setSelect.value)]);
 });
 
-// ── Load one printing ────────────────────────────────────────
 function selectPrinting(card) {
   selectedCard = card;
   updatePreview(card);
   foilSection.style.display = 'block';
   priceSection.style.display = 'block';
 
-  // Update available finishes
   const finSelect = document.getElementById('finish-select');
   const finishes = card.finishes || ['nonfoil'];
   finSelect.innerHTML = '';
-  if (finishes.includes('nonfoil'))
-    finSelect.innerHTML += '<option value="normal">📄 Normal</option>';
-  if (finishes.includes('foil'))
-    finSelect.innerHTML += '<option value="foil">✨ Foil</option>';
-  if (finishes.includes('etched'))
-    finSelect.innerHTML += '<option value="etched">🔆 Etched</option>';
+  if (finishes.includes('nonfoil')) finSelect.innerHTML += '<option value="normal">📄 Normal</option>';
+  if (finishes.includes('foil'))    finSelect.innerHTML += '<option value="foil">✨ Foil</option>';
+  if (finishes.includes('etched'))  finSelect.innerHTML += '<option value="etched">🔆 Etched</option>';
 
-  // Frame effects badges
   const fxWrap = document.getElementById('fx-wrap');
   const fxTags = document.getElementById('fx-tags');
   const fx = card.frame_effects || [];
   if (fx.length) {
     fxTags.innerHTML = fx.map(f =>
-      `<span style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);
+      `<span style="background:rgba(139,92,246,0.11);border:1px solid rgba(139,92,246,0.32);
        color:#a78bfa;padding:0.15rem 0.6rem;border-radius:20px;font-size:0.75rem;">
        ${f.charAt(0).toUpperCase()+f.slice(1)}</span>`
     ).join('');
@@ -305,14 +298,10 @@ function updateSuggestedPrice() {
 document.getElementById('finish-select').addEventListener('change', updateSuggestedPrice);
 
 function updatePreview(card) {
-  const imgUrl = card.image_uris?.normal
-              || card.image_uris?.large
-              || card.card_faces?.[0]?.image_uris?.normal;
-
+  const imgUrl = card.image_uris?.normal || card.image_uris?.large || card.card_faces?.[0]?.image_uris?.normal;
   if (imgUrl) {
     previewWrap.innerHTML = `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;" alt="${card.name}">`;
   }
-
   const eur = card.prices?.eur || card.prices?.eur_foil;
   document.getElementById('meta-name').textContent  = card.name;
   document.getElementById('meta-set').textContent   = `${card.set_name} · #${card.collector_number} · ${card.rarity}`;
@@ -320,17 +309,11 @@ function updatePreview(card) {
   cardMeta.style.display = 'block';
 }
 
-
-// ── Submit ───────────────────────────────────────────────────
 function enableSubmit() {
-  submitBtn.disabled = false;
-  submitBtn.style.opacity = '1';
-  submitBtn.style.cursor  = 'pointer';
+  submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.style.cursor = 'pointer';
 }
 function disableSubmit() {
-  submitBtn.disabled = true;
-  submitBtn.style.opacity = '0.4';
-  submitBtn.style.cursor  = 'not-allowed';
+  submitBtn.disabled = true; submitBtn.style.opacity = '0.4'; submitBtn.style.cursor = 'not-allowed';
 }
 
 document.getElementById('submit-form').addEventListener('submit', () => {

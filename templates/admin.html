@@ -4,49 +4,49 @@
 {% block content %}
 
 <div style="margin-bottom:2rem;">
-  <h1 class="page-title">Pannello Admin</h1>
-  <p class="page-sub">Gestisci gli utenti che possono accedere all'app</p>
+  <h1 class="page-title" data-i18n="admin-title">Pannello Admin</h1>
+  <p class="page-sub" data-i18n="admin-subtitle">Gestisci gli utenti che possono accedere all'app</p>
 </div>
 
 <!-- Add user -->
 <div class="glass" style="padding:2rem; margin-bottom:2rem;">
   <h2 style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.9rem;
-             text-transform:uppercase; letter-spacing:0.12em; margin-bottom:1.4rem;">
-    ➕ Aggiungi Utente
-  </h2>
+             text-transform:uppercase; letter-spacing:0.12em; margin-bottom:1.4rem;"
+      data-i18n="admin-add-user">➕ Aggiungi Utente</h2>
   <form method="post" action="/admin/add-user"
         style="display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end;">
     <div>
-      <label style="display:block; font-size:0.7rem; font-weight:600;
-                    color:rgba(200,200,200,0.45); text-transform:uppercase;
-                    letter-spacing:0.1em; margin-bottom:0.4rem;">Username</label>
+      <label style="display:block; font-size:0.68rem; font-weight:700;
+                    color:rgba(200,200,220,0.4); text-transform:uppercase;
+                    letter-spacing:0.14em; margin-bottom:0.4rem;">Username</label>
       <input type="text" name="username" required class="inp" style="width:180px;" placeholder="username">
     </div>
     <div>
-      <label style="display:block; font-size:0.7rem; font-weight:600;
-                    color:rgba(200,200,200,0.45); text-transform:uppercase;
-                    letter-spacing:0.1em; margin-bottom:0.4rem;">Password</label>
+      <label style="display:block; font-size:0.68rem; font-weight:700;
+                    color:rgba(200,200,220,0.4); text-transform:uppercase;
+                    letter-spacing:0.14em; margin-bottom:0.4rem;">Password</label>
       <input type="password" name="password" required class="inp" style="width:180px;" placeholder="••••••••">
     </div>
     <div>
-      <label style="display:block; font-size:0.7rem; font-weight:600;
-                    color:rgba(200,200,200,0.45); text-transform:uppercase;
-                    letter-spacing:0.1em; margin-bottom:0.4rem;">Telegram Chat ID <span style="opacity:0.5;">(opzionale)</span></label>
+      <label style="display:block; font-size:0.68rem; font-weight:700;
+                    color:rgba(200,200,220,0.4); text-transform:uppercase;
+                    letter-spacing:0.14em; margin-bottom:0.4rem;">
+        Telegram Chat ID <span style="opacity:0.45; font-weight:400;">(opzionale)</span>
+      </label>
       <input type="text" name="telegram_chat_id" class="inp" style="width:200px;" placeholder="es. 1161277005">
     </div>
-    <button type="submit" class="btn btn-gold">Aggiungi</button>
+    <button type="submit" class="btn btn-gold" data-i18n="admin-add-user">Aggiungi</button>
   </form>
 </div>
 
 <!-- Users list -->
 <div class="glass" style="overflow:hidden;">
-  <div style="padding:1.4rem 1.6rem; border-bottom:1px solid rgba(200,155,60,0.15);
+  <div style="padding:1.4rem 1.6rem; border-bottom:1px solid rgba(200,155,60,0.13);
               display:flex; align-items:center; justify-content:space-between;">
     <h2 style="font-family:'Cinzel',serif; color:var(--gold); font-size:0.9rem;
-               text-transform:uppercase; letter-spacing:0.12em;">
-      Utenti Registrati
-    </h2>
-    <span style="font-size:0.82rem; color:rgba(200,200,200,0.4);">{{ users|length }} totali</span>
+               text-transform:uppercase; letter-spacing:0.12em;"
+        data-i18n="admin-users">Utenti Registrati</h2>
+    <span style="font-size:0.82rem; color:rgba(200,200,220,0.38);">{{ users|length }} totali</span>
   </div>
 
   <table class="mtg-table">
@@ -55,39 +55,38 @@
         <th>#</th>
         <th>Username</th>
         <th>Telegram Chat ID</th>
-        <th>Ruolo</th>
-        <th>Registrato</th>
-        <th>Azioni</th>
+        <th data-i18n="admin-role">Ruolo</th>
+        <th data-i18n="admin-registered">Registrato</th>
+        <th data-i18n="admin-actions">Azioni</th>
       </tr>
     </thead>
     <tbody>
       {% for u in users %}
       <tr>
-        <td style="color:rgba(200,200,200,0.3); font-size:0.8rem;">{{ u.id }}</td>
+        <td style="color:rgba(200,200,220,0.28); font-size:0.8rem;">{{ u.id }}</td>
         <td style="font-weight:500;">{{ u.username }}</td>
-        <td style="color:rgba(200,200,200,0.55); font-size:0.82rem; font-family:monospace;">
+        <td style="color:rgba(200,200,220,0.52); font-size:0.82rem; font-family:monospace;">
           {{ u.telegram_chat_id or '—' }}
         </td>
         <td>
           {% if u.is_admin %}
             <span class="badge badge-admin">⭐ Admin</span>
           {% else %}
-            <span class="badge badge-normal">Utente</span>
+            <span class="badge badge-normal" data-i18n="admin-user-role">Utente</span>
           {% endif %}
         </td>
-        <td style="color:rgba(200,200,200,0.4); font-size:0.8rem;">
+        <td style="color:rgba(200,200,220,0.38); font-size:0.8rem;">
           {{ u.created_at[:10] if u.created_at else '—' }}
         </td>
         <td>
           {% if not u.is_admin %}
           <form method="post" action="/admin/delete-user/{{ u.id }}" style="display:inline;"
                 onsubmit="return confirm('Eliminare l\'utente {{ u.username }}?')">
-            <button type="submit" class="btn btn-danger" style="padding:0.3rem 0.8rem; font-size:0.78rem;">
-              Elimina
-            </button>
+            <button type="submit" class="btn btn-danger" style="padding:0.3rem 0.8rem; font-size:0.78rem;"
+                    data-i18n="admin-delete">Elimina</button>
           </form>
           {% else %}
-          <span style="color:rgba(200,200,200,0.2); font-size:0.8rem;">—</span>
+          <span style="color:rgba(200,200,220,0.18); font-size:0.8rem;">—</span>
           {% endif %}
         </td>
       </tr>
