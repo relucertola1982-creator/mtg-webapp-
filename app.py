@@ -307,14 +307,18 @@ async def card_detail(request: Request, card_key: str):
     if not card:
         raise HTTPException(status_code=404, detail="Carta non trovata")
 
-    conn = get_db()
-    history = conn.execute(
-        "SELECT price, recorded_at FROM price_history WHERE card_key=? ORDER BY recorded_at ASC",
-        (card_key,)
-    ).fetchall()
-    conn.close()
-
-    history_data = [{"price": h["price"], "date": h["recorded_at"]} for h in history]
+    # GitHub is the persistent source; DB is a short-lived fallback
+    gh_history = _get_history_from_github(card_key)
+    if gh_history:
+        history_data = [{"price": h["price"], "date": h["date"]} for h in gh_history]
+    else:
+        conn = get_db()
+        rows = conn.execute(
+            "SELECT price, recorded_at FROM price_history WHERE card_key=? ORDER BY recorded_at ASC",
+            (card_key,)
+        ).fetchall()
+        conn.close()
+        history_data = [{"price": h["price"], "date": h["recorded_at"]} for h in rows]
 
     return templates.TemplateResponse("card.html", {
         "request": request, "user": user,
@@ -419,6 +423,33 @@ def _get_json_from_github():
     except Exception:
         pass
     return None, None
+
+
+def _get_history_from_github(card_key: str) -> list:
+    """Read price history for one card from storico_prezzi.json on GitHub."""
+    if not GITHUB_REPO:
+        return []
+    headers = {"Accept": "application/vnd.github.v3.raw"}
+    if GITHUB_TOKEN:
+        headers["Authorization"] = f"token {GITHUB_TOKEN}"
+    for branch in ("main", "master"):
+        url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/storico_prezzi.json"
+        try:
+            r = requests.get(url, headers=headers, timeout=15)
+            if r.ok:
+                return r.json().get(card_key, [])
+        except Exception:
+            continue
+    # Fallback: local file (populated after first tracker run)
+    local = BASE_DIR / "storico_prezzi.json"
+    if local.exists():
+        try:
+            import json as _json
+            with open(local, encoding="utf-8") as f:
+                return _json.load(f).get(card_key, [])
+        except Exception:
+            pass
+    return []
 
 
 def _load_sold_from_github() -> list:

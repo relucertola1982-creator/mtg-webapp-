@@ -13,6 +13,7 @@ TELEGRAM_CHAT_ID = "1161277005"
 SOGLIA_PERCENTUALE = 10
 CSV_PATH = "ManaBox_Collection.csv"
 PREZZI_SALVATI_PATH = "prezzi_riferimento.json"
+STORICO_PATH = "storico_prezzi.json"
 SLEEP_TRA_CARTE = 0.2
 HEADERS = {"User-Agent": "MTGPriceTracker/1.0 (Ale823 personal collection tracker)", "Accept": "application/json"}
 
@@ -101,6 +102,19 @@ def carica_prezzi_salvati():
 def salva_prezzi(prezzi):
     with open(PREZZI_SALVATI_PATH, "w") as f:
         json.dump(prezzi, f, indent=2, ensure_ascii=False)
+
+def carica_storico():
+    if os.path.exists(STORICO_PATH):
+        try:
+            with open(STORICO_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+def salva_storico(storico):
+    with open(STORICO_PATH, "w", encoding="utf-8") as f:
+        json.dump(storico, f, indent=2, ensure_ascii=False)
 
 def leggi_collection(csv_path):
     carte = []
@@ -198,9 +212,18 @@ def controlla_prezzi():
         else:
             print(f"  🆕 {'✨' if foil else '📄'} {nome}: €{prezzo_attuale:.2f} (primo rilevamento)")
 
-    # Salva solo le carte attualmente in collezione (rimuove le vendute)
-    prezzi_salvati.update(prezzi_aggiornati)
+    # Salva prezzi correnti
     salva_prezzi(prezzi_aggiornati)
+
+    # Aggiorna storico (su GitHub tramite commit del workflow)
+    storico = carica_storico()
+    for chiave, dati in prezzi_aggiornati.items():
+        prezzo = dati["prezzo"]
+        punti = storico.get(chiave, [])
+        if not punti or abs(punti[-1]["price"] - prezzo) > 0.001:
+            punti.append({"price": prezzo, "date": dati["ultimo_aggiornamento"]})
+            storico[chiave] = punti[-500:]  # massimo 500 punti per carta
+    salva_storico(storico)
 
     print(f"\n{'='*50}")
     print(f"✅ Trovate e salvate: {len(prezzi_aggiornati)} carte")
