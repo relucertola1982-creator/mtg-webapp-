@@ -351,15 +351,26 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T14:00:04.478174"
   },
-  "MUL_97_etched_en": {
-    "nome": "Arixmethes, Slumbering Isle",
-    "set": "Multiverse Legends",
-    "set_code": "MUL",
-    "collector_number": "97",
-    "prezzo": 1.07,
-    "foil": true,
-    "finish": "etched",
+  "SOA_44_normal_en": {
+    "nome": "Jeska's Will",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "44",
+    "prezzo": 30.12,
+    "foil": false,
+    "finish": "normal",
     "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T14:00:04.798266"
+    "ultimo_aggiornamento": "2026-06-07T16:38:01.030684"
+  },
+  "DSC_211_normal_en": {
+    "nome": "Arixmethes, Slumbering Isle",
+    "set": "Duskmourn: House of Horror Commander",
+    "set_code": "DSC",
+    "collector_number": "211",
+    "prezzo": 0.92,
+    "foil": false,
+    "finish": "normal",
+    "language": "en",
+    "ultimo_aggiornamento": "2026-06-07T16:38:01.528977"
   }
 }
