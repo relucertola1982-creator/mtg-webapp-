@@ -59,26 +59,45 @@
         </select>
       </div>
 
-      <!-- Foil toggle -->
+      <!-- Finish + Language -->
       <div id="foil-section" style="display:none; margin-bottom:1.5rem;">
-        <label style="display:block; font-size:0.72rem; font-weight:600;
-                      color:rgba(200,200,200,0.5); text-transform:uppercase;
-                      letter-spacing:0.1em; margin-bottom:0.7rem;">Tipo</label>
-        <div style="display:flex; gap:0.7rem;">
-          <label id="lbl-normal" style="
-            flex:1; text-align:center; padding:0.65rem; border-radius:8px; cursor:pointer;
-            border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05);
-            color:rgba(200,200,200,0.7); transition:all 0.18s; user-select:none;">
-            <input type="radio" name="foil-type" value="normal" style="display:none;" checked>
-            📄 Normal
-          </label>
-          <label id="lbl-foil" style="
-            flex:1; text-align:center; padding:0.65rem; border-radius:8px; cursor:pointer;
-            border:1px solid rgba(200,155,60,0.2); background:rgba(200,155,60,0.05);
-            color:rgba(200,200,200,0.7); transition:all 0.18s; user-select:none;">
-            <input type="radio" name="foil-type" value="foil" style="display:none;">
-            ✨ Foil
-          </label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div>
+            <label style="display:block; font-size:0.72rem; font-weight:600;
+                          color:rgba(200,200,200,0.5); text-transform:uppercase;
+                          letter-spacing:0.1em; margin-bottom:0.5rem;">Finitura</label>
+            <select id="finish-select" class="inp" style="width:100%;">
+              <option value="normal">📄 Normal</option>
+              <option value="foil">✨ Foil</option>
+              <option value="etched">🔆 Etched</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block; font-size:0.72rem; font-weight:600;
+                          color:rgba(200,200,200,0.5); text-transform:uppercase;
+                          letter-spacing:0.1em; margin-bottom:0.5rem;">Lingua</label>
+            <select id="lang-select" class="inp" style="width:100%;">
+              <option value="en">🇬🇧 English</option>
+              <option value="it">🇮🇹 Italiano</option>
+              <option value="ja">🇯🇵 Japanese</option>
+              <option value="ko">🇰🇷 Korean</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="de">🇩🇪 Deutsch</option>
+              <option value="es">🇪🇸 Español</option>
+              <option value="pt">🇵🇹 Português</option>
+              <option value="ru">🇷🇺 Russian</option>
+              <option value="zhs">🇨🇳 Chinese (S)</option>
+              <option value="zht">🇹🇼 Chinese (T)</option>
+            </select>
+          </div>
+        </div>
+        <!-- Frame effects (auto-detect) -->
+        <div id="fx-wrap" style="margin-top:0.8rem; display:none;">
+          <div style="font-size:0.72rem; font-weight:600; color:rgba(200,200,200,0.45);
+                      text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.4rem;">
+            Versione Speciale
+          </div>
+          <div id="fx-tags" style="display:flex; gap:0.4rem; flex-wrap:wrap;"></div>
         </div>
       </div>
 
@@ -111,6 +130,8 @@
         <input type="hidden" name="scryfall_id"      id="f-scryfall-id">
         <input type="hidden" name="rarity"           id="f-rarity">
         <input type="hidden" name="foil"             id="f-foil" value="normal">
+        <input type="hidden" name="language"         id="f-lang" value="en">
+        <input type="hidden" name="frame_effects"    id="f-fx" value="">
         <input type="hidden" name="purchase_price"   id="f-price" value="0">
         <input type="hidden" name="quantity"         id="f-qty" value="1">
 
@@ -240,17 +261,48 @@ function selectPrinting(card) {
   foilSection.style.display = 'block';
   priceSection.style.display = 'block';
 
-  // Pre-fill price with Scryfall EUR price
-  const priceInput = document.getElementById('price-input');
-  const foilRadio  = document.querySelector('input[name="foil-type"]:checked');
-  const isFoil     = foilRadio && foilRadio.value === 'foil';
-  const eur = isFoil
-    ? (card.prices?.eur_foil || card.prices?.eur || '0')
-    : (card.prices?.eur || card.prices?.eur_foil || '0');
-  priceInput.value = parseFloat(eur || 0).toFixed(2);
+  // Update available finishes
+  const finSelect = document.getElementById('finish-select');
+  const finishes = card.finishes || ['nonfoil'];
+  finSelect.innerHTML = '';
+  if (finishes.includes('nonfoil'))
+    finSelect.innerHTML += '<option value="normal">📄 Normal</option>';
+  if (finishes.includes('foil'))
+    finSelect.innerHTML += '<option value="foil">✨ Foil</option>';
+  if (finishes.includes('etched'))
+    finSelect.innerHTML += '<option value="etched">🔆 Etched</option>';
 
+  // Frame effects badges
+  const fxWrap = document.getElementById('fx-wrap');
+  const fxTags = document.getElementById('fx-tags');
+  const fx = card.frame_effects || [];
+  if (fx.length) {
+    fxTags.innerHTML = fx.map(f =>
+      `<span style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);
+       color:#a78bfa;padding:0.15rem 0.6rem;border-radius:20px;font-size:0.75rem;">
+       ${f.charAt(0).toUpperCase()+f.slice(1)}</span>`
+    ).join('');
+    fxWrap.style.display = 'block';
+    document.getElementById('f-fx').value = fx.join(',');
+  } else {
+    fxWrap.style.display = 'none';
+    document.getElementById('f-fx').value = '';
+  }
+
+  updateSuggestedPrice();
   enableSubmit();
 }
+
+function updateSuggestedPrice() {
+  if (!selectedCard) return;
+  const fin = document.getElementById('finish-select').value;
+  const eur = (fin === 'foil' || fin === 'etched')
+    ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
+    : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
+  document.getElementById('price-input').value = parseFloat(eur || 0).toFixed(2);
+}
+
+document.getElementById('finish-select').addEventListener('change', updateSuggestedPrice);
 
 function updatePreview(card) {
   const imgUrl = card.image_uris?.normal
@@ -268,26 +320,6 @@ function updatePreview(card) {
   cardMeta.style.display = 'block';
 }
 
-// ── Foil toggle style ────────────────────────────────────────
-document.querySelectorAll('input[name="foil-type"]').forEach(radio => {
-  radio.addEventListener('change', () => {
-    const isFoil = radio.value === 'foil';
-    document.getElementById('lbl-foil').style.borderColor   = isFoil ? 'rgba(200,155,60,0.6)' : 'rgba(200,155,60,0.2)';
-    document.getElementById('lbl-foil').style.background    = isFoil ? 'rgba(200,155,60,0.15)' : 'rgba(200,155,60,0.05)';
-    document.getElementById('lbl-foil').style.color         = isFoil ? '#e8c469' : 'rgba(200,200,200,0.7)';
-    document.getElementById('lbl-normal').style.borderColor = !isFoil ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.12)';
-    document.getElementById('lbl-normal').style.background  = !isFoil ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.05)';
-    document.getElementById('lbl-normal').style.color       = !isFoil ? '#fff' : 'rgba(200,200,200,0.7)';
-
-    // Update suggested price
-    if (selectedCard) {
-      const eur = isFoil
-        ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
-        : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
-      document.getElementById('price-input').value = parseFloat(eur || 0).toFixed(2);
-    }
-  });
-});
 
 // ── Submit ───────────────────────────────────────────────────
 function enableSubmit() {
@@ -303,14 +335,14 @@ function disableSubmit() {
 
 document.getElementById('submit-form').addEventListener('submit', () => {
   if (!selectedCard) return;
-  const foilVal = document.querySelector('input[name="foil-type"]:checked').value;
   document.getElementById('f-name').value             = selectedCard.name;
   document.getElementById('f-set-code').value         = selectedCard.set;
   document.getElementById('f-set-name').value         = selectedCard.set_name;
   document.getElementById('f-collector-number').value = selectedCard.collector_number;
   document.getElementById('f-scryfall-id').value      = selectedCard.id;
   document.getElementById('f-rarity').value           = selectedCard.rarity;
-  document.getElementById('f-foil').value             = foilVal;
+  document.getElementById('f-foil').value             = document.getElementById('finish-select').value;
+  document.getElementById('f-lang').value             = document.getElementById('lang-select').value;
   document.getElementById('f-price').value            = document.getElementById('price-input').value;
   document.getElementById('f-qty').value              = document.getElementById('qty-input').value;
 });

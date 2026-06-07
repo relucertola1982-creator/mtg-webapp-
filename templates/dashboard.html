@@ -73,8 +73,9 @@
       <thead>
         <tr>
           <th>Carta</th>
-          <th>Set</th>
-          <th>Tipo</th>
+          <th>Set · #</th>
+          <th>Versione</th>
+          <th>Lingua</th>
           <th style="text-align:right;">Prezzo</th>
           <th>Aggiornato</th>
           <th></th>
@@ -92,22 +93,31 @@
             <a href="/card/{{ key }}" class="card-link">{{ c.nome }}</a>
           </td>
           <td style="color:rgba(200,200,200,0.55); font-size:0.82rem; white-space:nowrap;">
-            {{ c.set_code|upper }}
-            {% if c.set_name and c.set_name != c.set_code %}
-            <span title="{{ c.set_name }}" style="cursor:default;">
-              · <span style="max-width:160px; display:inline-block; overflow:hidden;
-                             text-overflow:ellipsis; vertical-align:bottom; white-space:nowrap;">
-                  {{ c.set_name }}
-                </span>
-            </span>
-            {% endif %}
-            {% if c.collector_number %}<span style="opacity:0.55;"> #{{ c.collector_number }}</span>{% endif %}
+            <span title="{{ c.set_name }}">{{ c.set_code|upper }}</span>
+            {% if c.collector_number %}<span style="opacity:0.5;"> #{{ c.collector_number }}</span>{% endif %}
           </td>
-          <td>
-            {% if c.foil %}
+          <td style="white-space:nowrap;">
+            {% set fin = c.finish if c.finish else ('foil' if c.foil else 'normal') %}
+            {% if fin == 'etched' %}
+              <span class="badge" style="background:rgba(148,163,184,0.15);border:1px solid rgba(148,163,184,0.4);color:#94a3b8;">🔆 Etched</span>
+            {% elif fin == 'foil' %}
               <span class="badge badge-foil">✨ Foil</span>
             {% else %}
               <span class="badge badge-normal">📄 Normal</span>
+            {% endif %}
+            {% if c.frame_effects %}
+              {% for fx in c.frame_effects.split(',') %}
+                {% if fx.strip() %}
+                <span class="badge" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);color:#a78bfa;margin-left:3px;">{{ fx.strip()|capitalize }}</span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            {% if c.language and c.language != 'en' %}
+              <span class="badge" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;font-family:monospace;">{{ c.language|upper }}</span>
+            {% else %}
+              <span style="color:rgba(200,200,200,0.3); font-size:0.78rem;">EN</span>
             {% endif %}
           </td>
           <td style="text-align:right; font-family:'Cinzel',serif; font-size:1rem;
@@ -117,14 +127,22 @@
           <td style="color:rgba(200,200,200,0.4); font-size:0.78rem; white-space:nowrap;">
             {% if c.ultimo_aggiornamento %}{{ c.ultimo_aggiornamento[:16]|replace("T"," ") }}{% endif %}
           </td>
-          <td style="text-align:right;">
+          <td style="text-align:right; white-space:nowrap; display:flex; gap:0.5rem; justify-content:flex-end; align-items:center;">
             <a href="/card/{{ key }}"
                style="color:rgba(200,155,60,0.55); font-size:0.8rem; text-decoration:none;
-                      transition:color 0.18s; white-space:nowrap;"
+                      transition:color 0.18s;"
                onmouseover="this.style.color='var(--gold)'"
                onmouseout="this.style.color='rgba(200,155,60,0.55)'">
               Storico →
             </a>
+            <form method="post" action="/delete-card/{{ key }}" style="display:inline;"
+                  onsubmit="return confirm('Venduta/rimossa \'{{ c.nome }}\'?\nSarà eliminata dalla collezione.')">
+              <button type="submit" title="Carta venduta — rimuovi"
+                style="background:none; border:none; cursor:pointer; color:rgba(248,113,113,0.4);
+                       font-size:1rem; padding:0; transition:color 0.18s; line-height:1;"
+                onmouseover="this.style.color='#f87171'"
+                onmouseout="this.style.color='rgba(248,113,113,0.4)'">🗑</button>
+            </form>
           </td>
         </tr>
         {% endfor %}

@@ -110,13 +110,15 @@ def leggi_collection(csv_path):
             try:
                 purchase_price = float(row.get("Purchase price") or 0)
                 if purchase_price >= 1.0:
+                    finish = row.get("Foil", "normal").lower()
                     carte.append({
                         "nome": row["Name"],
                         "set_name": row["Set name"],
                         "set_code": row["Set code"],
                         "collector_number": row["Collector number"],
                         "scryfall_id": row["Scryfall ID"],
-                        "foil": row["Foil"].lower() in ["foil", "etched"],
+                        "foil": finish in ["foil", "etched"],
+                        "finish": finish,
                         "quantita": int(row.get("Quantity") or 1),
                         "prezzo_acquisto": purchase_price,
                         "language": row.get("Language", "en")
@@ -141,10 +143,12 @@ def controlla_prezzi():
     for carta in carte:
         nome = carta["nome"]
         foil = carta["foil"]
+        finish = carta["finish"]
+        language = carta["language"]
         set_code = carta["set_code"]
         collector_number = carta["collector_number"]
         scryfall_id = carta["scryfall_id"]
-        chiave = f"{set_code}_{collector_number}_{'foil' if foil else 'normal'}"
+        chiave = f"{set_code}_{collector_number}_{finish}_{language}"
 
         prezzo_attuale, nome_trovato = get_prezzo_scryfall(
             nome, set_code, collector_number, foil, scryfall_id
@@ -162,6 +166,8 @@ def controlla_prezzi():
             "collector_number": collector_number,
             "prezzo": prezzo_attuale,
             "foil": foil,
+            "finish": finish,
+            "language": language,
             "ultimo_aggiornamento": datetime.now().isoformat()
         }
 
@@ -174,11 +180,13 @@ def controlla_prezzi():
 
                 if abs(variazione) >= SOGLIA_PERCENTUALE:
                     emoji = "📈" if variazione > 0 else "📉"
+                    finish_label = {"foil": "✨ Foil", "etched": "🔆 Etched", "normal": "📄 Normal"}.get(finish, finish)
+                    lang_label = language.upper() if language != "en" else ""
                     msg = (
                         f"{emoji} <b>MTG Price Alert! Ale823</b>\n\n"
                         f"<b>{nome}</b>\n"
                         f"Set: {carta['set_name']}\n"
-                        f"{'✨ Foil' if foil else '📄 Normal'}\n\n"
+                        f"{finish_label}{(' · ' + lang_label) if lang_label else ''}\n\n"
                         f"Precedente: <b>€{prezzo_precedente:.2f}</b>\n"
                         f"Attuale: <b>€{prezzo_attuale:.2f}</b>\n"
                         f"Variazione: <b>{variazione:+.1f}%</b>\n"
@@ -190,9 +198,9 @@ def controlla_prezzi():
         else:
             print(f"  🆕 {'✨' if foil else '📄'} {nome}: €{prezzo_attuale:.2f} (primo rilevamento)")
 
-    # Aggiorna prezzi salvati
+    # Salva solo le carte attualmente in collezione (rimuove le vendute)
     prezzi_salvati.update(prezzi_aggiornati)
-    salva_prezzi(prezzi_salvati)
+    salva_prezzi(prezzi_aggiornati)
 
     print(f"\n{'='*50}")
     print(f"✅ Trovate e salvate: {len(prezzi_aggiornati)} carte")

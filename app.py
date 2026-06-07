@@ -59,6 +59,9 @@ def init_db():
             set_name         TEXT DEFAULT '',
             collector_number TEXT DEFAULT '',
             foil             INTEGER DEFAULT 0,
+            finish           TEXT DEFAULT 'normal',
+            language         TEXT DEFAULT 'en',
+            frame_effects    TEXT DEFAULT '',
             price            REAL NOT NULL,
             recorded_at      TEXT NOT NULL
         );
@@ -69,6 +72,16 @@ def init_db():
         );
         CREATE INDEX IF NOT EXISTS idx_ph_key ON price_history(card_key);
     """)
+    # Safe migration for existing DBs
+    for col in [
+        "ALTER TABLE price_history ADD COLUMN finish TEXT DEFAULT 'normal'",
+        "ALTER TABLE price_history ADD COLUMN language TEXT DEFAULT 'en'",
+        "ALTER TABLE price_history ADD COLUMN frame_effects TEXT DEFAULT ''",
+    ]:
+        try:
+            conn.execute(col)
+        except Exception:
+            pass
     conn.execute(
         "INSERT OR IGNORE INTO users (username, password_hash, is_admin) VALUES (?, ?, 1)",
         (ADMIN_USER, _hash(ADMIN_PASS))
@@ -136,10 +149,13 @@ def get_prices(force: bool = False) -> dict:
                 if not last_price or abs(last_price["price"] - d["prezzo"]) > 0.001:
                     conn.execute(
                         """INSERT INTO price_history
-                           (card_key, card_name, set_code, set_name, collector_number, foil, price, recorded_at)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                           (card_key, card_name, set_code, set_name, collector_number,
+                            foil, finish, language, frame_effects, price, recorded_at)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (key, d.get("nome", ""), d.get("set_code", ""), d.get("set", ""),
                          d.get("collector_number", ""), 1 if d.get("foil") else 0,
+                         d.get("finish", "foil" if d.get("foil") else "normal"),
+                         d.get("language", "en"), d.get("frame_effects", ""),
                          d["prezzo"], d.get("ultimo_aggiornamento", now))
                     )
             conn.execute("INSERT INTO fetch_log (cards_count) VALUES (?)", (len(raw),))
@@ -147,7 +163,8 @@ def get_prices(force: bool = False) -> dict:
 
     rows = conn.execute("""
         SELECT ph.card_key, ph.card_name, ph.set_code, ph.set_name,
-               ph.collector_number, ph.foil, ph.price, ph.recorded_at
+               ph.collector_number, ph.foil, ph.finish, ph.language,
+               ph.frame_effects, ph.price, ph.recorded_at
         FROM price_history ph
         INNER JOIN (
             SELECT card_key, MAX(id) AS mid FROM price_history GROUP BY card_key
@@ -167,6 +184,9 @@ def get_prices(force: bool = False) -> dict:
             "set_name":         row["set_name"],
             "collector_number": row["collector_number"],
             "foil":             bool(row["foil"]),
+            "finish":           row["finish"] or ("foil" if row["foil"] else "normal"),
+            "language":         row["language"] or "en",
+            "frame_effects":    row["frame_effects"] or "",
             "prezzo":           row["price"],
             "ultimo_aggiornamento": row["recorded_at"],
         }
@@ -367,6 +387,93 @@ def _update_csv_on_github(new_content: str, sha: str, message: str) -> bool:
         return False
 
 
+def _get_json_from_github():
+    if not GITHUB_REPO:
+        return None, None
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/prezzi_riferimento.json"
+    try:
+        r = requests.get(url, headers=_gh_headers(), timeout=15)
+        if r.ok:
+            data = r.json()
+            content = base64.b64decode(data["content"]).decode("utf-8")
+            return content, data["sha"]
+    except Exception:
+        pass
+    return None, None
+
+
+def _update_json_on_github(new_content: str, sha: str, message: str) -> bool:
+    if not GITHUB_REPO or not GITHUB_TOKEN:
+        return False
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/prezzi_riferimento.json"
+    encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
+    try:
+        r = requests.put(url, headers=_gh_headers(), json={
+            "message": message, "content": encoded, "sha": sha
+        }, timeout=15)
+        return r.ok
+    except Exception:
+        return False
+
+
+# ── Delete card route ─────────────────────────────────────────────────────────
+
+@app.post("/delete-card/{card_key:path}")
+async def delete_card(request: Request, card_key: str):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+
+    import json as _json
+
+    # 1. Remove from price_history DB
+    conn = get_db()
+    conn.execute("DELETE FROM price_history WHERE card_key=?", (card_key,))
+    conn.commit()
+    conn.close()
+
+    # 2. Remove from prezzi_riferimento.json on GitHub
+    json_content, json_sha = _get_json_from_github()
+    if json_content and json_sha:
+        try:
+            data = _json.loads(json_content)
+            if card_key in data:
+                del data[card_key]
+                _update_json_on_github(
+                    _json.dumps(data, indent=2, ensure_ascii=False),
+                    json_sha,
+                    f"Remove {card_key} (sold)"
+                )
+        except Exception:
+            pass
+
+    # 3. Remove matching row(s) from CSV on GitHub
+    # card_key format: {set_code}_{collector_num}_{finish}_{lang}
+    parts = card_key.split("_")
+    if len(parts) >= 4:
+        c_set  = parts[0].upper()
+        c_num  = parts[1]
+        c_fin  = parts[2]
+        c_lang = parts[3]
+        csv_content, csv_sha = _get_csv_from_github()
+        if csv_content and csv_sha:
+            lines = csv_content.splitlines(keepends=True)
+            new_lines = []
+            for line in lines:
+                low = line.lower()
+                if (c_set.lower() in low and c_num in low and
+                        c_fin in low and c_lang in low):
+                    continue  # skip = delete
+                new_lines.append(line)
+            if len(new_lines) < len(lines):
+                _update_csv_on_github(
+                    "".join(new_lines), csv_sha,
+                    f"Remove {card_key} from collection (sold)"
+                )
+
+    return RedirectResponse("/", status_code=302)
+
+
 # ── Add card routes ───────────────────────────────────────────────────────────
 
 @app.get("/add-card", response_class=HTMLResponse)
@@ -389,6 +496,8 @@ async def add_card_post(
     scryfall_id: str = Form(...),
     rarity: str = Form("common"),
     foil: str = Form("normal"),
+    language: str = Form("en"),
+    frame_effects: str = Form(""),
     purchase_price: str = Form("0"),
     quantity: str = Form("1"),
 ):
@@ -403,12 +512,12 @@ async def add_card_post(
         ctx["error"] = "Impossibile leggere il CSV da GitHub. Controlla GITHUB_TOKEN e GITHUB_REPO su Railway."
         return templates.TemplateResponse("add_card.html", ctx)
 
-    foil_val = "foil" if foil == "foil" else "normal"
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
     set_name_safe = set_name.replace('"', '""')
+    lang = language.strip() or "en"
     new_row = (f'webapp,binder,{name},{set_code.upper()},"{set_name_safe}",'
-               f'{collector_number},{foil_val},{rarity},{quantity},,{scryfall_id},'
-               f'{purchase_price},false,false,near_mint,en,EUR,{now}\n')
+               f'{collector_number},{foil},{rarity},{quantity},,{scryfall_id},'
+               f'{purchase_price},false,false,near_mint,{lang},EUR,{now}\n')
 
     updated = csv_content.rstrip("\n") + "\n" + new_row
     ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp")
