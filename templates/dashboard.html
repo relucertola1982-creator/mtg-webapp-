@@ -47,10 +47,27 @@
                           display:flex; align-items:center; gap:0.9rem; flex-wrap:wrap;">
   <input type="text" id="q" class="inp" placeholder="🔍  Cerca per nome..." style="width:260px; flex-shrink:0;">
 
-  <select id="foil-f" class="inp" style="width:165px;">
-    <option value="" data-i18n="filter-all">Tutte le carte</option>
+  <select id="foil-f" class="inp" style="width:175px;">
+    <option value="">Tutte le carte</option>
     <option value="foil">Solo Foil ✨</option>
     <option value="normal">Solo Normal 📄</option>
+    <option value="etched">Solo Etched 🔆</option>
+    <option value="silverscroll">✦ Silverscroll</option>
+  </select>
+
+  <select id="lang-f" class="inp" style="width:140px;">
+    <option value="">Tutte le lingue</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="it">🇮🇹 Italiano</option>
+    <option value="ja">🇯🇵 Japanese</option>
+    <option value="ko">🇰🇷 Korean</option>
+    <option value="fr">🇫🇷 Français</option>
+    <option value="de">🇩🇪 Deutsch</option>
+    <option value="es">🇪🇸 Español</option>
+    <option value="pt">🇵🇹 Português</option>
+    <option value="ru">🇷🇺 Russian</option>
+    <option value="zhs">🇨🇳 Chinese (S)</option>
+    <option value="zht">🇹🇼 Chinese (T)</option>
   </select>
 
   <select id="sort-f" class="inp" style="width:155px;">
@@ -85,6 +102,9 @@
         <tr class="row"
             data-name="{{ c.nome|lower }}"
             data-foil="{{ 'foil' if c.foil else 'normal' }}"
+            data-finish="{{ c.finish or 'normal' }}"
+            data-fx="{{ c.frame_effects or '' }}"
+            data-lang="{{ c.language or 'en' }}"
             data-price="{{ c.prezzo }}"
             data-set="{{ c.set_code|lower }}"
             data-num="{{ c.collector_number }}">
@@ -331,12 +351,19 @@ const tbody = document.getElementById('tbody');
 
 function filter() {
   const q    = document.getElementById('q').value.toLowerCase();
-  const foil = document.getElementById('foil-f').value;
+  const ver  = document.getElementById('foil-f').value;
+  const lang = document.getElementById('lang-f').value;
   const sort = document.getElementById('sort-f').value;
 
-  let vis = rows.filter(r =>
-    r.dataset.name.includes(q) && (!foil || r.dataset.foil === foil)
-  );
+  let vis = rows.filter(r => {
+    if (!r.dataset.name.includes(q)) return false;
+    if (lang && r.dataset.lang !== lang) return false;
+    if (ver === 'silverscroll') return r.dataset.fx.includes('silverscroll');
+    if (ver === 'foil')   return r.dataset.finish === 'foil';
+    if (ver === 'normal') return r.dataset.finish === 'normal';
+    if (ver === 'etched') return r.dataset.finish === 'etched';
+    return true;
+  });
 
   vis.sort((a, b) => {
     if (sort === 'price-d') return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
@@ -351,6 +378,7 @@ function filter() {
 
 document.getElementById('q').addEventListener('input', filter);
 document.getElementById('foil-f').addEventListener('change', filter);
+document.getElementById('lang-f').addEventListener('change', filter);
 document.getElementById('sort-f').addEventListener('change', filter);
 
 // ── Card preview (hover on desktop, tap on mobile) ─────────────
