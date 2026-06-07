@@ -176,17 +176,6 @@
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T13:59:59.182967"
   },
-  "SOA_169_foil_en": {
-    "nome": "Brotherhood's End",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "169",
-    "prezzo": 10.97,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T13:59:59.421663"
-  },
   "SOA_51_normal_en": {
     "nome": "Crop Rotation",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2080,6 +2069,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:50:17.420570",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_169_foil_ja": {
+    "nome": "Brotherhood's End",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "169",
+    "prezzo": 10.97,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:50:55.443118",
     "frame_effects": "silverscroll"
   }
 }
