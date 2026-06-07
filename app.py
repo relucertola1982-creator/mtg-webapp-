@@ -1230,6 +1230,8 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
     except Exception:
         pass  # prices will be picked up by tracker on next run
 
+    get_prices(force=True, collection=coll)  # sync SQLite so cards appear immediately
+
     ctx["result"] = {
         "added": len(new_rows),
         "skipped": len(uploaded_rows) - len(new_rows),
@@ -1293,6 +1295,7 @@ async def add_card_post(
     if ok:
         _add_card_to_prezzi(name, set_code, set_name, collector_number,
                             foil, language, scryfall_id, coll)
+        get_prices(force=True, collection=coll)  # sync SQLite so card appears immediately
         ctx["success"] = f"'{name}' aggiunta alla collezione!"
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
