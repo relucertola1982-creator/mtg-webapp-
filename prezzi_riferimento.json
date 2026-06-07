@@ -2046,18 +2046,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T18:50:00.381167"
   },
-  "SOA_142_foil_ja": {
-    "nome": "Winds of Abandon",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "142",
-    "prezzo": 38.35,
-    "foil": true,
-    "finish": "foil",
-    "language": "ja",
-    "ultimo_aggiornamento": "2026-06-07T17:15:58.289405",
-    "frame_effects": "silverscroll"
-  },
   "SOA_132_foil_ja": {
     "nome": "Angel's Grace",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2080,6 +2068,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:16:25.793376",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_142_foil_ja": {
+    "nome": "Winds of Abandon",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "142",
+    "prezzo": 38.35,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:50:17.420570",
     "frame_effects": "silverscroll"
   }
 }
