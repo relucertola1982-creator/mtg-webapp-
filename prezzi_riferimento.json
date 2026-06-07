@@ -2066,5 +2066,16 @@
     "finish": "normal",
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
+  },
+  "SOS_288_foil_de": {
+    "nome": "Witherbloom, the Balancer",
+    "set": "Secrets of Strixhaven",
+    "set_code": "SOS",
+    "collector_number": "288",
+    "prezzo": 25.03,
+    "foil": true,
+    "finish": "foil",
+    "language": "de",
+    "ultimo_aggiornamento": "2026-06-07T18:50:00.381167"
   }
 }

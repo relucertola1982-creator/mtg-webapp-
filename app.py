@@ -749,8 +749,9 @@ async def sold_relist(request: Request, sold_id: str):
         except Exception:
             pass
 
+    name_safe     = name.replace('"', '""')
     set_name_safe = set_name.replace('"', '""')
-    new_row = (f'webapp,binder,{name},{set_code},"{set_name_safe}",'
+    new_row = (f'webapp,binder,"{name_safe}",{set_code},"{set_name_safe}",'
                f'{col_num},{finish},{rarity},1,,{scryfall_id},'
                f'0,false,false,near_mint,{language},EUR,{now_str}\n')
 
@@ -1069,9 +1070,10 @@ async def add_card_post(
         return templates.TemplateResponse("add_card.html", ctx)
 
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
+    name_safe     = name.replace('"', '""')
     set_name_safe = set_name.replace('"', '""')
     lang = language.strip() or "en"
-    new_row = (f'webapp,binder,{name},{set_code.upper()},"{set_name_safe}",'
+    new_row = (f'webapp,binder,"{name_safe}",{set_code.upper()},"{set_name_safe}",'
                f'{collector_number},{foil},{rarity},{quantity},,{scryfall_id},'
                f'{purchase_price},false,false,near_mint,{lang},EUR,{now}\n')
 
