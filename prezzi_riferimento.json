@@ -1639,17 +1639,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
   },
-  "SOA_147_foil_de": {
-    "nome": "Disdainful Stroke",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "147",
-    "prezzo": 5.85,
-    "foil": true,
-    "finish": "foil",
-    "language": "de",
-    "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
-  },
   "SOA_94_normal_de": {
     "nome": "Feed the Swarm",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2084,5 +2073,17 @@
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:51:53.068240",
     "frame_effects": ""
+  },
+  "SOA_147_foil_ja": {
+    "nome": "Disdainful Stroke",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "147",
+    "prezzo": 5.85,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:52:34.451092",
+    "frame_effects": "silverscroll"
   }
 }
