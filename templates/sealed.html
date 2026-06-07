@@ -95,7 +95,7 @@
     <div style="margin-bottom:0.9rem;">
       <label style="display:block; font-size:0.65rem; color:rgba(200,200,220,0.4);
                     text-transform:uppercase; letter-spacing:0.12em; margin-bottom:0.35rem;">
-        URL MTGGoldfish <span style="color:rgba(200,200,220,0.25); font-size:0.6rem; text-transform:none;">(opzionale — per aggiornamento automatico prezzo)</span>
+        Link prezzo (MTGGoldfish / Cardmarket / altro) <span style="color:rgba(200,200,220,0.25); font-size:0.6rem; text-transform:none;">— si apre in nuova scheda per controllare il prezzo</span>
       </label>
       <input class="inp" name="mtggoldfish_url" type="url" placeholder="https://www.mtggoldfish.com/..."
              style="width:100%; max-width:520px;">
@@ -180,16 +180,14 @@
           </td>
           <td style="padding:0.85rem 1rem; text-align:right; white-space:nowrap;">
             <div style="display:flex; gap:0.5rem; justify-content:flex-end; align-items:center;">
-              <!-- Fetch from MTGGoldfish -->
+              <!-- External price link -->
               {% if p.mtggoldfish_url %}
-              <form method="post" action="/sealed/fetch/{{ p.id }}" style="display:inline;"
-                    title="Aggiorna prezzo da MTGGoldfish">
-                <button type="submit"
-                  style="background:none; border:none; cursor:pointer; color:rgba(56,189,248,0.45);
-                         font-size:0.9rem; padding:0; transition:color 0.18s;"
-                  onmouseover="this.style.color='#38bdf8'"
-                  onmouseout="this.style.color='rgba(56,189,248,0.45)'">🔄</button>
-              </form>
+              <a href="{{ p.mtggoldfish_url }}" target="_blank" rel="noopener"
+                 title="Apri pagina prezzo"
+                 style="color:rgba(56,189,248,0.45); font-size:0.9rem; text-decoration:none;
+                        transition:color 0.18s; line-height:1;"
+                 onmouseover="this.style.color='#38bdf8'"
+                 onmouseout="this.style.color='rgba(56,189,248,0.45)'">🔗</a>
               {% endif %}
               <!-- Manual price update -->
               <button type="button" title="Aggiorna prezzo manualmente"

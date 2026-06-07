@@ -1239,26 +1239,6 @@ def _load_sealed_local():
             pass
     return []
 
-def _fetch_mtggoldfish_price(url: str):
-    """Best-effort price scrape from a MTGGoldfish page. Returns float or None."""
-    try:
-        import re
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
-        r = requests.get(url, headers=headers, timeout=12)
-        if not r.ok:
-            return None
-        html = r.text
-        # EUR price: €123.45 or € 123,45
-        m = re.search(r'€\s*([0-9]+[.,][0-9]{2})', html)
-        if m:
-            return round(float(m.group(1).replace(',', '.')), 2)
-        # JSON-like: "price":"123.45" or price: 123.45
-        m = re.search(r'"price"\s*:\s*"?([0-9]+\.[0-9]{2})"?', html)
-        if m:
-            return round(float(m.group(1)), 2)
-        return None
-    except Exception:
-        return None
 
 
 @app.get("/sealed", response_class=HTMLResponse)
@@ -1338,36 +1318,6 @@ async def sealed_update(request: Request, item_id: str,
             break
     return RedirectResponse("/sealed", status_code=302)
 
-
-@app.post("/sealed/fetch/{item_id}")
-async def sealed_fetch(request: Request, item_id: str):
-    user = current_user(request)
-    if not user:
-        return RedirectResponse("/login", status_code=302)
-    content_raw, _ = _get_sealed_from_github()
-    if not content_raw:
-        return RedirectResponse("/sealed", status_code=302)
-    products = json.loads(content_raw)
-    target = next((p for p in products if str(p.get("id")) == item_id), None)
-    if not target or not target.get("mtggoldfish_url"):
-        return RedirectResponse("/sealed", status_code=302)
-    price = _fetch_mtggoldfish_price(target["mtggoldfish_url"])
-    if price:
-        for _ in range(2):
-            content, sha = _get_sealed_from_github()
-            if content is None:
-                break
-            products = json.loads(content)
-            for p in products:
-                if str(p.get("id")) == item_id:
-                    p["current_price"] = price
-                    p["last_updated"]  = datetime.now().isoformat()
-                    break
-            new_content = json.dumps(products, ensure_ascii=False, indent=2)
-            if _update_sealed_on_github(new_content, sha, f"Fetch sealed price id={item_id}"):
-                (BASE_DIR / SEALED_JSON).write_text(new_content, encoding="utf-8")
-                break
-    return RedirectResponse("/sealed", status_code=302)
 
 
 @app.post("/sealed/delete/{item_id}")
