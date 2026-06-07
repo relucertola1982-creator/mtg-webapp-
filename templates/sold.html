@@ -9,16 +9,35 @@
     <h1 class="page-title" data-i18n="sold-title">Carte Vendute</h1>
     <p class="page-sub" data-i18n="sold-subtitle">Storico delle carte rimosse dalla collezione</p>
   </div>
-  {% if cards %}
-  <div style="background:rgba(200,155,60,0.1); border:1px solid rgba(200,155,60,0.28);
-              border-radius:20px; padding:0.3rem 0.9rem;
-              font-size:0.8rem; font-weight:600; color:var(--gold-light);">
-    {{ cards|length }} vendute
+  <div style="display:flex; align-items:center; gap:0.7rem; flex-wrap:wrap;">
+    {% if cards %}
+    <div style="background:rgba(200,155,60,0.1); border:1px solid rgba(200,155,60,0.28);
+                border-radius:20px; padding:0.3rem 0.9rem;
+                font-size:0.8rem; font-weight:600; color:var(--gold-light);">
+      {{ cards|length }} vendute
+    </div>
+    <a href="/sold/export" class="btn btn-ghost" style="font-size:0.82rem; padding:0.45rem 1rem; text-decoration:none;">
+      📥 Esporta CSV
+    </a>
+    {% endif %}
   </div>
-  {% endif %}
 </div>
 
 {% if cards %}
+
+<!-- Totale ricavato -->
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+            gap:1rem; margin-bottom:1.5rem;">
+  <div class="stat-card">
+    <div class="stat-val">€{{ "%.2f"|format(total_sold_value) }}</div>
+    <div class="stat-lbl">Totale Ricavato</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-val">{{ cards|length }}</div>
+    <div class="stat-lbl">Carte Vendute</div>
+  </div>
+</div>
+
 <div class="glass" style="overflow:hidden;">
   <div style="overflow-x:auto;">
     <table class="mtg-table">
@@ -38,7 +57,7 @@
         <tr>
           <td style="font-weight:500;">{{ c.card_name }}</td>
           <td style="color:rgba(200,200,220,0.52); font-size:0.82rem; white-space:nowrap;">
-            {{ c.set_code|upper if c.set_code }}
+            {% if c.set_code %}{{ c.set_code|upper }}{% endif %}
             {% if c.collector_number %}<span style="opacity:0.45;"> #{{ c.collector_number }}</span>{% endif %}
           </td>
           <td style="white-space:nowrap;">
@@ -66,10 +85,10 @@
           </td>
           <td style="text-align:right; font-family:'Cinzel',serif; font-size:1rem;
                      font-weight:700; color:rgba(200,200,220,0.55); white-space:nowrap;">
-            €{{ "%.2f"|format(c.last_price) }}
+            €{{ "%.2f"|format(c.last_price|float) }}
           </td>
           <td style="color:rgba(200,200,220,0.38); font-size:0.78rem; white-space:nowrap;">
-            {{ c.sold_at[:16]|replace("T"," ") if c.sold_at else "—" }}
+            {% if c.sold_at %}{{ c.sold_at[:16]|replace("T"," ") }}{% else %}—{% endif %}
           </td>
           <td>
             <form method="post" action="/sold/delete/{{ c.id }}"

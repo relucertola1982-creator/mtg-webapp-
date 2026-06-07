@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, Form, HTTPException
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
@@ -10,6 +10,8 @@ import base64
 import os
 from datetime import datetime, timedelta
 import secrets
+import io
+import csv
 from pathlib import Path
 
 app = FastAPI(title="MTG Price Tracker")
@@ -419,6 +421,50 @@ def _get_json_from_github():
     return None, None
 
 
+def _load_sold_from_github() -> list:
+    """Read vendute.json from GitHub. Returns list of dicts (newest first)."""
+    if not GITHUB_REPO:
+        return []
+    import json as _json
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/vendute.json"
+    try:
+        r = requests.get(url, headers=_gh_headers(), timeout=15)
+        if r.ok:
+            content = base64.b64decode(r.json()["content"]).decode("utf-8")
+            data = _json.loads(content)
+            return data if isinstance(data, list) else []
+    except Exception:
+        pass
+    return []
+
+
+def _save_sold_to_github(entries: list, message: str) -> bool:
+    """Create or update vendute.json on GitHub with the given list."""
+    if not GITHUB_REPO or not GITHUB_TOKEN:
+        return False
+    import json as _json
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/vendute.json"
+    encoded = base64.b64encode(
+        _json.dumps(entries, indent=2, ensure_ascii=False).encode("utf-8")
+    ).decode("ascii")
+    # Fetch current SHA (needed for update; absent on first create)
+    sha = None
+    try:
+        r = requests.get(url, headers=_gh_headers(), timeout=10)
+        if r.ok:
+            sha = r.json().get("sha")
+    except Exception:
+        pass
+    payload = {"message": message, "content": encoded}
+    if sha:
+        payload["sha"] = sha
+    try:
+        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
+        return r.ok
+    except Exception:
+        return False
+
+
 def _update_json_on_github(new_content: str, sha: str, message: str) -> bool:
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
@@ -445,20 +491,40 @@ async def delete_card(request: Request, card_key: str):
 
     conn = get_db()
 
-    # 1. Save to sold_cards before deleting
+    # 1. Save to sold_cards (DB + GitHub)
     last = conn.execute(
         "SELECT card_name, set_code, set_name, collector_number, finish, language, frame_effects, price "
         "FROM price_history WHERE card_key=? ORDER BY id DESC LIMIT 1",
         (card_key,)
     ).fetchone()
     if last:
+        sold_at = datetime.now().isoformat()
+        entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")  # unique string ID
+        entry = {
+            "id": entry_id,
+            "card_key": card_key,
+            "card_name": last["card_name"],
+            "set_code": last["set_code"] or "",
+            "set_name": last["set_name"] or "",
+            "collector_number": last["collector_number"] or "",
+            "finish": last["finish"] or "normal",
+            "language": last["language"] or "en",
+            "frame_effects": last["frame_effects"] or "",
+            "last_price": last["price"],
+            "sold_at": sold_at,
+        }
+        # Save to GitHub (persistent)
+        current_sold = _load_sold_from_github()
+        current_sold.insert(0, entry)
+        _save_sold_to_github(current_sold, f"Sell {card_key}")
+        # Save to DB (local cache fallback)
         conn.execute(
             """INSERT INTO sold_cards
                (card_key, card_name, set_code, set_name, collector_number,
                 finish, language, frame_effects, last_price)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (card_key, last["card_name"], last["set_code"], last["set_name"],
-             last["collector_number"], last["finish"] or "normal",
+            (card_key, last["card_name"], last["set_code"] or "", last["set_name"] or "",
+             last["collector_number"] or "", last["finish"] or "normal",
              last["language"] or "en", last["frame_effects"] or "",
              last["price"])
         )
@@ -517,26 +583,73 @@ async def sold_list(request: Request):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
-    conn = get_db()
-    cards = conn.execute(
-        "SELECT * FROM sold_cards ORDER BY sold_at DESC"
-    ).fetchall()
-    conn.close()
+    # GitHub is the source of truth; fallback to local DB
+    cards = _load_sold_from_github()
+    if not cards:
+        conn = get_db()
+        rows = conn.execute("SELECT * FROM sold_cards ORDER BY sold_at DESC").fetchall()
+        conn.close()
+        cards = [dict(row) for row in rows]
+    total_sold_value = sum(float(c.get("last_price") or 0) for c in cards)
     return templates.TemplateResponse("sold.html", {
-        "request": request, "user": user, "cards": cards
+        "request": request, "user": user,
+        "cards": cards, "total_sold_value": total_sold_value,
     })
 
 
 @app.post("/sold/delete/{sold_id}")
-async def sold_delete(request: Request, sold_id: int):
+async def sold_delete(request: Request, sold_id: str):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
+    # Remove from GitHub
+    current_sold = _load_sold_from_github()
+    new_sold = [e for e in current_sold if str(e.get("id", "")) != sold_id]
+    if len(new_sold) < len(current_sold):
+        _save_sold_to_github(new_sold, f"Remove sold entry {sold_id}")
+    # Remove from DB (legacy integer IDs)
     conn = get_db()
-    conn.execute("DELETE FROM sold_cards WHERE id=?", (sold_id,))
-    conn.commit()
+    try:
+        conn.execute("DELETE FROM sold_cards WHERE id=?", (int(sold_id),))
+        conn.commit()
+    except (ValueError, Exception):
+        pass
     conn.close()
     return RedirectResponse("/sold", status_code=302)
+
+
+@app.get("/sold/export")
+async def sold_export(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    cards = _load_sold_from_github()
+    if not cards:
+        conn = get_db()
+        rows = conn.execute("SELECT * FROM sold_cards ORDER BY sold_at DESC").fetchall()
+        conn.close()
+        cards = [dict(row) for row in rows]
+    buf = io.StringIO()
+    writer = csv.writer(buf)
+    writer.writerow(["Nome", "Set", "# Collezionista", "Finitura", "Lingua",
+                     "Versione Speciale", "Ultimo Prezzo (EUR)", "Data Vendita"])
+    for c in cards:
+        writer.writerow([
+            c.get("card_name", ""),
+            (c.get("set_code") or "").upper(),
+            c.get("collector_number", ""),
+            c.get("finish", "normal"),
+            c.get("language", "en"),
+            c.get("frame_effects", ""),
+            f"{float(c.get('last_price') or 0):.2f}",
+            (c.get("sold_at") or "")[:16].replace("T", " "),
+        ])
+    csv_bytes = buf.getvalue().encode("utf-8-sig")  # BOM for Excel
+    return StreamingResponse(
+        io.BytesIO(csv_bytes),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=carte_vendute.csv"},
+    )
 
 
 # ── Add card routes ───────────────────────────────────────────────────────────
