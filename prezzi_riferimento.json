@@ -495,17 +495,6 @@
     "language": "de",
     "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
   },
-  "SOA_135_foil_en": {
-    "nome": "Helping Hand",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "135",
-    "prezzo": 8.81,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "ultimo_aggiornamento": "2026-06-07T16:43:18.753410"
-  },
   "SOA_103_normal_ja": {
     "nome": "Big Score",
     "set": "Secrets of Strixhaven Mystical Archive",
@@ -2081,6 +2070,18 @@
     "finish": "foil",
     "language": "ja",
     "ultimo_aggiornamento": "2026-06-07T17:50:55.443118",
+    "frame_effects": "silverscroll"
+  },
+  "SOA_135_foil_ja": {
+    "nome": "Helping Hand",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "135",
+    "prezzo": 8.81,
+    "foil": true,
+    "finish": "foil",
+    "language": "ja",
+    "ultimo_aggiornamento": "2026-06-07T17:51:19.897240",
     "frame_effects": "silverscroll"
   }
 }
