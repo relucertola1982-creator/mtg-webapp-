@@ -176,6 +176,10 @@ def controlla_prezzi():
             non_trovate.append(f"{'✨' if foil else '📄'} {nome} ({set_code} #{collector_number})")
             continue
 
+        # Preserve manually-set "silverscroll" — don't overwrite with Scryfall value
+        existing_fx = prezzi_salvati.get(chiave, {}).get("frame_effects", "")
+        save_fx = existing_fx if existing_fx == "silverscroll" else frame_effects
+
         prezzi_aggiornati[chiave] = {
             "nome": nome,
             "set": carta["set_name"],
@@ -185,7 +189,7 @@ def controlla_prezzi():
             "foil": foil,
             "finish": finish,
             "language": language,
-            "frame_effects": frame_effects,
+            "frame_effects": save_fx,
             "ultimo_aggiornamento": datetime.now().isoformat()
         }
 
