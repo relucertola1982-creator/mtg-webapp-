@@ -343,7 +343,7 @@ async def admin_get(request: Request):
 
     conn = get_db()
     users = conn.execute(
-        "SELECT id, username, telegram_chat_id, is_admin, created_at FROM users ORDER BY id"
+        "SELECT id, username, telegram_chat_id, is_admin, created_at, collection FROM users ORDER BY id"
     ).fetchall()
     conn.close()
     return templates.TemplateResponse("admin.html", {"request": request, "user": user, "users": users})
@@ -364,7 +364,7 @@ async def admin_add_user(request: Request,
             (username, _hash(password), telegram_chat_id.strip() or None, collection.strip().lower())
         )
         conn.commit()
-    except sqlite3.IntegrityError:
+    except Exception:
         pass
     conn.close()
     return RedirectResponse("/admin", status_code=302)
