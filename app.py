@@ -99,6 +99,7 @@ def init_db():
         "ALTER TABLE sold_cards ADD COLUMN collection TEXT DEFAULT ''",
         "ALTER TABLE fetch_log ADD COLUMN collection TEXT DEFAULT ''",
         "ALTER TABLE users ADD COLUMN collection TEXT DEFAULT ''",
+        "ALTER TABLE price_history ADD COLUMN quantity INTEGER DEFAULT 1",
     ]:
         try:
             conn.execute(col)
@@ -174,13 +175,14 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
                     conn.execute(
                         """INSERT INTO price_history
                            (card_key, card_name, set_code, set_name, collector_number,
-                            foil, finish, language, frame_effects, price, recorded_at, collection)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            foil, finish, language, frame_effects, price, recorded_at, collection, quantity)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (key, d.get("nome", ""), d.get("set_code", ""), d.get("set", ""),
                          d.get("collector_number", ""), 1 if d.get("foil") else 0,
                          d.get("finish", "foil" if d.get("foil") else "normal"),
                          d.get("language", "en"), d.get("frame_effects", ""),
-                         d["prezzo"], d.get("ultimo_aggiornamento", now), collection)
+                         d["prezzo"], d.get("ultimo_aggiornamento", now), collection,
+                         int(d.get("quantity") or 1))
                     )
             conn.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?, ?)",
                          (len(raw), collection))
@@ -189,7 +191,7 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
     rows = conn.execute("""
         SELECT ph.card_key, ph.card_name, ph.set_code, ph.set_name,
                ph.collector_number, ph.foil, ph.finish, ph.language,
-               ph.frame_effects, ph.price, ph.recorded_at
+               ph.frame_effects, ph.price, ph.recorded_at, ph.quantity
         FROM price_history ph
         INNER JOIN (
             SELECT card_key, MAX(id) AS mid FROM price_history
@@ -214,6 +216,7 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
             "language":         row["language"] or "en",
             "frame_effects":    row["frame_effects"] or "",
             "prezzo":           row["price"],
+            "quantity":         int(row["quantity"] or 1),
             "ultimo_aggiornamento": row["recorded_at"],
         }
         for row in rows
@@ -242,8 +245,9 @@ async def dashboard(request: Request):
     coll = user.get("collection", "")
     prices = get_prices(collection=coll)
     items  = list(prices.items())
-    total_value  = sum(v["prezzo"] for v in prices.values())
-    foil_count   = sum(1 for v in prices.values() if v["foil"])
+    total_value  = sum(v["prezzo"] * v.get("quantity", 1) for v in prices.values())
+    foil_count   = sum(v.get("quantity", 1) for v in prices.values() if v["foil"])
+    total_copies = sum(v.get("quantity", 1) for v in prices.values())
     top_card     = items[0] if items else None
 
     conn = get_db()
@@ -260,6 +264,7 @@ async def dashboard(request: Request):
         "total_value": total_value,
         "foil_count": foil_count,
         "total_cards": len(prices),
+        "total_copies": total_copies,
         "top_card": top_card,
         "last_fetch": last_fetch["fetched_at"][:16].replace("T", " ") if last_fetch else "—",
     })
@@ -1021,7 +1026,7 @@ async def sold_export(request: Request):
 def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                         collector_number: str, finish: str,
                         language: str, scryfall_id: str,
-                        collection: str = "") -> bool:
+                        collection: str = "", quantity: int = 1) -> bool:
     """Fetch current price from Scryfall and add card to prezzi_riferimento.json on GitHub."""
     try:
         r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
@@ -1036,6 +1041,7 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         price_val = float(price_str) if price_str else 0.0
 
         card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
+        qty = max(1, int(quantity) if quantity else 1)
         entry = {
             "nome": name,
             "set": set_name or card_data.get("set_name", ""),
@@ -1045,6 +1051,7 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             "foil": is_foil,
             "finish": finish,
             "language": language,
+            "quantity": qty,
             "frame_effects": ",".join(card_data.get("frame_effects") or []),
             "ultimo_aggiornamento": datetime.now().isoformat(),
         }
@@ -1055,11 +1062,11 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         conn.execute(
             """INSERT INTO price_history
                (card_key, card_name, set_code, set_name, collector_number,
-                foil, finish, language, frame_effects, price, recorded_at, collection)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                foil, finish, language, frame_effects, price, recorded_at, collection, quantity)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (card_key, name, set_code.upper(), entry["set"],
              collector_number, 1 if is_foil else 0, finish, language,
-             entry["frame_effects"], price_val, now_iso, collection)
+             entry["frame_effects"], price_val, now_iso, collection, qty)
         )
         conn.commit()
         conn.close()
@@ -1215,19 +1222,25 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                 price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
                             else (prices_d.get("eur") or prices_d.get("eur_foil"))
                 price_val = float(price_str) if price_str else 0.0
+                qty = max(1, int(finish_map.get("Quantity") or 1))
 
                 card_key = f"{card['set'].upper()}_{card['collector_number']}_{finish}_{language}"
-                prezzi[card_key] = {
-                    "nome": card["name"],
-                    "set": card.get("set_name", ""),
-                    "set_code": card["set"].upper(),
-                    "collector_number": card["collector_number"],
-                    "prezzo": price_val,
-                    "foil": is_foil,
-                    "finish": finish,
-                    "language": language,
-                    "ultimo_aggiornamento": now_iso,
-                }
+                if card_key in prezzi:
+                    # Same card in multiple CSV rows — sum quantities
+                    prezzi[card_key]["quantity"] = prezzi[card_key].get("quantity", 1) + qty
+                else:
+                    prezzi[card_key] = {
+                        "nome": card["name"],
+                        "set": card.get("set_name", ""),
+                        "set_code": card["set"].upper(),
+                        "collector_number": card["collector_number"],
+                        "prezzo": price_val,
+                        "foil": is_foil,
+                        "finish": finish,
+                        "language": language,
+                        "quantity": qty,
+                        "ultimo_aggiornamento": now_iso,
+                    }
                 prices_fetched += 1
 
         # Write updated prezzi to GitHub with retry
@@ -1310,7 +1323,8 @@ async def add_card_post(
 
     if ok:
         _add_card_to_prezzi(name, set_code, set_name, collector_number,
-                            foil, language, scryfall_id, coll)
+                            foil, language, scryfall_id, coll,
+                            quantity=int(quantity) if quantity else 1)
         ctx["success"] = f"'{name}' aggiunta alla collezione!"
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."

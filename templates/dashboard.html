@@ -25,8 +25,8 @@
     <div class="stat-lbl" data-i18n="stat-total-value">Valore Totale</div>
   </div>
   <div class="stat-card">
-    <div class="stat-val">{{ total_cards }}</div>
-    <div class="stat-lbl" data-i18n="stat-cards">Carte Monitorate</div>
+    <div class="stat-val">{{ total_copies }}</div>
+    <div class="stat-lbl" data-i18n="stat-cards">Copie Totali</div>
   </div>
   <div class="stat-card">
     <div class="stat-val">{{ foil_count }}</div>
@@ -141,9 +141,15 @@
               onmouseover="this.style.color='rgba(200,200,220,0.7)'"
               onmouseout="this.style.color='rgba(200,200,220,0.22)'">✏️</button>
           </td>
-          <td style="text-align:right; font-family:'Cinzel',serif; font-size:1rem;
-                     font-weight:700; color:var(--gold-light); white-space:nowrap;">
-            €{{ "%.2f"|format(c.prezzo) }}
+          <td style="text-align:right; white-space:nowrap;">
+            <span style="font-family:'Cinzel',serif; font-size:1rem; font-weight:700; color:var(--gold-light);">
+              €{{ "%.2f"|format(c.prezzo * (c.quantity if c.quantity else 1)) }}
+            </span>
+            {% if c.quantity and c.quantity > 1 %}
+            <span style="font-size:0.7rem; color:rgba(200,200,220,0.38); margin-left:2px;">
+              ×{{ c.quantity }} · €{{ "%.2f"|format(c.prezzo) }}/cad
+            </span>
+            {% endif %}
           </td>
           <td class="hide-mobile" style="color:rgba(200,200,220,0.38); font-size:0.78rem; white-space:nowrap;">
             {% if c.ultimo_aggiornamento %}{{ c.ultimo_aggiornamento[:16]|replace("T"," ") }}{% endif %}
