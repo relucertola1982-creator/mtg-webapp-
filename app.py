@@ -14,6 +14,8 @@ import io
 import csv
 from pathlib import Path
 import json
+import re
+import time
 
 app = FastAPI(title="MTG Price Tracker")
 
@@ -253,6 +255,7 @@ async def dashboard(request: Request):
 
     return templates.TemplateResponse("dashboard.html", {
         "request": request, "user": user,
+        **_coll_ctx(user),
         "prices": items,
         "total_value": total_value,
         "foil_count": foil_count,
@@ -331,6 +334,7 @@ async def card_detail(request: Request, card_key: str):
 
     return templates.TemplateResponse("card.html", {
         "request": request, "user": user,
+        **_coll_ctx(user),
         "card_key": card_key, "card": card, "history": history_data,
     })
 
@@ -346,7 +350,7 @@ async def admin_get(request: Request):
         "SELECT id, username, telegram_chat_id, is_admin, created_at, collection FROM users ORDER BY id"
     ).fetchall()
     conn.close()
-    return templates.TemplateResponse("admin.html", {"request": request, "user": user, "users": users})
+    return templates.TemplateResponse("admin.html", {"request": request, "user": user, **_coll_ctx(user), "users": users})
 
 
 @app.post("/admin/add-user")
@@ -394,6 +398,81 @@ def _gh_headers():
 def _cf(filename: str, collection: str = "") -> str:
     """Return GitHub filename prefixed by collection (e.g. 'amico_prezzi_riferimento.json')."""
     return f"{collection}_{filename}" if collection else filename
+
+
+# ── Collections management helpers ───────────────────────────────────────────
+
+_collections_cache: dict = {"data": None, "ts": 0.0}
+
+
+def _get_collections() -> dict:
+    """Read collections.json from GitHub. Returns {id: display_name}. Cached 60s."""
+    if _collections_cache["data"] and time.time() - _collections_cache["ts"] < 60:
+        return dict(_collections_cache["data"])
+    result: dict = {}
+    if GITHUB_REPO:
+        headers = {"Accept": "application/vnd.github.v3.raw"}
+        if GITHUB_TOKEN:
+            headers["Authorization"] = f"token {GITHUB_TOKEN}"
+        for branch in ("main", "master"):
+            url = f"https://raw.githubusercontent.com/{GITHUB_REPO}/{branch}/collections.json"
+            try:
+                r = requests.get(url, headers=headers, timeout=10)
+                if r.ok:
+                    data = r.json()
+                    if isinstance(data, dict):
+                        result = data
+                        break
+            except Exception:
+                continue
+    if "" not in result:
+        result[""] = "La mia collezione"
+    _collections_cache["data"] = dict(result)
+    _collections_cache["ts"] = time.time()
+    return result
+
+
+def _save_collections(data: dict) -> bool:
+    if not GITHUB_REPO or not GITHUB_TOKEN:
+        return False
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/collections.json"
+    encoded = base64.b64encode(
+        json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
+    ).decode("ascii")
+    sha = None
+    try:
+        r = requests.get(url, headers=_gh_headers(), timeout=10)
+        if r.ok:
+            sha = r.json().get("sha")
+    except Exception:
+        pass
+    payload = {"message": "Update collections", "content": encoded}
+    if sha:
+        payload["sha"] = sha
+    try:
+        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
+        if r.ok:
+            _collections_cache["data"] = None
+            return True
+    except Exception:
+        pass
+    return False
+
+
+def _name_to_id(name: str) -> str:
+    return re.sub(r'[^a-z0-9]+', '_', name.lower().strip()).strip('_')[:20]
+
+
+def _coll_ctx(user: dict) -> dict:
+    if not user:
+        return {}
+    colls = _get_collections()
+    active = user.get("collection", "")
+    return {
+        "collections": colls,
+        "active_coll": active,
+        "active_coll_name": colls.get(active, "La mia collezione"),
+    }
 
 
 def _get_csv_from_github(collection=""):
@@ -798,6 +877,7 @@ async def sold_list(request: Request):
     total_sold_value = sum(float(c.get("last_price") or 0) for c in cards)
     return templates.TemplateResponse("sold.html", {
         "request": request, "user": user,
+        **_coll_ctx(user),
         "cards": cards, "total_sold_value": total_sold_value,
     })
 
@@ -989,6 +1069,7 @@ async def import_csv_get(request: Request):
     if not user:
         return RedirectResponse("/login", status_code=302)
     return templates.TemplateResponse("import_csv.html", {"request": request, "user": user,
+                                                           **_coll_ctx(user),
                                                            "result": None, "error": None})
 
 
@@ -999,6 +1080,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         return RedirectResponse("/login", status_code=302)
 
     ctx = {"request": request, "user": user, "result": None, "error": None}
+    ctx.update(_coll_ctx(user))
 
     # --- 1. Read uploaded file ---
     try:
@@ -1160,7 +1242,9 @@ async def add_card_get(request: Request):
     if not user:
         return RedirectResponse("/login", status_code=302)
     return templates.TemplateResponse("add_card.html", {
-        "request": request, "user": user, "error": None, "success": None
+        "request": request, "user": user,
+        **_coll_ctx(user),
+        "error": None, "success": None
     })
 
 
@@ -1184,6 +1268,7 @@ async def add_card_post(
         return RedirectResponse("/login", status_code=302)
 
     ctx = {"request": request, "user": user, "error": None, "success": None}
+    ctx.update(_coll_ctx(user))
 
     coll = user.get("collection", "")
     csv_content, sha = _get_csv_from_github(coll)
@@ -1269,6 +1354,7 @@ async def sealed_list(request: Request):
                          * int(p.get("quantity", 1)) for p in products)
     return templates.TemplateResponse("sealed.html", {
         "request": request, "user": user,
+        **_coll_ctx(user),
         "products": products,
         "total_purchase": total_purchase,
         "total_current":  total_current,
@@ -1354,6 +1440,56 @@ async def sealed_delete(request: Request, item_id: str):
             (BASE_DIR / _cf(SEALED_JSON, coll)).write_text(new_content, encoding="utf-8")
             break
     return RedirectResponse("/sealed", status_code=302)
+
+
+# ── Collection routes ─────────────────────────────────────────────────────────
+
+@app.get("/collections/switch/{coll_id:path}")
+async def switch_collection(request: Request, coll_id: str):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    colls = _get_collections()
+    if coll_id not in colls:
+        return RedirectResponse("/", status_code=302)
+    user["collection"] = coll_id
+    request.session["user"] = user
+    return RedirectResponse("/", status_code=302)
+
+
+@app.post("/collections/add")
+async def add_collection(request: Request, coll_name: str = Form(...)):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    name = coll_name.strip()
+    if not name:
+        return RedirectResponse("/", status_code=302)
+    colls = _get_collections()
+    coll_id = _name_to_id(name) or "coll"
+    base_id, i = coll_id, 2
+    while coll_id in colls:
+        coll_id = f"{base_id}_{i}"; i += 1
+    colls[coll_id] = name
+    _save_collections(colls)
+    user["collection"] = coll_id
+    request.session["user"] = user
+    return RedirectResponse("/", status_code=302)
+
+
+@app.post("/collections/delete/{coll_id:path}")
+async def delete_collection(request: Request, coll_id: str):
+    user = current_user(request)
+    if not user or not coll_id:
+        return RedirectResponse("/", status_code=302)
+    colls = _get_collections()
+    if coll_id in colls:
+        del colls[coll_id]
+        _save_collections(colls)
+    if user.get("collection") == coll_id:
+        user["collection"] = ""
+        request.session["user"] = user
+    return RedirectResponse("/", status_code=302)
 
 
 if __name__ == "__main__":

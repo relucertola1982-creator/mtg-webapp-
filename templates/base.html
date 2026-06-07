@@ -306,6 +306,64 @@
       margin-bottom: 2rem;
     }
 
+    /* ── Collection switcher ───────────────────────────────────── */
+    .coll-wrap { position: relative; display: inline-flex; align-items: center; }
+    .coll-btn {
+      display: flex; align-items: center; gap: 0.35rem;
+      background: rgba(200,155,60,0.08);
+      border: 1px solid rgba(200,155,60,0.2);
+      border-radius: 9px;
+      color: rgba(200,200,220,0.72);
+      font-size: 0.8rem; font-weight: 500;
+      font-family: 'Space Grotesk', sans-serif;
+      padding: 0.35rem 0.8rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background 0.18s, color 0.18s;
+    }
+    .coll-btn:hover { background: rgba(200,155,60,0.15); color: var(--gold-light); }
+    .coll-drop {
+      display: none;
+      position: absolute; top: calc(100% + 6px); left: 0;
+      min-width: 210px;
+      background: rgba(6,6,20,0.98);
+      border: 1px solid rgba(200,155,60,0.22);
+      border-radius: 11px; padding: 0.4rem 0;
+      z-index: 999;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.65);
+      backdrop-filter: blur(24px);
+    }
+    .coll-item {
+      display: flex; align-items: center;
+      padding: 0 0.35rem 0 0.65rem;
+    }
+    .coll-item a {
+      flex: 1; color: rgba(200,200,220,0.68);
+      text-decoration: none; font-size: 0.84rem;
+      padding: 0.45rem 0.2rem;
+      transition: color 0.15s;
+    }
+    .coll-item a:hover { color: var(--gold-light); }
+    .coll-item.coll-active a { color: var(--gold-light); font-weight: 600; }
+    .coll-item.coll-active { background: rgba(200,155,60,0.06); }
+    .coll-del {
+      background: none; border: none;
+      color: rgba(248,113,113,0.35);
+      cursor: pointer; font-size: 0.72rem;
+      padding: 0.28rem 0.45rem; border-radius: 5px;
+      transition: color 0.15s, background 0.15s; line-height:1;
+    }
+    .coll-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+    .coll-sep { border-top: 1px solid rgba(200,155,60,0.12); margin: 0.3rem 0; }
+    .coll-new {
+      display: flex; align-items: center; gap: 0.4rem;
+      width: 100%; background: none; border: none;
+      color: rgba(200,155,60,0.65);
+      font-size: 0.82rem; font-family: 'Space Grotesk', sans-serif;
+      padding: 0.48rem 0.7rem; cursor: pointer; text-align: left;
+      transition: color 0.15s;
+    }
+    .coll-new:hover { color: var(--gold-light); }
+
     /* ── Hamburger ─────────────────────────────────────────────── */
     .hamburger {
       display: none;
@@ -414,6 +472,32 @@
     <a href="/sold"        data-i18n="nav-sold"     onclick="closeNav()">💰 Vendute</a>
     {% if user.is_admin %}
     <a href="/admin" onclick="closeNav()">⚙️ Admin <span class="nav-badge">Admin</span></a>
+    {% endif %}
+    <div class="nav-sep"></div>
+    {% if collections %}
+    <div class="coll-wrap" id="collWrap">
+      <button class="coll-btn" onclick="toggleColl(event)" title="Cambia collezione">
+        📂 <span>{{ active_coll_name or 'Collezione' }}</span>
+        <span style="opacity:0.45; font-size:0.65rem; margin-left:0.1rem;">▾</span>
+      </button>
+      <div class="coll-drop" id="collDrop">
+        {% for cid, cname in collections.items() %}
+        <div class="coll-item {{ 'coll-active' if cid == active_coll else '' }}">
+          <a href="/collections/switch/{{ cid }}" onclick="closeNav(); document.getElementById('collDrop').style.display='none';">
+            {{ cname }}{% if cid == active_coll %} ✓{% endif %}
+          </a>
+          {% if cid != '' %}
+          <form method="post" action="/collections/delete/{{ cid }}"
+                onsubmit="return confirm('Eliminare la collezione \'{{ cname }}\'?\nI dati NON vengono eliminati.')">
+            <button type="submit" class="coll-del" title="Elimina">✕</button>
+          </form>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <div class="coll-sep"></div>
+        <button class="coll-new" onclick="openAddColl()">＋ Nuova collezione</button>
+      </div>
+    </div>
     {% endif %}
     <div class="nav-sep"></div>
     <div class="lang-pair">
@@ -552,9 +636,60 @@ function closeNav() {
 }
 document.addEventListener('click', e => {
   if (!e.target.closest('nav')) closeNav();
+  if (!e.target.closest('#collWrap')) {
+    const drop = document.getElementById('collDrop');
+    if (drop) drop.style.display = 'none';
+  }
+});
+
+// ── Collection switcher ────────────────────────────────────────
+function toggleColl(e) {
+  e.stopPropagation();
+  const drop = document.getElementById('collDrop');
+  if (!drop) return;
+  drop.style.display = drop.style.display === 'block' ? 'none' : 'block';
+}
+function openAddColl() {
+  const drop = document.getElementById('collDrop');
+  if (drop) drop.style.display = 'none';
+  const modal = document.getElementById('addCollModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    setTimeout(() => document.getElementById('collNameInput')?.focus(), 50);
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('addCollModal').style.display = 'none';
+    const drop = document.getElementById('collDrop');
+    if (drop) drop.style.display = 'none';
+  }
 });
 </script>
 
 {% block scripts %}{% endblock %}
+
+<!-- ── Add collection modal ─────────────────────────────────────── -->
+<div id="addCollModal" style="display:none; position:fixed; inset:0; z-index:500;
+     background:rgba(5,5,17,0.88); backdrop-filter:blur(10px);
+     align-items:center; justify-content:center;">
+  <div class="glass" style="padding:2rem; width:340px; position:relative;">
+    <h3 style="font-family:'Cinzel',serif; color:var(--gold); font-size:1rem;
+               letter-spacing:0.05em; margin-bottom:1.2rem;">Nuova Collezione</h3>
+    <form method="post" action="/collections/add">
+      <input type="text" name="coll_name" id="collNameInput" class="inp"
+             placeholder="es. Amico Mario, Standard, Legacy…"
+             required style="width:100%; margin-bottom:1rem;">
+      <div style="display:flex; gap:0.75rem; justify-content:flex-end;">
+        <button type="button" class="btn btn-ghost"
+                onclick="document.getElementById('addCollModal').style.display='none'">
+          Annulla
+        </button>
+        <button type="submit" class="btn btn-gold">Crea</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
