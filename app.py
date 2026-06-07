@@ -490,15 +490,16 @@ def _get_csv_from_github(collection=""):
     return None, None
 
 
-def _update_csv_on_github(new_content: str, sha: str, message: str, collection="") -> bool:
+def _update_csv_on_github(new_content: str, sha, message: str, collection="") -> bool:
     if not GITHUB_REPO or not GITHUB_TOKEN:
         return False
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{_cf('ManaBox_Collection.csv', collection)}"
     encoded = base64.b64encode(new_content.encode("utf-8")).decode("ascii")
+    payload = {"message": message, "content": encoded}
+    if sha:
+        payload["sha"] = sha
     try:
-        r = requests.put(url, headers=_gh_headers(), json={
-            "message": message, "content": encoded, "sha": sha
-        }, timeout=15)
+        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=15)
         return r.ok
     except Exception:
         return False
@@ -1102,16 +1103,17 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         ctx["error"] = f"CSV non valido. Colonne attese: {', '.join(required)}"
         return templates.TemplateResponse("import_csv.html", ctx)
 
-    # --- 2. Load existing CSV from GitHub ---
+    # --- 2. Load existing CSV from GitHub (or start fresh for new collections) ---
     coll = user.get("collection", "")
     existing_content, existing_sha = _get_csv_from_github(coll)
     if existing_content is None:
-        ctx["error"] = "Impossibile leggere il CSV corrente da GitHub."
-        return templates.TemplateResponse("import_csv.html", ctx)
+        # New collection: create an empty CSV using the uploaded file's headers
+        existing_content = ",".join(f'"{f}"' if "," in f else f for f in (reader.fieldnames or [])) + "\n"
+        existing_sha = None
 
     existing_reader = csv.DictReader(io.StringIO(existing_content))
     existing_rows = list(existing_reader)
-    fieldnames = existing_reader.fieldnames
+    fieldnames = existing_reader.fieldnames or reader.fieldnames
 
     # Dedup key: (set_code, collector_number, finish, language)
     existing_keys = {
