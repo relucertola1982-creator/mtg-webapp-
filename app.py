@@ -65,6 +65,19 @@ def init_db():
             price            REAL NOT NULL,
             recorded_at      TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS sold_cards (
+            id               INTEGER PRIMARY KEY AUTOINCREMENT,
+            card_key         TEXT NOT NULL,
+            card_name        TEXT NOT NULL,
+            set_code         TEXT DEFAULT '',
+            set_name         TEXT DEFAULT '',
+            collector_number TEXT DEFAULT '',
+            finish           TEXT DEFAULT 'normal',
+            language         TEXT DEFAULT 'en',
+            frame_effects    TEXT DEFAULT '',
+            last_price       REAL DEFAULT 0,
+            sold_at          TEXT DEFAULT (datetime('now'))
+        );
         CREATE TABLE IF NOT EXISTS fetch_log (
             id          INTEGER PRIMARY KEY AUTOINCREMENT,
             fetched_at  TEXT DEFAULT (datetime('now')),
@@ -430,8 +443,27 @@ async def delete_card(request: Request, card_key: str):
 
     import json as _json
 
-    # 1. Remove from price_history DB
     conn = get_db()
+
+    # 1. Save to sold_cards before deleting
+    last = conn.execute(
+        "SELECT card_name, set_code, set_name, collector_number, finish, language, frame_effects, price "
+        "FROM price_history WHERE card_key=? ORDER BY id DESC LIMIT 1",
+        (card_key,)
+    ).fetchone()
+    if last:
+        conn.execute(
+            """INSERT INTO sold_cards
+               (card_key, card_name, set_code, set_name, collector_number,
+                finish, language, frame_effects, last_price)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (card_key, last["card_name"], last["set_code"], last["set_name"],
+             last["collector_number"], last["finish"] or "normal",
+             last["language"] or "en", last["frame_effects"] or "",
+             last["price"])
+        )
+
+    # 2. Remove from price_history DB
     conn.execute("DELETE FROM price_history WHERE card_key=?", (card_key,))
     conn.commit()
     conn.close()
@@ -476,6 +508,35 @@ async def delete_card(request: Request, card_key: str):
                 )
 
     return RedirectResponse("/", status_code=302)
+
+
+# ── Sold cards ───────────────────────────────────────────────────────────────
+
+@app.get("/sold", response_class=HTMLResponse)
+async def sold_list(request: Request):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    conn = get_db()
+    cards = conn.execute(
+        "SELECT * FROM sold_cards ORDER BY sold_at DESC"
+    ).fetchall()
+    conn.close()
+    return templates.TemplateResponse("sold.html", {
+        "request": request, "user": user, "cards": cards
+    })
+
+
+@app.post("/sold/delete/{sold_id}")
+async def sold_delete(request: Request, sold_id: int):
+    user = current_user(request)
+    if not user:
+        return RedirectResponse("/login", status_code=302)
+    conn = get_db()
+    conn.execute("DELETE FROM sold_cards WHERE id=?", (sold_id,))
+    conn.commit()
+    conn.close()
+    return RedirectResponse("/sold", status_code=302)
 
 
 # ── Add card routes ───────────────────────────────────────────────────────────

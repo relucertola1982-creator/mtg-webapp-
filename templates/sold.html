@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Carte Vendute — MTG Price Tracker{% endblock %}
+
+{% block content %}
+
+<div style="display:flex; align-items:flex-end; justify-content:space-between;
+            flex-wrap:wrap; gap:1rem; margin-bottom:1.8rem;">
+  <div>
+    <h1 class="page-title">Carte Vendute</h1>
+    <p class="page-sub">Storico delle carte rimosse dalla collezione</p>
+  </div>
+  {% if cards %}
+  <div style="font-size:0.85rem; color:rgba(200,200,200,0.4);">
+    {{ cards|length }} carta{% if cards|length != 1 %}e{% endif %} venduta{% if cards|length != 1 %}e{% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% if cards %}
+<div class="glass" style="overflow:hidden;">
+  <div style="overflow-x:auto;">
+    <table class="mtg-table">
+      <thead>
+        <tr>
+          <th>Carta</th>
+          <th>Set · #</th>
+          <th>Versione</th>
+          <th>Lingua</th>
+          <th style="text-align:right;">Ultimo Prezzo</th>
+          <th>Venduta il</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in cards %}
+        <tr>
+          <td style="font-weight:500;">{{ c.card_name }}</td>
+          <td style="color:rgba(200,200,200,0.55); font-size:0.82rem; white-space:nowrap;">
+            {{ c.set_code|upper if c.set_code }}
+            {% if c.collector_number %}<span style="opacity:0.5;"> #{{ c.collector_number }}</span>{% endif %}
+          </td>
+          <td style="white-space:nowrap;">
+            {% if c.finish == 'etched' %}
+              <span class="badge" style="background:rgba(148,163,184,0.15);border:1px solid rgba(148,163,184,0.4);color:#94a3b8;">🔆 Etched</span>
+            {% elif c.finish == 'foil' %}
+              <span class="badge badge-foil">✨ Foil</span>
+            {% else %}
+              <span class="badge badge-normal">📄 Normal</span>
+            {% endif %}
+            {% if c.frame_effects %}
+              {% for fx in c.frame_effects.split(',') %}
+                {% if fx.strip() %}
+                <span class="badge" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.35);color:#a78bfa;margin-left:3px;">{{ fx.strip()|capitalize }}</span>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            {% if c.language and c.language != 'en' %}
+              <span class="badge" style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);color:#38bdf8;font-family:monospace;">{{ c.language|upper }}</span>
+            {% else %}
+              <span style="color:rgba(200,200,200,0.3); font-size:0.78rem;">EN</span>
+            {% endif %}
+          </td>
+          <td style="text-align:right; font-family:'Cinzel',serif; font-size:1rem;
+                     font-weight:700; color:rgba(200,200,200,0.6); white-space:nowrap;">
+            €{{ "%.2f"|format(c.last_price) }}
+          </td>
+          <td style="color:rgba(200,200,200,0.4); font-size:0.78rem; white-space:nowrap;">
+            {{ c.sold_at[:16]|replace("T"," ") if c.sold_at else "—" }}
+          </td>
+          <td>
+            <form method="post" action="/sold/delete/{{ c.id }}"
+                  onsubmit="return confirm('Rimuovere dalla lista vendute?')">
+              <button type="submit" title="Rimuovi dalla lista"
+                style="background:none; border:none; cursor:pointer; color:rgba(248,113,113,0.4);
+                       font-size:1rem; padding:0; transition:color 0.18s;"
+                onmouseover="this.style.color='#f87171'"
+                onmouseout="this.style.color='rgba(248,113,113,0.4)'">🗑</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% else %}
+<div class="glass" style="padding:4rem 2rem; text-align:center; color:rgba(200,200,200,0.35);">
+  <div style="font-size:3rem; margin-bottom:1rem;">💰</div>
+  <p style="font-size:1rem;">Nessuna carta venduta ancora.</p>
+  <p style="font-size:0.85rem; margin-top:0.4rem; opacity:0.7;">
+    Le carte che rimuovi dalla collezione appariranno qui.
+  </p>
+</div>
+{% endif %}
+
+{% endblock %}
