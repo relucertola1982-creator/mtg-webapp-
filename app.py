@@ -114,9 +114,13 @@ def _fetch_github() -> dict:
     # Fallback: local file bundled in the repo
     local = BASE_DIR / "prezzi_riferimento.json"
     if local.exists():
-        import json as _json
-        with open(local, "r", encoding="utf-8") as f:
-            return _json.load(f)
+        try:
+            import json as _json
+            with open(local, "r", encoding="utf-8") as f:
+                data = _json.load(f)
+                return data if isinstance(data, dict) else {}
+        except Exception:
+            pass
     return {}
 
 
