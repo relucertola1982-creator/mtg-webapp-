@@ -137,6 +137,7 @@
         <input type="hidden" name="frame_effects"    id="f-fx" value="">
         <input type="hidden" name="purchase_price"   id="f-price" value="0">
         <input type="hidden" name="quantity"         id="f-qty" value="1">
+        <input type="hidden" name="market_price"     id="f-market-price" value="0">
 
         <button type="submit" id="submit-btn" disabled class="btn btn-gold"
                 style="width:100%; padding:0.9rem; font-size:1rem; opacity:0.4; cursor:not-allowed;"
@@ -328,6 +329,10 @@ document.getElementById('submit-form').addEventListener('submit', () => {
   document.getElementById('f-lang').value             = document.getElementById('lang-select').value;
   document.getElementById('f-price').value            = document.getElementById('price-input').value;
   document.getElementById('f-qty').value              = document.getElementById('qty-input').value;
+  const eur = (document.getElementById('finish-select').value === 'foil' || document.getElementById('finish-select').value === 'etched')
+    ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
+    : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
+  document.getElementById('f-market-price').value     = parseFloat(eur || 0).toFixed(2);
 });
 </script>
 {% endblock %}

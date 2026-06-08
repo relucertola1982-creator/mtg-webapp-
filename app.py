@@ -1092,28 +1092,32 @@ async def sold_export(request: Request):
 def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                         collector_number: str, finish: str,
                         language: str, scryfall_id: str,
-                        collection: str = "", quantity: int = 1) -> bool:
-    """Add card to prezzi_riferimento.json on GitHub and SQLite. Price fetched from Scryfall."""
+                        collection: str = "", quantity: int = 1,
+                        market_price: float = None) -> bool:
+    """Add card to prezzi_riferimento.json on GitHub and SQLite."""
     is_foil = finish in ("foil", "etched")
     qty = max(1, int(quantity) if quantity else 1)
     card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
 
-    # Fetch price from Scryfall (non-fatal if it fails — card added with price 0)
-    price_val = 0.0
+    # Use price passed from frontend if available (avoids a Scryfall round-trip)
+    price_val = float(market_price) if market_price is not None else 0.0
     frame_effects_str = ""
     resolved_set_name = set_name or ""
-    try:
-        r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
-        if r.ok:
-            card_data = r.json()
-            prices = card_data.get("prices", {})
-            price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
-                        else (prices.get("eur") or prices.get("eur_foil"))
-            price_val = float(price_str) if price_str else 0.0
-            frame_effects_str = ",".join(card_data.get("frame_effects") or [])
-            resolved_set_name = set_name or card_data.get("set_name", "")
-    except Exception:
-        pass  # use defaults: price_val=0.0
+
+    # Only call Scryfall if we don't already have the price
+    if market_price is None:
+        try:
+            r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
+            if r.ok:
+                card_data = r.json()
+                prices = card_data.get("prices", {})
+                price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
+                            else (prices.get("eur") or prices.get("eur_foil"))
+                price_val = float(price_str) if price_str else 0.0
+                frame_effects_str = ",".join(card_data.get("frame_effects") or [])
+                resolved_set_name = set_name or card_data.get("set_name", "")
+        except Exception:
+            pass
 
     entry = {
         "nome": name,
@@ -1142,8 +1146,6 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
              collector_number, 1 if is_foil else 0, finish, language,
              frame_effects_str, price_val, now_iso, collection, qty)
         )
-        conn.execute("INSERT OR IGNORE INTO fetch_log (cards_count, collection) VALUES (?,?)",
-                     (1, collection))
         conn.commit()
         conn.close()
 
@@ -1456,6 +1458,7 @@ async def add_card_post(
     frame_effects: str = Form(""),
     purchase_price: str = Form("0"),
     quantity: str = Form("1"),
+    market_price: str = Form("0"),
 ):
     user = current_user(request)
     if not user:
@@ -1486,9 +1489,14 @@ async def add_card_post(
             break
 
     if ok:
+        try:
+            mp = float(market_price) if market_price else None
+        except (ValueError, TypeError):
+            mp = None
         added = _add_card_to_prezzi(name, set_code, set_name, collector_number,
                                     foil, language, scryfall_id, coll,
-                                    quantity=int(quantity) if quantity else 1)
+                                    quantity=int(quantity) if quantity else 1,
+                                    market_price=mp)
         if added:
             ctx["success"] = f"'{name}' aggiunta alla collezione!"
         else:
