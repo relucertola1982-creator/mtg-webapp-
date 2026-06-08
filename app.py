@@ -167,12 +167,13 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
         if raw:
             now = datetime.now().isoformat()
             for key, d in raw.items():
-                new_qty = int(d.get("quantity") or 1)
                 price_val = float(d.get("prezzo") or 0)
                 last_row = conn.execute(
                     "SELECT id, price, quantity FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
                     (key, collection)
                 ).fetchone()
+                # CDN is authoritative for PRICES only — preserve existing SQLite quantity
+                keep_qty = int(last_row["quantity"] or 1) if last_row else int(d.get("quantity") or 1)
                 if not last_row or abs(last_row["price"] - price_val) > 0.001:
                     conn.execute(
                         """INSERT INTO price_history
@@ -184,12 +185,7 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
                          d.get("finish", "foil" if d.get("foil") else "normal"),
                          d.get("language", "en"), d.get("frame_effects", ""),
                          price_val, d.get("ultimo_aggiornamento", now), collection,
-                         new_qty)
-                    )
-                elif (last_row["quantity"] or 1) != new_qty:
-                    conn.execute(
-                        "UPDATE price_history SET quantity=? WHERE id=?",
-                        (new_qty, last_row["id"])
+                         keep_qty)
                     )
             conn.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?, ?)",
                          (len(raw), collection))
