@@ -1259,14 +1259,22 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         BATCH = 75
         for i in range(0, len(new_rows or []), BATCH):
             batch = new_rows[i:i + BATCH]
+
+            # Deduplicate identifiers — foil and normal share the same Scryfall card ID
             identifiers = []
+            seen_ids: set = set()
             for r in batch:
                 sid = r.get("Scryfall ID", "").strip()
                 if sid:
-                    identifiers.append({"id": sid})
+                    if sid not in seen_ids:
+                        identifiers.append({"id": sid})
+                        seen_ids.add(sid)
                 elif r.get("Set code") and r.get("Collector number"):
-                    identifiers.append({"set": r["Set code"].lower(),
-                                        "collector_number": r["Collector number"]})
+                    dedup_key = f"{r['Set code'].lower()}_{r['Collector number']}"
+                    if dedup_key not in seen_ids:
+                        identifiers.append({"set": r["Set code"].lower(),
+                                            "collector_number": r["Collector number"]})
+                        seen_ids.add(dedup_key)
 
             if not identifiers:
                 continue
@@ -1282,44 +1290,42 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                 continue
 
             for card in resp.json().get("data", []):
-                # Find matching row in batch by set+number
-                finish_map = {}
-                for r in batch:
-                    sid = r.get("Scryfall ID", "").strip()
-                    if sid == card.get("id") or (
+                # Collect ALL rows matching this card (covers every finish/language variant)
+                matching_rows = [
+                    r for r in batch
+                    if r.get("Scryfall ID", "").strip() == card.get("id") or (
                         r["Set code"].lower() == card["set"] and
                         r["Collector number"] == card["collector_number"]
-                    ):
-                        finish_map = r
-                        break
+                    )
+                ]
+                if not matching_rows:
+                    matching_rows = [{}]
 
-                finish   = (finish_map.get("Foil") or "normal")
-                language = (finish_map.get("Language") or "en")
-                is_foil  = finish in ("foil", "etched")
                 prices_d = card.get("prices", {})
-                price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
-                            else (prices_d.get("eur") or prices_d.get("eur_foil"))
-                price_val = float(price_str) if price_str else 0.0
-                qty = max(1, int(finish_map.get("Quantity") or 1))
+                for finish_map in matching_rows:
+                    finish   = (finish_map.get("Foil") or "normal")
+                    language = (finish_map.get("Language") or "en")
+                    is_foil  = finish in ("foil", "etched")
+                    price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
+                                else (prices_d.get("eur") or prices_d.get("eur_foil"))
+                    price_val = float(price_str) if price_str else 0.0
+                    qty = max(1, int(finish_map.get("Quantity") or 1))
 
-                card_key = f"{card['set'].upper()}_{card['collector_number']}_{finish}_{language}"
-                if card_key in prezzi:
-                    # Same card in multiple CSV rows — sum quantities
-                    prezzi[card_key]["quantity"] = prezzi[card_key].get("quantity", 1) + qty
-                else:
-                    prezzi[card_key] = {
-                        "nome": card["name"],
-                        "set": card.get("set_name", ""),
-                        "set_code": card["set"].upper(),
-                        "collector_number": card["collector_number"],
-                        "prezzo": price_val,
-                        "foil": is_foil,
-                        "finish": finish,
-                        "language": language,
-                        "quantity": qty,
-                        "ultimo_aggiornamento": now_iso,
-                    }
-                prices_fetched += 1
+                    card_key = f"{card['set'].upper()}_{card['collector_number']}_{finish}_{language}"
+                    if card_key not in prezzi:
+                        prezzi[card_key] = {
+                            "nome": card["name"],
+                            "set": card.get("set_name", ""),
+                            "set_code": card["set"].upper(),
+                            "collector_number": card["collector_number"],
+                            "prezzo": price_val,
+                            "foil": is_foil,
+                            "finish": finish,
+                            "language": language,
+                            "quantity": qty,
+                            "ultimo_aggiornamento": now_iso,
+                        }
+                        prices_fetched += 1
 
         # Write updated prezzi to GitHub with retry
         new_prezzi = json.dumps(prezzi, ensure_ascii=False, indent=2)
