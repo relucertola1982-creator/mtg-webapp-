@@ -1364,8 +1364,9 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
             lg = (entry.get("language") or "en").strip()
             new_qty = csv_qty.get((sc, cn, fn, lg))
             if new_qty is not None:
+                old_qty = entry.get("quantity", 1)
                 qprezzi[ck]["quantity"] = new_qty
-                if new_qty != entry.get("quantity", 1):
+                if new_qty != old_qty:
                     qty_changed += 1
 
         if qty_changed:
