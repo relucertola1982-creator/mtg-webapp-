@@ -168,7 +168,7 @@
               Storico →
             </a>
             <button type="button" title="Carta venduta — aggiungi allo storico"
-              onclick="openSellModal('{{ key }}', '{{ c.nome|replace("'","\\'")|replace('"','\\"') }}', {{ c.prezzo }})"
+              onclick="openSellModal('{{ key }}', '{{ c.nome|replace("'","\\'")|replace('"','\\"') }}', {{ c.prezzo }}, {{ c.quantity or 1 }})"
               style="background:none; border:none; cursor:pointer; color:rgba(74,222,128,0.45);
                      font-size:0.95rem; padding:0; transition:color 0.18s; line-height:1;"
               onmouseover="this.style.color='#4ade80'"
@@ -216,6 +216,19 @@
        color:#e2e2f0; margin-bottom:1.6rem;"></div>
   <form id="sell-form" method="post">
     <input type="hidden" name="sold_price" id="sell-price-input">
+    <input type="hidden" name="sell_qty"   id="sell-qty-input">
+    <div id="sell-qty-wrap" style="display:none; margin-bottom:1.2rem;">
+      <label style="display:block; font-size:0.68rem; font-weight:700;
+                    color:rgba(200,200,220,0.42); text-transform:uppercase;
+                    letter-spacing:0.14em; margin-bottom:0.5rem;">
+        Copie da vendere
+      </label>
+      <div style="display:flex; align-items:center; gap:0.6rem;">
+        <input type="number" id="sell-qty-display" class="inp"
+               min="1" style="width:90px; font-size:1.1rem; text-align:center;">
+        <span id="sell-qty-max" style="font-size:0.8rem; color:rgba(200,200,220,0.38);"></span>
+      </div>
+    </div>
     <label style="display:block; font-size:0.68rem; font-weight:700;
                   color:rgba(200,200,220,0.42); text-transform:uppercase;
                   letter-spacing:0.14em; margin-bottom:0.5rem;">
@@ -321,10 +334,21 @@
 {% block scripts %}
 <script>
 // ── Sell modal ──────────────────────────────────────────────────────────────
-function openSellModal(key, name, currentPrice) {
+function openSellModal(key, name, currentPrice, totalQty) {
   document.getElementById('sell-name').textContent = name;
   document.getElementById('sell-price-display').value = currentPrice.toFixed(2);
   document.getElementById('sell-form').action = '/delete-card/' + key;
+  const qtyWrap = document.getElementById('sell-qty-wrap');
+  const qtyInput = document.getElementById('sell-qty-display');
+  if (totalQty > 1) {
+    qtyInput.max = totalQty;
+    qtyInput.value = 1;
+    document.getElementById('sell-qty-max').textContent = 'max ' + totalQty;
+    qtyWrap.style.display = 'block';
+  } else {
+    qtyWrap.style.display = 'none';
+    qtyInput.value = 1;
+  }
   document.getElementById('sell-overlay').style.display = 'block';
   document.getElementById('sell-modal').style.display = 'block';
   setTimeout(() => document.getElementById('sell-price-display').select(), 50);
@@ -336,6 +360,8 @@ function closeSellModal() {
 function confirmSell() {
   const v = parseFloat(document.getElementById('sell-price-display').value);
   document.getElementById('sell-price-input').value = isNaN(v) ? 0 : v;
+  const q = parseInt(document.getElementById('sell-qty-display').value) || 1;
+  document.getElementById('sell-qty-input').value = q;
 }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeSellModal();

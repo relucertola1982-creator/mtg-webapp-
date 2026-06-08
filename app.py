@@ -621,7 +621,8 @@ def _update_json_on_github(new_content: str, sha, message: str, collection="") -
 
 @app.post("/delete-card/{card_key:path}")
 async def delete_card(request: Request, card_key: str,
-                      sold_price: str = Form(None)):
+                      sold_price: str = Form(None),
+                      sell_qty: str = Form(None)):
     user = current_user(request)
     if not user:
         return RedirectResponse("/login", status_code=302)
@@ -629,88 +630,150 @@ async def delete_card(request: Request, card_key: str,
     import json as _json
 
     conn = get_db()
-
     coll = user.get("collection", "")
 
-    # 1. Save to sold_cards (DB + GitHub)
+    # Current quantity in collection
     last = conn.execute(
-        "SELECT card_name, set_code, set_name, collector_number, finish, language, frame_effects, price "
+        "SELECT card_name, set_code, set_name, collector_number, finish, language, "
+        "frame_effects, price, quantity "
         "FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
         (card_key, coll)
     ).fetchone()
-    if last:
-        sold_at = datetime.now().isoformat()
-        entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
-        try:
-            final_price = float(sold_price) if sold_price else last["price"]
-        except (ValueError, TypeError):
-            final_price = last["price"]
-        entry = {
-            "id": entry_id,
-            "card_key": card_key,
-            "card_name": last["card_name"],
-            "set_code": last["set_code"] or "",
-            "set_name": last["set_name"] or "",
-            "collector_number": last["collector_number"] or "",
-            "finish": last["finish"] or "normal",
-            "language": last["language"] or "en",
-            "frame_effects": last["frame_effects"] or "",
-            "last_price": final_price,
-            "sold_at": sold_at,
-        }
-        current_sold = _load_sold_from_github(coll)
-        current_sold.insert(0, entry)
-        _save_sold_to_github(current_sold, f"Sell {card_key}", coll)
+
+    if not last:
+        conn.close()
+        return RedirectResponse("/", status_code=302)
+
+    try:
+        final_price = float(sold_price) if sold_price else last["price"]
+    except (ValueError, TypeError):
+        final_price = last["price"]
+
+    total_qty = int(last["quantity"] or 1)
+    try:
+        qty_to_sell = max(1, int(sell_qty)) if sell_qty else total_qty
+    except (ValueError, TypeError):
+        qty_to_sell = total_qty
+    qty_to_sell = min(qty_to_sell, total_qty)
+    remaining   = total_qty - qty_to_sell
+    full_remove = (remaining <= 0)
+
+    # 1. Save to sold_cards (DB + GitHub) — one entry per copy sold
+    sold_at  = datetime.now().isoformat()
+    entry_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
+    entry = {
+        "id": entry_id,
+        "card_key": card_key,
+        "card_name": last["card_name"],
+        "set_code": last["set_code"] or "",
+        "set_name": last["set_name"] or "",
+        "collector_number": last["collector_number"] or "",
+        "finish": last["finish"] or "normal",
+        "language": last["language"] or "en",
+        "frame_effects": last["frame_effects"] or "",
+        "last_price": final_price,
+        "quantity_sold": qty_to_sell,
+        "sold_at": sold_at,
+    }
+    current_sold = _load_sold_from_github(coll)
+    current_sold.insert(0, entry)
+    _save_sold_to_github(current_sold, f"Sell {qty_to_sell}x {card_key}", coll)
+    conn.execute(
+        """INSERT INTO sold_cards
+           (card_key, card_name, set_code, set_name, collector_number,
+            finish, language, frame_effects, last_price, collection)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (card_key, last["card_name"], last["set_code"] or "", last["set_name"] or "",
+         last["collector_number"] or "", last["finish"] or "normal",
+         last["language"] or "en", last["frame_effects"] or "",
+         final_price, coll)
+    )
+
+    if full_remove:
+        # 2a. Remove entirely from price_history
+        conn.execute("DELETE FROM price_history WHERE card_key=? AND collection=?", (card_key, coll))
+        conn.commit()
+        conn.close()
+
+        # Remove from GitHub JSON
+        json_content, json_sha = _get_json_from_github(coll)
+        if json_content:
+            try:
+                data = _json.loads(json_content)
+                if card_key in data:
+                    del data[card_key]
+                    _update_json_on_github(
+                        _json.dumps(data, indent=2, ensure_ascii=False),
+                        json_sha, f"Remove {card_key} (sold)", coll
+                    )
+            except Exception:
+                pass
+
+        # Remove from CSV
+        parts = card_key.split("_")
+        if len(parts) >= 4:
+            c_set, c_num, c_fin, c_lang = parts[0].upper(), parts[1], parts[2], parts[3]
+            csv_content, csv_sha = _get_csv_from_github(coll)
+            if csv_content and csv_sha:
+                lines = csv_content.splitlines(keepends=True)
+                new_lines = [l for l in lines if not (
+                    c_set.lower() in l.lower() and c_num in l and c_fin in l and c_lang in l
+                )]
+                if len(new_lines) < len(lines):
+                    _update_csv_on_github("".join(new_lines), csv_sha,
+                                          f"Remove {card_key} (sold)", coll)
+    else:
+        # 2b. Partial sell: update quantity in SQLite
         conn.execute(
-            """INSERT INTO sold_cards
-               (card_key, card_name, set_code, set_name, collector_number,
-                finish, language, frame_effects, last_price, collection)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (card_key, last["card_name"], last["set_code"] or "", last["set_name"] or "",
-             last["collector_number"] or "", last["finish"] or "normal",
-             last["language"] or "en", last["frame_effects"] or "",
-             last["price"], coll)
+            "UPDATE price_history SET quantity=? WHERE collection=? AND card_key=? "
+            "AND id=(SELECT MAX(id) FROM price_history WHERE card_key=? AND collection=?)",
+            (remaining, coll, card_key, card_key, coll)
         )
+        conn.commit()
+        conn.close()
 
-    # 2. Remove from price_history DB
-    conn.execute("DELETE FROM price_history WHERE card_key=? AND collection=?", (card_key, coll))
-    conn.commit()
-    conn.close()
+        # Update quantity in GitHub JSON
+        json_content, json_sha = _get_json_from_github(coll)
+        if json_content:
+            try:
+                data = _json.loads(json_content)
+                if card_key in data:
+                    data[card_key]["quantity"] = remaining
+                    _update_json_on_github(
+                        _json.dumps(data, indent=2, ensure_ascii=False),
+                        json_sha, f"Partial sell {card_key}: {remaining} remaining", coll
+                    )
+            except Exception:
+                pass
 
-    json_content, json_sha = _get_json_from_github(coll)
-    if json_content and json_sha:
-        try:
-            data = _json.loads(json_content)
-            if card_key in data:
-                del data[card_key]
-                _update_json_on_github(
-                    _json.dumps(data, indent=2, ensure_ascii=False),
-                    json_sha, f"Remove {card_key} (sold)", coll
-                )
-        except Exception:
-            pass
-
-    parts = card_key.split("_")
-    if len(parts) >= 4:
-        c_set  = parts[0].upper()
-        c_num  = parts[1]
-        c_fin  = parts[2]
-        c_lang = parts[3]
-        csv_content, csv_sha = _get_csv_from_github(coll)
-        if csv_content and csv_sha:
-            lines = csv_content.splitlines(keepends=True)
-            new_lines = []
-            for line in lines:
-                low = line.lower()
-                if (c_set.lower() in low and c_num in low and
-                        c_fin in low and c_lang in low):
-                    continue
-                new_lines.append(line)
-            if len(new_lines) < len(lines):
-                _update_csv_on_github(
-                    "".join(new_lines), csv_sha,
-                    f"Remove {card_key} from collection (sold)", coll
-                )
+        # Update quantity in CSV
+        parts = card_key.split("_")
+        if len(parts) >= 4:
+            c_set, c_num, c_fin, c_lang = parts[0].upper(), parts[1], parts[2], parts[3]
+            csv_content, csv_sha = _get_csv_from_github(coll)
+            if csv_content and csv_sha:
+                try:
+                    reader = csv.DictReader(io.StringIO(csv_content))
+                    rows = list(reader)
+                    fieldnames = reader.fieldnames or []
+                    updated = False
+                    for row in rows:
+                        if (row.get("Set code","").upper() == c_set and
+                                str(row.get("Collector number","")).strip() == c_num and
+                                (row.get("Foil","") or "normal") == c_fin and
+                                row.get("Language","") == c_lang):
+                            row["Quantity"] = str(remaining)
+                            updated = True
+                            break
+                    if updated:
+                        buf = io.StringIO()
+                        w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+                        w.writeheader()
+                        w.writerows(rows)
+                        _update_csv_on_github(buf.getvalue(), csv_sha,
+                                              f"Partial sell {card_key}: qty={remaining}", coll)
+                except Exception:
+                    pass
 
     return RedirectResponse("/", status_code=302)
 
