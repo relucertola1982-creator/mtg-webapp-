@@ -2990,5 +2990,18 @@
     "finish": "foil",
     "language": "en",
     "ultimo_aggiornamento": "2026-06-07T23:17:27.411284"
+  },
+  "MPS_24_foil_en": {
+    "nome": "Sol Ring",
+    "set": "Kaladesh Inventions",
+    "set_code": "MPS",
+    "collector_number": "24",
+    "prezzo": 0.0,
+    "foil": true,
+    "finish": "foil",
+    "language": "en",
+    "quantity": 1,
+    "frame_effects": "",
+    "ultimo_aggiornamento": "2026-06-08T00:49:52.480289"
   }
 }
