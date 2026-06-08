@@ -719,18 +719,6 @@
     "frame_effects": "inverted,showcase",
     "ultimo_aggiornamento": "2026-06-07T20:55:03.140791"
   },
-  "SOA_92_normal_de": {
-    "nome": "Culling the Weak",
-    "set": "Secrets of Strixhaven Mystical Archive",
-    "set_code": "SOA",
-    "collector_number": "92",
-    "prezzo": 8.99,
-    "foil": false,
-    "finish": "normal",
-    "language": "de",
-    "frame_effects": "showcase",
-    "ultimo_aggiornamento": "2026-06-07T20:55:03.624666"
-  },
   "SOS_259_normal_de": {
     "nome": "Petrified Hamlet",
     "set": "Secrets of Strixhaven",
@@ -754,5 +742,17 @@
     "language": "de",
     "frame_effects": "",
     "ultimo_aggiornamento": "2026-06-07T20:55:04.340807"
+  },
+  "SOA_92_normal_ja": {
+    "nome": "Culling the Weak",
+    "set": "Secrets of Strixhaven Mystical Archive",
+    "set_code": "SOA",
+    "collector_number": "92",
+    "prezzo": 8.99,
+    "foil": false,
+    "finish": "normal",
+    "language": "ja",
+    "frame_effects": "",
+    "ultimo_aggiornamento": "2026-06-08T00:08:03.564100"
   }
 }
