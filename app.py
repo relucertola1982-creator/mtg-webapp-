@@ -167,11 +167,13 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
         if raw:
             now = datetime.now().isoformat()
             for key, d in raw.items():
-                last_price = conn.execute(
-                    "SELECT price FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
+                new_qty = int(d.get("quantity") or 1)
+                price_val = float(d.get("prezzo") or 0)
+                last_row = conn.execute(
+                    "SELECT id, price, quantity FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
                     (key, collection)
                 ).fetchone()
-                if not last_price or abs(last_price["price"] - d["prezzo"]) > 0.001:
+                if not last_row or abs(last_row["price"] - price_val) > 0.001:
                     conn.execute(
                         """INSERT INTO price_history
                            (card_key, card_name, set_code, set_name, collector_number,
@@ -181,8 +183,13 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
                          d.get("collector_number", ""), 1 if d.get("foil") else 0,
                          d.get("finish", "foil" if d.get("foil") else "normal"),
                          d.get("language", "en"), d.get("frame_effects", ""),
-                         d["prezzo"], d.get("ultimo_aggiornamento", now), collection,
-                         int(d.get("quantity") or 1))
+                         price_val, d.get("ultimo_aggiornamento", now), collection,
+                         new_qty)
+                    )
+                elif (last_row["quantity"] or 1) != new_qty:
+                    conn.execute(
+                        "UPDATE price_history SET quantity=? WHERE id=?",
+                        (new_qty, last_row["id"])
                     )
             conn.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?, ?)",
                          (len(raw), collection))
@@ -1027,35 +1034,43 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                         collector_number: str, finish: str,
                         language: str, scryfall_id: str,
                         collection: str = "", quantity: int = 1) -> bool:
-    """Fetch current price from Scryfall and add card to prezzi_riferimento.json on GitHub."""
+    """Add card to prezzi_riferimento.json on GitHub and SQLite. Price fetched from Scryfall."""
+    is_foil = finish in ("foil", "etched")
+    qty = max(1, int(quantity) if quantity else 1)
+    card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
+
+    # Fetch price from Scryfall (non-fatal if it fails — card added with price 0)
+    price_val = 0.0
+    frame_effects_str = ""
+    resolved_set_name = set_name or ""
     try:
         r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
-        if not r.ok:
-            return False
-        card_data = r.json()
-        is_foil = finish in ("foil", "etched")
-        prices = card_data.get("prices", {})
-        price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
-                    else (prices.get("eur") or prices.get("eur_foil"))
-        # Always add the card even with no EUR price (shows as 0.00, tracker will fill it in)
-        price_val = float(price_str) if price_str else 0.0
+        if r.ok:
+            card_data = r.json()
+            prices = card_data.get("prices", {})
+            price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
+                        else (prices.get("eur") or prices.get("eur_foil"))
+            price_val = float(price_str) if price_str else 0.0
+            frame_effects_str = ",".join(card_data.get("frame_effects") or [])
+            resolved_set_name = set_name or card_data.get("set_name", "")
+    except Exception:
+        pass  # use defaults: price_val=0.0
 
-        card_key = f"{set_code.upper()}_{collector_number}_{finish}_{language}"
-        qty = max(1, int(quantity) if quantity else 1)
-        entry = {
-            "nome": name,
-            "set": set_name or card_data.get("set_name", ""),
-            "set_code": set_code.upper(),
-            "collector_number": collector_number,
-            "prezzo": price_val,
-            "foil": is_foil,
-            "finish": finish,
-            "language": language,
-            "quantity": qty,
-            "frame_effects": ",".join(card_data.get("frame_effects") or []),
-            "ultimo_aggiornamento": datetime.now().isoformat(),
-        }
+    entry = {
+        "nome": name,
+        "set": resolved_set_name,
+        "set_code": set_code.upper(),
+        "collector_number": collector_number,
+        "prezzo": price_val,
+        "foil": is_foil,
+        "finish": finish,
+        "language": language,
+        "quantity": qty,
+        "frame_effects": frame_effects_str,
+        "ultimo_aggiornamento": datetime.now().isoformat(),
+    }
 
+    try:
         # Write to SQLite immediately (bypasses CDN caching delay)
         now_iso = datetime.now().isoformat()
         conn = get_db()
@@ -1064,15 +1079,18 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                (card_key, card_name, set_code, set_name, collector_number,
                 foil, finish, language, frame_effects, price, recorded_at, collection, quantity)
                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            (card_key, name, set_code.upper(), entry["set"],
+            (card_key, name, set_code.upper(), resolved_set_name,
              collector_number, 1 if is_foil else 0, finish, language,
-             entry["frame_effects"], price_val, now_iso, collection, qty)
+             frame_effects_str, price_val, now_iso, collection, qty)
         )
+        conn.execute("INSERT OR IGNORE INTO fetch_log (cards_count, collection) VALUES (?,?)",
+                     (1, collection))
         conn.commit()
         conn.close()
 
         # Write to GitHub JSON (with retry on SHA conflict)
-        for _ in range(2):
+        new_content = "{}"
+        for _ in range(3):
             json_content, sha = _get_json_from_github(collection)
             prezzi = json.loads(json_content) if json_content else {}
             prezzi[card_key] = entry
@@ -1081,8 +1099,10 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                 break
 
         local = BASE_DIR / _cf("prezzi_riferimento.json", collection)
-        with open(local, "w", encoding="utf-8") as f:
-            f.write(new_content)
+        try:
+            local.write_text(new_content, encoding="utf-8")
+        except Exception:
+            pass
         return True
     except Exception:
         return False
@@ -1152,26 +1172,23 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         if key not in existing_keys:
             new_rows.append(r)
 
-    if not new_rows:
-        ctx["result"] = {"added": 0, "skipped": len(uploaded_rows), "prices_fetched": 0}
-        return templates.TemplateResponse("import_csv.html", ctx)
+    # --- 4. Append new rows to CSV on GitHub (only if there are new rows) ---
+    if new_rows:
+        buf = io.StringIO()
+        writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+        writer.writerows(new_rows)
+        updated_content = existing_content.rstrip("\n") + "\n" + buf.getvalue()
 
-    # --- 4. Append new rows to CSV on GitHub ---
-    buf = io.StringIO()
-    writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
-    writer.writerows(new_rows)
-    updated_content = existing_content.rstrip("\n") + "\n" + buf.getvalue()
+        for _ in range(2):
+            ok_csv = _update_csv_on_github(
+                updated_content, existing_sha,
+                f"Import {len(new_rows)} cards from ManaBox CSV", coll
+            )
+            if ok_csv:
+                break
+            existing_content, existing_sha = _get_csv_from_github(coll)
 
-    for _ in range(2):
-        ok_csv = _update_csv_on_github(
-            updated_content, existing_sha,
-            f"Import {len(new_rows)} cards from ManaBox CSV", coll
-        )
-        if ok_csv:
-            break
-        existing_content, existing_sha = _get_csv_from_github(coll)
-
-    # --- 5. Batch-fetch prices from Scryfall (75 cards per request) ---
+    # --- 5. Batch-fetch prices from Scryfall (75 cards per request, only for new rows) ---
     prices_fetched = 0
     try:
         json_content, json_sha = _get_json_from_github(coll)
@@ -1179,7 +1196,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         now_iso = datetime.now().isoformat()
 
         BATCH = 75
-        for i in range(0, len(new_rows), BATCH):
+        for i in range(0, len(new_rows or []), BATCH):
             batch = new_rows[i:i + BATCH]
             identifiers = []
             for r in batch:
@@ -1259,9 +1276,12 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
     except Exception:
         pass  # prices will be picked up by tracker on next run
 
-    # ── Sync quantities: look up in CSV using prezzi_riferimento.json fields ─────
-    # Build lookup from uploaded CSV: (set_code_upper, collector_number, finish, lang) → qty
-    # ManaBox Foil column: "" = normal, "foil", "etched"
+    # ── Qty sync + SQLite populate via GitHub API (not CDN) ──────────────────────
+    # Uses _get_json_from_github (API endpoint) so no CDN stale-data race condition.
+    # 1. Build qty lookup from uploaded CSV
+    # 2. Apply quantities to the JSON
+    # 3. Write back to GitHub if anything changed
+    # 4. Populate/update SQLite directly from the in-memory JSON
     try:
         csv_qty: dict = {}
         for r in uploaded_rows:
@@ -1276,54 +1296,71 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         qprezzi = json.loads(qjson) if qjson else {}
         qty_changed = 0
 
-        # Iterate prezzi entries — their fields are authoritative for key-building
         for ck, entry in qprezzi.items():
             sc = (entry.get("set_code") or "").upper()
             cn = str(entry.get("collector_number") or "").strip()
             fn = (entry.get("finish") or "normal").strip()
             lg = (entry.get("language") or "en").strip()
             new_qty = csv_qty.get((sc, cn, fn, lg))
-            if new_qty and new_qty != entry.get("quantity", 1):
+            if new_qty is not None:
                 qprezzi[ck]["quantity"] = new_qty
-                qty_changed += 1
+                if new_qty != entry.get("quantity", 1):
+                    qty_changed += 1
 
         if qty_changed:
             new_qprezzi = json.dumps(qprezzi, ensure_ascii=False, indent=2)
             for _ in range(2):
                 if _update_json_on_github(new_qprezzi, qsha,
-                                          f"Sync quantities for {qty_changed} cards", coll):
+                                          f"Sync {qty_changed} quantities from CSV", coll):
                     (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(
                         new_qprezzi, encoding="utf-8")
                     break
                 qjson, qsha = _get_json_from_github(coll)
-                qprezzi2 = json.loads(qjson) if qjson else {}
-                for ck2, entry2 in qprezzi2.items():
-                    sc2 = (entry2.get("set_code") or "").upper()
-                    cn2 = str(entry2.get("collector_number") or "").strip()
-                    fn2 = (entry2.get("finish") or "normal").strip()
-                    lg2 = (entry2.get("language") or "en").strip()
+                qprezzi = json.loads(qjson) if qjson else {}
+                for ck2, e2 in qprezzi.items():
+                    sc2 = (e2.get("set_code") or "").upper()
+                    cn2 = str(e2.get("collector_number") or "").strip()
+                    fn2 = (e2.get("finish") or "normal").strip()
+                    lg2 = (e2.get("language") or "en").strip()
                     nq2 = csv_qty.get((sc2, cn2, fn2, lg2))
-                    if nq2:
-                        qprezzi2[ck2]["quantity"] = nq2
-                new_qprezzi = json.dumps(qprezzi2, ensure_ascii=False, indent=2)
+                    if nq2 is not None:
+                        qprezzi[ck2]["quantity"] = nq2
+                new_qprezzi = json.dumps(qprezzi, ensure_ascii=False, indent=2)
 
-            # Update SQLite directly
-            conn_q = get_db()
-            for ck, entry in qprezzi.items():
-                new_qty = entry.get("quantity", 1)
-                conn_q.execute(
-                    """UPDATE price_history SET quantity=?
-                       WHERE collection=? AND card_key=? AND id=(
-                         SELECT MAX(id) FROM price_history WHERE card_key=? AND collection=?
-                       )""",
-                    (new_qty, coll, ck, ck, coll)
+        # Populate SQLite directly from qprezzi — no CDN involved
+        now_sync = datetime.now().isoformat()
+        conn_sync = get_db()
+        for ck, d in qprezzi.items():
+            qty = int(d.get("quantity") or 1)
+            price_d = float(d.get("prezzo") or 0)
+            last = conn_sync.execute(
+                "SELECT id, price, quantity FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
+                (ck, coll)
+            ).fetchone()
+            if not last or abs(last["price"] - price_d) > 0.001:
+                conn_sync.execute(
+                    """INSERT INTO price_history (card_key, card_name, set_code, set_name,
+                       collector_number, foil, finish, language, frame_effects, price,
+                       recorded_at, collection, quantity) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                    (ck, d.get("nome",""), d.get("set_code",""), d.get("set",""),
+                     d.get("collector_number",""), 1 if d.get("foil") else 0,
+                     d.get("finish","normal"), d.get("language","en"),
+                     d.get("frame_effects",""), price_d, now_sync, coll, qty)
                 )
-            conn_q.commit()
-            conn_q.close()
-    except Exception:
-        pass
-
-    get_prices(force=True, collection=coll)  # sync SQLite so cards appear immediately
+            elif (last["quantity"] or 1) != qty:
+                conn_sync.execute(
+                    "UPDATE price_history SET quantity=? WHERE id=?",
+                    (qty, last["id"])
+                )
+        if qprezzi:
+            conn_sync.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?,?)",
+                              (len(qprezzi), coll))
+        conn_sync.commit()
+        conn_sync.close()
+    except Exception as e:
+        ctx.setdefault("result", {})
+        if isinstance(ctx.get("result"), dict):
+            ctx["result"]["qty_error"] = str(e)
 
     ctx["result"] = {
         "added": len(new_rows),
@@ -1331,6 +1368,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         "prices_fetched": prices_fetched,
     }
     return templates.TemplateResponse("import_csv.html", ctx)
+
 
 
 @app.get("/add-card", response_class=HTMLResponse)
@@ -1368,11 +1406,6 @@ async def add_card_post(
     ctx.update(_coll_ctx(user))
 
     coll = user.get("collection", "")
-    csv_content, sha = _get_csv_from_github(coll)
-    if csv_content is None:
-        # New collection: start with an empty CSV
-        csv_content = "Source,Trade In,Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,Language,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Currency,Added\n"
-        sha = None
 
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
     name_safe     = name.replace('"', '""')
@@ -1382,14 +1415,25 @@ async def add_card_post(
                f'{collector_number},{foil},{rarity},{quantity},,{scryfall_id},'
                f'{purchase_price},false,false,near_mint,{lang},EUR,{now}\n')
 
-    updated = csv_content.rstrip("\n") + "\n" + new_row
-    ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp", coll)
+    ok = False
+    for _ in range(3):
+        csv_content, sha = _get_csv_from_github(coll)
+        if csv_content is None:
+            csv_content = "Source,Trade In,Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,Language,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Currency,Added\n"
+            sha = None
+        updated = csv_content.rstrip("\n") + "\n" + new_row
+        ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp", coll)
+        if ok:
+            break
 
     if ok:
-        _add_card_to_prezzi(name, set_code, set_name, collector_number,
-                            foil, language, scryfall_id, coll,
-                            quantity=int(quantity) if quantity else 1)
-        ctx["success"] = f"'{name}' aggiunta alla collezione!"
+        added = _add_card_to_prezzi(name, set_code, set_name, collector_number,
+                                    foil, language, scryfall_id, coll,
+                                    quantity=int(quantity) if quantity else 1)
+        if added:
+            ctx["success"] = f"'{name}' aggiunta alla collezione!"
+        else:
+            ctx["error"] = f"CSV salvato ma errore nel recupero del prezzo per '{name}'. Riprova tra qualche secondo."
     else:
         ctx["error"] = "Errore durante il salvataggio su GitHub. Controlla GITHUB_TOKEN."
     return templates.TemplateResponse("add_card.html", ctx)
