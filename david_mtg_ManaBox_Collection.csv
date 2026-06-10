@@ -1,4 +1,4 @@
-Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency,Added
+﻿Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency,Added
 Endless Sands,C20,Commander 2020,272,normal,rare,4,50146,f436df63-41b9-416d-8e41-035261d4d0cc,0.29,false,false,near_mint,en,EUR,2026-06-07T21:07:21.380Z
 Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,1,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,fr,EUR,2026-06-07T21:07:34.816Z
 Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,3,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,en,EUR,2026-06-07T21:07:34.814Z
@@ -277,7 +277,6 @@ The Chain Veil,M15,Magic 2015,215,normal,mythic,1,13637,0415cc0e-979e-42cc-a56d-
 Grimoire of the Dead,C19,Commander 2019,213,normal,mythic,1,45721,0d8aac24-564a-420f-bb05-c67c3b0e2187,0.71,false,false,near_mint,it,EUR,2026-06-07T22:35:40.279Z
 Ring of Three Wishes,M14,Magic 2014,216,normal,mythic,1,15835,219ab03a-2b3b-4eef-8a42-2cbe793d2f33,1.46,false,false,near_mint,it,EUR,2026-06-07T22:35:40.278Z
 "Kozilek, the Great Distortion",CMM,Commander Masters,2,normal,mythic,2,84838,c41554e7-2a07-4cc7-b01b-44deed08e588,4.38,false,false,near_mint,it,EUR,2026-06-07T22:35:40.276Z
-"Emrakul, the Promised End",INR,Innistrad Remastered,5,normal,mythic,2,101873,71911392-42b0-4b6d-baf7-918a4bd3b924,18.44,false,false,near_mint,it,EUR,2026-06-07T22:35:40.275Z
 Oblivion Sower,M3C,Modern Horizons 3 Commander,158,normal,mythic,1,94662,eb179ae3-28d9-4741-a055-e7e767d8a408,0.34,false,false,near_mint,it,EUR,2026-06-07T22:35:40.274Z
 Aethersphere Harvester,M3C,Modern Horizons 3 Commander,280,normal,rare,3,94737,40a3e817-0533-43b9-9350-2872e029ec50,0.12,false,false,near_mint,it,EUR,2026-06-07T22:35:40.273Z
 "Skysovereign, Consul Flagship",NEC,Neon Dynasty Commander,159,normal,mythic,1,67013,4f8075be-8932-49b3-990b-4b365fa27e94,1.54,false,false,near_mint,en,EUR,2026-06-07T22:35:40.272Z
@@ -371,4 +370,3 @@ Drownyard Temple,SOI,Shadows over Innistrad,271,normal,rare,1,8725,a5bb5657-18a1
 "Westvale Abbey // Ormendahl, Profane Prince",SOI,Shadows over Innistrad,281,normal,rare,5,8715,c1f53d7a-9dad-46e8-b686-cd1362867445,1.22,false,false,near_mint,it,EUR,2026-06-08T10:02:32.484Z
 Corrupted Crossroads,OGW,Oath of the Gatewatch,169,normal,rare,5,9213,7043e193-8051-4f1b-9633-9c1f250d3607,0.19,false,false,near_mint,it,EUR,2026-06-08T10:02:32.483Z
 Mirrorpool,OGW,Oath of the Gatewatch,174,normal,mythic,5,9208,edbea2b5-eed3-464b-9d5c-9591f309f298,2.32,false,false,near_mint,it,EUR,2026-06-08T10:02:32.488Z
-webapp,binder,"Emrakul, the Promised End",INR,"Innistrad Remastered",5,normal,mythic,1,,71911392-42b0-4b6d-baf7-918a4bd3b924,0,false,false,near_mint,en,EUR,2026-06-10T11:19:08.000Z

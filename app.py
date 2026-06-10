@@ -1003,6 +1003,7 @@ async def sold_relist(request: Request, sold_id: str):
     col_num     = entry.get("collector_number") or ""
     finish      = entry.get("finish") or "normal"
     language    = entry.get("language") or "en"
+    qty_sold    = int(entry.get("quantity_sold") or 1)
     now_str     = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
     # Try to get scryfall_id + rarity from Scryfall
@@ -1024,7 +1025,7 @@ async def sold_relist(request: Request, sold_id: str):
     name_safe     = name.replace('"', '""')
     set_name_safe = set_name.replace('"', '""')
     new_row = (f'webapp,binder,"{name_safe}",{set_code},"{set_name_safe}",'
-               f'{col_num},{finish},{rarity},1,,{scryfall_id},'
+               f'{col_num},{finish},{rarity},{qty_sold},,{scryfall_id},'
                f'0,false,false,near_mint,{language},EUR,{now_str}\n')
 
     csv_content, csv_sha = _get_csv_from_github(coll)
@@ -1034,7 +1035,8 @@ async def sold_relist(request: Request, sold_id: str):
 
     # 3. Add back to prezzi_riferimento.json with current Scryfall price
     if scryfall_id:
-        _add_card_to_prezzi(name, set_code, set_name, col_num, finish, language, scryfall_id, coll)
+        _add_card_to_prezzi(name, set_code, set_name, col_num, finish, language, scryfall_id, coll,
+                            quantity=qty_sold)
     elif set_code and col_num:
         try:
             r = requests.get(
@@ -1044,7 +1046,8 @@ async def sold_relist(request: Request, sold_id: str):
             if r.ok:
                 cd = r.json()
                 _add_card_to_prezzi(name, set_code, set_name, col_num,
-                                    finish, language, cd["id"], coll)
+                                    finish, language, cd["id"], coll,
+                                    quantity=qty_sold)
         except Exception:
             pass
 
