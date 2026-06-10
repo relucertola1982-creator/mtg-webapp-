@@ -1,372 +1,380 @@
-﻿Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency,Added
-Endless Sands,C20,Commander 2020,272,normal,rare,4,50146,f436df63-41b9-416d-8e41-035261d4d0cc,0.29,false,false,near_mint,en,EUR,2026-06-07T21:07:21.380Z
-Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,1,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,fr,EUR,2026-06-07T21:07:34.816Z
-Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,3,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,en,EUR,2026-06-07T21:07:34.814Z
-Inventors' Fair,KLD,Kaladesh,247,normal,rare,1,7396,275471e3-ded1-40ac-91ef-369dce5764d9,9.53,false,false,near_mint,en,EUR,2026-06-07T21:07:34.813Z
-Geier Reach Sanitarium,LCC,The Lost Caverns of Ixalan Commander,335,normal,rare,2,88474,4b9c92f0-4242-4a3e-9ede-6a4935f5c75d,1.5,false,false,near_mint,en,EUR,2026-06-07T21:07:34.812Z
-Inventors' Fair,KLD,Kaladesh,247,normal,rare,7,7396,275471e3-ded1-40ac-91ef-369dce5764d9,9.53,false,false,near_mint,it,EUR,2026-06-07T21:07:34.811Z
-Geier Reach Sanitarium,LCC,The Lost Caverns of Ixalan Commander,335,normal,rare,2,88474,4b9c92f0-4242-4a3e-9ede-6a4935f5c75d,1.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.810Z
-Drownyard Temple,TDC,Tarkir: Dragonstorm Commander,359,normal,rare,4,105001,dbc8512a-9f6c-40d4-8049-14505e260746,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.807Z
-Corrupted Crossroads,M3C,Modern Horizons 3 Commander,332,normal,rare,4,94904,03b91bd1-de0f-4e3e-b467-174beba8ffeb,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.806Z
-Ruins of Oran-Rief,M3C,Modern Horizons 3 Commander,370,normal,rare,4,95047,dd563d94-787d-4098-8b38-b462640c4216,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.804Z
-Mirrorpool,CMM,Commander Masters,1010,normal,mythic,1,83995,0441cd2c-3646-4c69-ae97-ad3bcea7466f,2.18,false,false,near_mint,en,EUR,2026-06-07T21:07:34.803Z
-Sea Gate Wreckage,CMM,Commander Masters,1028,normal,rare,1,84110,1c137634-7531-4573-9bfa-623d8edf839c,0.25,false,false,near_mint,en,EUR,2026-06-07T21:07:34.802Z
-Mirrorpool,CMM,Commander Masters,1010,normal,mythic,3,83995,0441cd2c-3646-4c69-ae97-ad3bcea7466f,2.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.801Z
-Ally Encampment,BFZ,Battle for Zendikar,228,normal,rare,4,10123,bcb7124c-ba69-4da8-ad81-58f00fd0181d,0.4,false,false,near_mint,it,EUR,2026-06-07T21:07:34.799Z
-Sanctum of Ugin,BFZ,Battle for Zendikar,242,normal,rare,4,10109,86798d03-9f2d-46bd-a660-13c8dd5535ce,1.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.798Z
-Corrupted Crossroads,M3C,Modern Horizons 3 Commander,332,foil,rare,1,94904,03b91bd1-de0f-4e3e-b467-174beba8ffeb,0.49,false,false,near_mint,it,EUR,2026-06-07T21:07:34.797Z
-Shrine of the Forsaken Gods,M3C,Modern Horizons 3 Commander,376,foil,rare,2,95048,dde7ad4e-a38b-4981-8c9f-78a9e9ea2c36,1.37,false,false,near_mint,it,EUR,2026-06-07T21:07:34.796Z
-Ghost Quarter,CM2,Commander Anthology Volume II,253,normal,uncommon,1,1484,12f8071c-8955-4aa2-889c-6043df047223,0.6,false,false,near_mint,it,EUR,2026-06-07T21:07:34.795Z
-Shrine of the Forsaken Gods,M3C,Modern Horizons 3 Commander,376,normal,rare,1,95048,dde7ad4e-a38b-4981-8c9f-78a9e9ea2c36,0.2,false,false,near_mint,it,EUR,2026-06-07T21:07:34.794Z
-Grove of the Guardian,GK1,GRN Guild Kit,124,normal,rare,1,22,0079326b-ef87-49b8-9772-9134fb5deb3e,0.31,false,false,near_mint,it,EUR,2026-06-07T21:07:34.793Z
-Moorland Haunt,VOC,Crimson Vow Commander,175,normal,rare,1,64569,74deeeaa-95e9-42c9-89e3-e317ea63e216,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.792Z
-Thespian's Stage,M3C,Modern Horizons 3 Commander,395,normal,rare,1,94911,10c1ac95-c277-4430-8499-a005200e85aa,0.38,false,false,near_mint,it,EUR,2026-06-07T21:07:34.791Z
-Nephalia Drownyard,LCC,The Lost Caverns of Ixalan Commander,344,normal,rare,1,89063,fe2e25b7-f950-482b-9e35-266b1278a71a,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.790Z
-Stensia Bloodhall,ISD,Innistrad,247,normal,rare,1,18651,cc2741d8-2c02-4acd-8ca2-55b4bf6aef1c,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.789Z
-Kessig Wolf Run,TDC,Tarkir: Dragonstorm Commander,375,normal,rare,1,104536,32da0d6c-64dd-4aec-b63e-953e96164603,0.45,false,false,near_mint,it,EUR,2026-06-07T21:07:34.788Z
-Sunpetal Grove,TDC,Tarkir: Dragonstorm Commander,399,normal,rare,1,104654,565b4aaa-1990-4cb2-b519-2c0b1c9d5d18,1.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.787Z
-Temple Garden,RTR,Return to Ravnica,248,normal,rare,1,17174,b821e604-f9fd-47a4-b5ff-bfb5022834c2,6.77,false,false,near_mint,it,EUR,2026-06-07T21:07:34.786Z
-Sunpetal Grove,TDC,Tarkir: Dragonstorm Commander,399,normal,rare,3,104654,565b4aaa-1990-4cb2-b519-2c0b1c9d5d18,1.14,false,false,near_mint,en,EUR,2026-06-07T21:07:34.785Z
-Scattered Groves,OTC,Outlaws of Thunder Junction Commander,315,normal,rare,8,93467,0834b6e2-7a92-4767-8aca-9ec8961cd33e,0.27,false,false,near_mint,it,EUR,2026-06-07T21:07:34.784Z
-Canopy Vista,TDC,Tarkir: Dragonstorm Commander,343,normal,rare,7,104931,c2a85a8e-28bb-4899-a922-13a03dec844c,0.31,false,false,near_mint,it,EUR,2026-06-07T21:07:34.783Z
-Canopy Vista,TDC,Tarkir: Dragonstorm Commander,343,normal,rare,1,104931,c2a85a8e-28bb-4899-a922-13a03dec844c,0.31,false,false,near_mint,en,EUR,2026-06-07T21:07:34.781Z
-Cinder Glade,ECC,Lorwyn Eclipsed Commander,146,normal,rare,1,110469,306a7feb-f254-4ef1-a813-709601e87905,0.26,false,false,near_mint,it,EUR,2026-06-07T21:07:34.779Z
-Temple of Abandon,BLC,Bloomburrow Commander,338,normal,rare,2,96296,59866586-8a4c-464e-8273-2ec06f29d28e,0.17,false,false,near_mint,it,EUR,2026-06-07T21:07:34.777Z
-Shivan Reef,BLC,Bloomburrow Commander,331,normal,rare,1,96297,59d5e76c-4961-4dbf-be38-a18a2c16d33f,0.4,false,false,near_mint,it,EUR,2026-06-07T21:07:34.771Z
-Sulfur Falls,LCC,The Lost Caverns of Ixalan Commander,354,normal,rare,1,89055,fae97b42-b84b-4a12-91f4-9d115b58729a,0.56,false,false,near_mint,it,EUR,2026-06-07T21:07:34.770Z
-Spirebluff Canal,KLD,Kaladesh,249,normal,rare,6,7394,4e587ea7-0632-4789-ba75-3c410da2bb96,3.96,false,false,near_mint,it,EUR,2026-06-07T21:07:34.769Z
-Steam Vents,RTR,Return to Ravnica,247,normal,rare,1,17175,de911c88-f5c8-4955-9fa5-1f28a9b17236,9.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.768Z
-Wandering Fumarole,CLB,Commander Legends: Battle for Baldur's Gate,928,normal,rare,6,69659,ce3a6a8e-a01e-4d14-a6e5-c02c8205c749,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.767Z
-Yavimaya Coast,BLC,Bloomburrow Commander,355,normal,rare,2,96346,797b266b-4403-4ba4-9ffd-9c62fd981153,0.41,false,false,near_mint,it,EUR,2026-06-07T21:07:34.766Z
-Lumbering Falls,M3C,Modern Horizons 3 Commander,355,normal,rare,1,95018,c1a5d35b-8f33-4110-9bb3-298e0a263bda,0.17,false,false,near_mint,it,EUR,2026-06-07T21:07:34.765Z
-Breeding Pool,GTC,Gatecrash,240,normal,rare,1,16584,ece3bcdd-cb33-4923-b919-ba57a327d3cd,9.69,false,false,near_mint,it,EUR,2026-06-07T21:07:34.764Z
-Hinterland Harbor,DSC,Duskmourn: House of Horror Commander,284,normal,rare,2,99160,5675b928-33d5-4abf-a732-e36a5c7c4f86,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.763Z
-Temple of Mystery,THS,Theros,226,normal,rare,2,15438,2f66945b-3e64-498a-9478-5f96a61d4ec7,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.762Z
-Botanical Sanctum,KLD,Kaladesh,244,normal,rare,3,7399,8744471b-a528-47d9-84d0-4526273f55e9,1.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.761Z
-Lumbering Falls,M3C,Modern Horizons 3 Commander,355,normal,rare,4,95018,c1a5d35b-8f33-4110-9bb3-298e0a263bda,0.17,false,false,near_mint,en,EUR,2026-06-07T21:07:34.760Z
-Botanical Sanctum,PKLD,Kaladesh Promos,244s,foil,rare,1,7660,813ed97e-58d9-4471-9316-cb1db340cd20,3.89,false,false,near_mint,it,EUR,2026-06-07T21:07:34.759Z
-Twilight Mire,EOC,Edge of Eternities Commander,189,normal,rare,2,107133,b38ba12b-63ab-46ac-8fde-d1c9307c85e2,0.56,false,false,near_mint,en,EUR,2026-06-07T21:07:34.758Z
-Hissing Quagmire,OGW,Oath of the Gatewatch,171,normal,rare,2,9211,6ef11b54-205a-48e9-92d0-5d416be869ef,0.45,false,false,near_mint,en,EUR,2026-06-07T21:07:34.757Z
-Llanowar Wastes,C21,Commander 2021,297,normal,rare,2,58755,102f764d-43e1-4183-9b10-27beab571050,1.04,false,false,near_mint,en,EUR,2026-06-07T21:07:34.756Z
-Blooming Marsh,KLD,Kaladesh,243,normal,rare,2,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,1.93,false,false,near_mint,en,EUR,2026-06-07T21:07:34.755Z
-Blooming Marsh,KLD,Kaladesh,243,foil,rare,1,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,3.9,false,false,near_mint,it,EUR,2026-06-07T21:07:34.754Z
-Hissing Quagmire,OGW,Oath of the Gatewatch,171,normal,rare,6,9211,6ef11b54-205a-48e9-92d0-5d416be869ef,0.45,false,false,near_mint,it,EUR,2026-06-07T21:07:34.753Z
-Blooming Marsh,KLD,Kaladesh,243,normal,rare,5,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,1.93,false,false,near_mint,it,EUR,2026-06-07T21:07:34.752Z
-Godless Shrine,GTC,Gatecrash,242,normal,rare,1,16582,6fd672bb-18cf-44e3-8dda-5310b1e0fffe,8.24,false,false,near_mint,it,EUR,2026-06-07T21:07:34.751Z
-Caves of Koilos,DRC,Aetherdrift Commander,148,normal,rare,1,102934,18e5a0d3-d132-40e2-85ae-a1b743dfdd33,0.85,false,false,near_mint,it,EUR,2026-06-07T21:07:34.750Z
-Isolated Chapel,DRC,Aetherdrift Commander,162,normal,rare,1,103125,7b68c431-ad14-439b-9513-67479af8f2c2,0.51,false,false,near_mint,it,EUR,2026-06-07T21:07:34.749Z
-Temple of Silence,OTC,Outlaws of Thunder Junction Commander,333,normal,rare,1,93721,84790d0e-19ca-4191-bed9-03790555b5d2,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.746Z
-Clifftop Retreat,ISD,Innistrad,238,normal,rare,1,18660,fd7e1bf9-bd6a-48e3-9331-178e5142c06a,1.06,false,false,near_mint,it,EUR,2026-06-07T21:07:34.741Z
-Sacred Foundry,GTC,Gatecrash,245,normal,rare,1,16579,0a26d900-c652-4f9c-8681-a35c5f8b1937,9.3,false,false,near_mint,it,EUR,2026-06-07T21:07:34.740Z
-Battlefield Forge,BLC,Bloomburrow Commander,293,normal,rare,1,96208,24323a73-8c9a-4cd4-a98f-9ea0d1f33bf6,0.38,false,false,near_mint,en,EUR,2026-06-07T21:07:34.739Z
-Battlefield Forge,BLC,Bloomburrow Commander,293,normal,rare,2,96208,24323a73-8c9a-4cd4-a98f-9ea0d1f33bf6,0.38,false,false,near_mint,it,EUR,2026-06-07T21:07:34.737Z
-Needle Spires,OGW,Oath of the Gatewatch,175,foil,rare,1,9207,3d73700c-fa62-42be-aaca-5f8a50af20db,0.78,false,false,near_mint,de,EUR,2026-06-07T21:07:34.735Z
-Needle Spires,MKC,Murders at Karlov Manor Commander,278,normal,rare,1,90345,4a58a287-e4ca-4c6b-8096-142660cee299,0.15,false,false,near_mint,de,EUR,2026-06-07T21:07:34.734Z
-Temple of Triumph,OTC,Outlaws of Thunder Junction Commander,335,normal,rare,1,93465,07e73142-a8c0-4bd5-8ab4-cd10e572a975,0.12,false,false,near_mint,it,EUR,2026-06-07T21:07:34.733Z
-Needle Spires,MKC,Murders at Karlov Manor Commander,278,normal,rare,4,90345,4a58a287-e4ca-4c6b-8096-142660cee299,0.15,false,false,near_mint,it,EUR,2026-06-07T21:07:34.732Z
-Foreboding Ruins,DSC,Duskmourn: House of Horror Commander,277,normal,rare,4,99392,e9236b80-fa80-4da3-a357-db7749011499,0.46,false,false,near_mint,it,EUR,2026-06-07T21:07:34.730Z
-Canyon Slough,ECC,Lorwyn Eclipsed Commander,145,normal,rare,3,110629,d2ba7cfa-36f2-410f-80c3-5a06f4b48372,0.13,false,false,near_mint,en,EUR,2026-06-07T21:07:34.728Z
-Dragonskull Summit,DSC,Duskmourn: House of Horror Commander,271,normal,rare,3,99110,3b96a40e-828a-4cec-99cd-130dbcbdc67c,1.15,false,false,near_mint,en,EUR,2026-06-07T21:07:34.727Z
-Canyon Slough,ECC,Lorwyn Eclipsed Commander,145,normal,rare,5,110629,d2ba7cfa-36f2-410f-80c3-5a06f4b48372,0.13,false,false,near_mint,it,EUR,2026-06-07T21:07:34.726Z
-Temple of Deceit,FDN,Foundations,697,normal,rare,1,101244,e18748ce-e52e-4cd1-89d4-cd2578a0d574,0.2,false,false,near_mint,en,EUR,2026-06-07T21:07:34.725Z
-Drowned Catacomb,OTC,Outlaws of Thunder Junction Commander,290,normal,rare,4,93463,07b4a6dd-0e2f-43be-93c6-7578c34a9443,2.32,false,false,near_mint,en,EUR,2026-06-07T21:07:34.724Z
-Sunken Hollow,TDC,Tarkir: Dragonstorm Commander,398,normal,rare,4,104592,44f3e367-0dff-4cdb-b23a-52aa57fee946,0.35,false,false,near_mint,it,EUR,2026-06-07T21:07:34.723Z
-Temple of Deceit,DRC,Aetherdrift Commander,176,normal,rare,4,103271,ca93efca-93a0-4307-b004-ec74ad9841fc,0.2,false,false,near_mint,it,EUR,2026-06-07T21:07:34.722Z
-Sunken Hollow,TDC,Tarkir: Dragonstorm Commander,398,normal,rare,1,104592,44f3e367-0dff-4cdb-b23a-52aa57fee946,0.35,false,false,near_mint,en,EUR,2026-06-07T21:07:34.720Z
-Choked Estuary,MKC,Murders at Karlov Manor Commander,254,normal,rare,9,90572,e9ad18b2-1061-4893-9171-07ffe142a762,0.28,false,false,near_mint,it,EUR,2026-06-07T21:07:34.719Z
-Watery Grave,GTC,Gatecrash,249,normal,rare,1,16575,47fde349-010e-4a2e-838e-e924dbeec355,10.16,false,false,near_mint,en,EUR,2026-06-07T21:07:34.717Z
-Fetid Pools,TDC,Tarkir: Dragonstorm Commander,363,normal,rare,7,104971,d036dfb9-7da2-4375-83ee-b01eb95b64e6,0.27,false,false,near_mint,it,EUR,2026-06-07T21:07:34.716Z
-Prairie Stream,TDC,Tarkir: Dragonstorm Commander,384,normal,rare,6,105067,fa0af5ea-e9e1-4247-bde2-759c2653fc00,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.715Z
-Glacial Fortress,EOC,Edge of Eternities Commander,160,normal,rare,6,107308,a1fc8d86-b118-46e3-92a5-8cbf2ca282f7,0.41,false,false,near_mint,it,EUR,2026-06-07T21:07:34.714Z
-Port Town,SOI,Shadows over Innistrad,278,normal,rare,8,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,0.44,false,false,near_mint,it,EUR,2026-06-07T21:07:34.713Z
-Port Town,SOI,Shadows over Innistrad,278,foil,rare,1,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,1.29,false,false,near_mint,it,EUR,2026-06-07T21:07:34.711Z
-Port Town,SOI,Shadows over Innistrad,278,normal,rare,2,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,0.44,false,false,near_mint,en,EUR,2026-06-07T21:07:34.709Z
-Irrigated Farmland,EOC,Edge of Eternities Commander,162,normal,rare,13,107261,3cbc4f0a-6735-461c-ae7a-3c2ce342c4da,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.710Z
-Fetid Pools,TDC,Tarkir: Dragonstorm Commander,363,normal,rare,2,104971,d036dfb9-7da2-4375-83ee-b01eb95b64e6,0.27,false,false,near_mint,en,EUR,2026-06-07T21:07:34.718Z
-Smoldering Marsh,ECC,Lorwyn Eclipsed Commander,168,normal,rare,4,110633,d6890462-aeb0-4356-93dc-b2eda0df0c0e,0.29,false,false,near_mint,en,EUR,2026-06-07T21:07:34.729Z
-Inspiring Vantage,KLD,Kaladesh,246,normal,rare,7,7397,160ac412-005f-48ca-a204-10207307c6c2,1.85,false,false,near_mint,it,EUR,2026-06-07T21:07:34.736Z
-Shambling Vent,CLB,Commander Legends: Battle for Baldur's Gate,914,normal,rare,7,69448,1f5bf05a-04a1-4dde-845b-eced21a785fa,0.32,false,false,near_mint,en,EUR,2026-06-07T21:07:34.742Z
-Caves of Koilos,DRC,Aetherdrift Commander,148,normal,rare,3,102934,18e5a0d3-d132-40e2-85ae-a1b743dfdd33,0.85,false,false,near_mint,en,EUR,2026-06-07T21:07:34.743Z
-Concealed Courtyard,KLD,Kaladesh,245,normal,rare,5,7398,c8769e97-aee8-4466-a9d7-0f4245ae4a97,1.03,false,false,near_mint,en,EUR,2026-06-07T21:07:34.745Z
-Sheltered Thicket,ECC,Lorwyn Eclipsed Commander,167,normal,rare,6,110593,ad7f87dd-1c43-4b6f-9d68-cc09ef76dbc2,0.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.772Z
-Game Trail,BLC,Bloomburrow Commander,306,normal,rare,4,96503,e42e3260-33d7-4cee-8cac-61ed006abf3e,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.773Z
-Rootbound Crag,ECC,Lorwyn Eclipsed Commander,163,normal,rare,4,110607,bc0f449a-01e2-4c22-8eb0-17ad1efb62e4,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.776Z
-Fortified Village,TDC,Tarkir: Dragonstorm Commander,366,normal,rare,7,104617,4a0aeb3a-923a-4b97-9d27-ea7e0b57de75,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.780Z
-Sea Gate Wreckage,CMM,Commander Masters,1028,normal,rare,5,84110,1c137634-7531-4573-9bfa-623d8edf839c,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.800Z
-Cascading Cataracts,AKH,Amonkhet,240,normal,rare,4,5445,778739db-4431-4e58-91de-d2619aeef3ce,1.05,false,false,near_mint,en,EUR,2026-06-07T21:07:34.815Z
-Foul Orchard,SOI,Shadows over Innistrad,275,foil,uncommon,1,8721,2378ac21-9912-40d7-972d-b1b71a8e4984,0.45,false,false,near_mint,en,EUR,2026-06-07T21:09:57.720Z
-Rakdos Guildgate,RNA,Ravnica Allegiance,256,foil,common,1,43609,d88b90fa-a7f1-4739-a507-d22dede9384f,0.34,false,false,near_mint,en,EUR,2026-06-07T21:09:57.719Z
-Swamp,ELD,Throne of Eldraine,260,foil,common,1,46078,41aa58c2-eaf2-4b17-b014-afbba7199d4a,0.2,false,false,near_mint,en,EUR,2026-06-07T21:09:57.718Z
-Mosswort Bridge,TDC,Tarkir: Dragonstorm Commander,379,normal,rare,1,104462,1490c0dc-06d6-45ee-af3c-2935b0ab1233,0.31,false,false,near_mint,en,EUR,2026-06-07T21:09:57.717Z
-Hostile Desert,MKC,Murders at Karlov Manor Commander,266,normal,rare,1,90543,d71031c2-7379-4d83-b6d6-61f3104593c4,0.13,false,false,near_mint,it,EUR,2026-06-07T21:09:57.716Z
-Arch of Orazca,LCC,The Lost Caverns of Ixalan Commander,319,normal,rare,1,88510,581dcadd-7de4-4b39-bab0-d3567194a252,0.29,false,false,near_mint,en,EUR,2026-06-07T21:09:57.715Z
-Scavenger Grounds,OTC,Outlaws of Thunder Junction Commander,316,normal,rare,1,93689,707d733d-2928-4215-91d2-1340fc9ee903,0.62,false,false,near_mint,en,EUR,2026-06-07T21:09:57.714Z
-Hostile Desert,MKC,Murders at Karlov Manor Commander,266,normal,rare,3,90543,d71031c2-7379-4d83-b6d6-61f3104593c4,0.13,false,false,near_mint,en,EUR,2026-06-07T21:09:57.713Z
-"Dovin, Hand of Control",WAR,War of the Spark,229★,normal,uncommon,1,44426,62c347f3-157e-45ca-95a8-bdf300b0811b,0.36,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.776Z
-"Tibalt, Rakish Instigator",WAR,War of the Spark,146★,normal,uncommon,2,44440,68718639-a767-4f4e-b7bf-1fbb65e6cae5,0.56,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.775Z
-"Samut, Tyrant Smasher",WAR,War of the Spark,235★,normal,uncommon,1,44420,197c8c75-3b53-49ab-adb5-32937b49e834,0.3,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.774Z
-"Angrath, Captain of Chaos",WAR,War of the Spark,227★,normal,uncommon,1,44428,3e98da7c-e61b-4921-9b27-eed3ce41221d,0.41,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.773Z
-"Jiang Yanggu, Wildcrafter",WAR,War of the Spark,164★,normal,uncommon,1,44438,31a66171-1143-4d23-81c3-ae8bb0ef63ad,0.52,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.772Z
-"Teyo, the Shieldmage",WAR,War of the Spark,32★,normal,uncommon,1,44451,52cc3498-b837-4444-b388-2d11c883a08a,0.51,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.771Z
-"Kaya, Bane of the Dead",WAR,War of the Spark,231★,normal,uncommon,1,44424,981850b2-3013-4f12-ab13-6410431585f2,0.31,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.770Z
-"Ob Nixilis, the Hate-Twisted",WAR,War of the Spark,100★,normal,uncommon,1,44444,5b67ca03-f759-4d7c-8527-7a569e7bfad1,0.53,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.769Z
-"Davriel, Rogue Shadowmage",WAR,War of the Spark,83★,normal,uncommon,1,44446,1ce03906-fef8-4636-945c-95b857cbeab0,0.67,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.768Z
-"Ashiok, Dream Render",WAR,War of the Spark,228★,normal,uncommon,1,44427,3df061ce-dd56-4a11-a932-f16d69f47d3b,1.69,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.767Z
-"Saheeli, Sublime Artificer",WAR,War of the Spark,234★,normal,uncommon,1,44421,ac555b4e-c682-46d2-a99e-1bd1656155d7,0.49,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.766Z
-"Nahiri, Storm of Stone",WAR,War of the Spark,233★,normal,uncommon,1,44422,3f17544a-7bcd-4315-8e14-bea8317ee13a,0.49,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.765Z
-"Vraska, Swarm's Eminence",WAR,War of the Spark,236★,normal,uncommon,2,44419,c1523eed-d417-44bc-90fc-f67ecb3dc2c4,0.75,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.764Z
-"Narset, Parter of Veils",WAR,War of the Spark,61★,normal,uncommon,1,44447,e078151b-74b7-426a-9ee5-d83799ca2b85,5.78,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.763Z
-"Ajani, the Greathearted",WAR,War of the Spark,184★,normal,rare,1,44435,bee535c3-4ccd-4eb1-85e9-d28bf6dc0710,0.69,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.762Z
-"Tamiyo, Collector of Tales",WAR,War of the Spark,220★,normal,rare,1,44430,e5ad78c6-8af3-4efa-b47a-29a646ea412a,1.87,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.761Z
-"Domri, Anarch of Bolas",WAR,War of the Spark,191★,normal,rare,1,44434,1b8ec2a4-e6b1-42a4-9a20-3b55eda4377f,1.62,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.760Z
-"Jace, Wielder of Mysteries",WAR,War of the Spark,54★,normal,rare,2,44449,d50eb8cf-dc8d-4c7e-bff7-db9254ff8a90,4.05,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.759Z
-"Vivien, Champion of the Wilds",WAR,War of the Spark,180★,normal,rare,1,44436,4422e69e-a7db-4582-b37d-59519b6871f9,1.2,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.758Z
-"Chandra, Fire Artisan",WAR,War of the Spark,119★,normal,rare,1,44443,3b129f92-e6c4-4967-bd0c-02ff85f09636,1.48,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.757Z
-"Sorin, Vengeful Bloodlord",WAR,War of the Spark,217★,normal,rare,1,44431,9a29e375-081c-43ac-aeb5-9d71d65c5ddd,1.91,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.756Z
-"Nissa, Who Shakes the World",WAR,War of the Spark,169★,normal,rare,1,44437,25d63632-c019-4f34-926a-42f829a4665c,4.17,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.755Z
-Gideon Blackblade,WAR,War of the Spark,13★,normal,mythic,1,44452,b9581ba4-8b7a-410c-9a7d-d4a976880435,2.16,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.754Z
-"Nicol Bolas, Dragon-God",WAR,War of the Spark,207★,normal,mythic,1,44433,c4a5770e-533d-479f-b469-1fbef08614c1,2.88,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.753Z
-"Huatli, Warrior Poet",XLN,Ixalan,224,normal,mythic,3,3788,a0cc61ba-e91a-4b30-841c-cae8dd288b40,2.36,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.752Z
-"Samut, the Tested",HOU,Hour of Devastation,144,normal,mythic,3,4531,09f06f55-7918-46c4-80ff-0bf39e091a4a,0.46,false,false,near_mint,en,EUR,2026-06-07T21:28:24.751Z
-"Arlinn Kord // Arlinn, Embraced by the Moon",INR,Innistrad Remastered,230,normal,mythic,3,102821,e72d7c11-2165-4c72-80f3-3c1a7b4b5572,1.11,false,false,near_mint,it,EUR,2026-06-07T21:28:24.750Z
-"Sorin, Grim Nemesis",SOI,Shadows over Innistrad,251,normal,mythic,3,8745,c2933144-c931-498a-9e91-f5165873c3b7,1.03,false,false,near_mint,it,EUR,2026-06-07T21:28:24.749Z
-"Nahiri, the Harbinger",CMM,Commander Masters,929,normal,mythic,4,84820,c0b2cc03-5d07-43e1-a8d9-298d17a5af44,0.53,false,false,near_mint,it,EUR,2026-06-07T21:28:24.748Z
-"Sorin, Grim Nemesis",SOI,Shadows over Innistrad,251,normal,mythic,2,8745,c2933144-c931-498a-9e91-f5165873c3b7,1.03,false,false,near_mint,en,EUR,2026-06-07T21:28:24.747Z
-"Tamiyo, Field Researcher",EMN,Eldritch Moon,190,normal,mythic,1,8144,9f9aced7-9ae9-432f-b8c0-caac9cad098b,1.84,false,false,near_mint,en,EUR,2026-06-07T21:28:24.746Z
-"Nicol Bolas, God-Pharaoh",2X2,Double Masters 2022,260,normal,mythic,3,70245,597ca22d-2f08-47b3-9d93-c4d685cefb5f,2.2,false,false,near_mint,en,EUR,2026-06-07T21:28:24.745Z
-"Jace, Cunning Castaway",XLN,Ixalan,60,normal,mythic,1,3952,b75f56f2-88fd-44ba-ad02-56ea3391f173,0.57,false,false,near_mint,it,EUR,2026-06-07T21:28:24.744Z
-"Jace, Unraveler of Secrets",INR,Innistrad Remastered,70,normal,mythic,2,102508,3d9c8217-013d-4e75-bdd1-9c46c8467edb,1.14,false,false,near_mint,it,EUR,2026-06-07T21:28:24.743Z
-"Jace, Cunning Castaway",XLN,Ixalan,60,normal,mythic,3,3952,b75f56f2-88fd-44ba-ad02-56ea3391f173,0.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.742Z
-Ob Nixilis Reignited,DSC,Duskmourn: House of Horror Commander,152,normal,mythic,1,99166,5af237ad-9294-47f5-a338-f9ca4fce3e70,0.26,false,false,near_mint,en,EUR,2026-06-07T21:28:24.741Z
-"Liliana, the Last Hope",EMN,Eldritch Moon,93,normal,mythic,2,8243,fa6ac7d2-0127-49a8-b7d2-a38308d3c27b,3.73,false,false,near_mint,en,EUR,2026-06-07T21:28:24.740Z
-Ob Nixilis Reignited,DSC,Duskmourn: House of Horror Commander,152,normal,mythic,1,99166,5af237ad-9294-47f5-a338-f9ca4fce3e70,0.26,false,false,near_mint,it,EUR,2026-06-07T21:28:24.739Z
-"Liliana, the Last Hope",EMN,Eldritch Moon,93,normal,mythic,3,8243,fa6ac7d2-0127-49a8-b7d2-a38308d3c27b,3.73,false,false,near_mint,it,EUR,2026-06-07T21:28:24.738Z
-"Liliana, Death's Majesty",DRC,Aetherdrift Commander,94,normal,mythic,4,103223,ae653ad0-c796-49d4-b893-25d627f1ff79,0.38,false,false,near_mint,it,EUR,2026-06-07T21:28:24.737Z
-"Nissa, Vital Force",KLD,Kaladesh,163,normal,mythic,4,7480,bbaaa98a-ec40-4ff1-8762-a719cf1c475d,2.37,false,false,near_mint,it,EUR,2026-06-07T21:28:24.736Z
-"Garruk, Cursed Huntsman",ELD,Throne of Eldraine,191,normal,mythic,1,46147,abef512f-8f1d-4257-b16f-c0eed58670ec,0.98,false,false,near_mint,it,EUR,2026-06-07T21:28:24.735Z
-Gideon of the Trials,AKH,Amonkhet,14,normal,mythic,1,5671,959ce13f-519f-4472-bbd1-f26a972723d7,1.12,false,false,near_mint,en,EUR,2026-06-07T21:28:24.734Z
-"Karn, Scion of Urza",DOM,Dominaria,1,normal,mythic,1,2275,07a3d9e8-8597-498b-869c-cff79e0df516,3.5,false,false,near_mint,it,EUR,2026-06-07T21:28:24.733Z
-Gideon of the Trials,AKH,Amonkhet,14,normal,mythic,3,5671,959ce13f-519f-4472-bbd1-f26a972723d7,1.12,false,false,near_mint,it,EUR,2026-06-07T21:28:24.732Z
-"Chandra, Flamecaller",C20,Commander 2020,145,normal,mythic,2,50273,a83ca3a1-82a9-4f47-b0b8-21687afd705b,0.42,false,false,near_mint,it,EUR,2026-06-07T21:28:24.731Z
-"Gideon, Ally of Zendikar",BFZ,Battle for Zendikar,29,normal,mythic,2,10322,187e887c-c39d-4d25-a506-cdc95fc70316,0.98,false,false,near_mint,it,EUR,2026-06-07T21:28:24.730Z
-"Nissa, Voice of Zendikar",OGW,Oath of the Gatewatch,138,normal,mythic,3,9244,a600b97b-1851-4b1b-a2af-f80e0307c02c,1.48,false,false,near_mint,it,EUR,2026-06-07T21:28:24.729Z
-"Gideon, Ally of Zendikar",BFZ,Battle for Zendikar,29,normal,mythic,4,10322,187e887c-c39d-4d25-a506-cdc95fc70316,0.98,false,false,near_mint,en,EUR,2026-06-07T21:28:24.728Z
-"Kiora, Master of the Depths",BFZ,Battle for Zendikar,213,normal,mythic,2,10138,4b63c228-3265-4029-9bc0-36b3e31dfb53,1.34,false,false,near_mint,it,EUR,2026-06-07T21:28:24.727Z
-"Kytheon, Hero of Akros // Gideon, Battle-Forged",ORI,Magic Origins,23,normal,mythic,2,10919,58c39df6-b237-40d1-bdcb-2fe5d05392a9,1.88,false,false,near_mint,it,EUR,2026-06-07T21:28:24.726Z
-"Nissa, Vastwood Seer // Nissa, Sage Animist",ORI,Magic Origins,189,normal,mythic,1,10753,ff0063da-ab6b-499d-8e87-8b34d46f0372,3.13,false,false,near_mint,it,EUR,2026-06-07T21:28:24.725Z
-"Jace, Vryn's Prodigy // Jace, Telepath Unbound",ORI,Magic Origins,60,normal,mythic,1,10882,02d6d693-f1f3-4317-bcc0-c21fa8490d38,4.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.724Z
-"Chandra, Fire of Kaladesh // Chandra, Roaring Flame",ORI,Magic Origins,135,normal,mythic,3,10807,b0d6caf0-4fa8-4ec5-b7f4-1307474d1b13,1.18,false,false,near_mint,it,EUR,2026-06-07T21:28:24.723Z
-Narset Transcendent,DTK,Dragons of Tarkir,225,normal,mythic,1,11589,4816d092-e34b-4397-8599-43d8e85a8f39,5.38,false,false,near_mint,it,EUR,2026-06-07T21:28:24.722Z
-"Sorin, Solemn Visitor",KTK,Khans of Tarkir,202,normal,mythic,1,13196,da1a9643-34d6-4b4b-b896-2d4626eca40a,1.28,false,false,near_mint,it,EUR,2026-06-07T21:28:24.721Z
-Sarkhan Unbroken,DTK,Dragons of Tarkir,230,normal,mythic,1,11584,192452f8-93c2-4a20-a52b-0093741a9e45,12.79,false,false,near_mint,it,EUR,2026-06-07T21:28:24.720Z
-Koth of the Hammer,SOM,Scars of Mirrodin,94,normal,mythic,1,20938,af8b9c79-a161-4d7d-944d-82a44a5f2ab9,1.07,false,false,near_mint,it,EUR,2026-06-07T21:28:24.719Z
-Garruk Wildspeaker,GVL,Duel Decks Anthology: Garruk vs. Liliana,1,foil,mythic,1,12353,6b56c367-7ac8-4541-9f2e-1fdc9c5aecdc,1.81,false,false,near_mint,en,EUR,2026-06-07T21:28:24.718Z
-"Nissa, Worldwaker",M15,Magic 2015,187,normal,mythic,1,13665,07eb2476-488b-4610-8567-f0456601f7fd,3.73,false,false,near_mint,it,EUR,2026-06-07T21:28:24.717Z
-"Xenagos, the Reveler",CLB,Commander Legends: Battle for Baldur's Gate,853,normal,mythic,1,69709,edfd90ee-a142-4a80-b383-802bbee2cef1,1.04,false,false,near_mint,it,EUR,2026-06-07T21:28:24.716Z
-Vraska the Unseen,C19,Commander 2019,207,normal,mythic,1,45727,a6ab9d2b-6cb3-4477-8d0e-712c530383bd,0.82,false,false,near_mint,it,EUR,2026-06-07T21:28:24.715Z
-Ral Zarek,RVR,Ravnica Remastered,216,normal,mythic,1,89641,3bdd2b4b-5ba3-4984-8d48-c4c1d75dd177,0.76,false,false,near_mint,it,EUR,2026-06-07T21:28:24.714Z
-"Garruk, Primal Hunter",C21,Commander 2021,190,normal,mythic,2,58605,79cfc0d7-fccb-47fb-87b6-08dd32528be6,1.17,false,false,near_mint,it,EUR,2026-06-07T21:28:24.713Z
-"Nicol Bolas, Planeswalker",M13,Magic 2013,199,normal,mythic,1,17624,0e3b1fea-5c2c-4848-8109-548f56b99d49,2.42,false,false,near_mint,en,EUR,2026-06-07T21:28:24.712Z
-Liliana of the Veil,ISD,Innistrad,105,normal,mythic,1,18793,ac506c17-adc8-49c6-9d8d-43db7cb1ec9d,9.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.711Z
-"Purphoros, Bronze-Blooded",THB,Theros Beyond Death,265,normal,mythic,3,46797,176596fd-fc6d-46ae-a64d-d9147430fe0f,2.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.710Z
-"Thassa, Deep-Dwelling",THB,Theros Beyond Death,261,normal,mythic,2,46801,27b52628-de05-4ec1-9978-e998cf17bb26,22.61,false,false,near_mint,en,EUR,2026-06-07T21:28:24.709Z
-"Erebos, Bleak-Hearted",THB,Theros Beyond Death,262,normal,mythic,2,46800,68f3c60d-2fcb-476f-bcc6-eec5879b08ee,1.44,false,false,near_mint,en,EUR,2026-06-07T21:28:24.708Z
-"Nylea, Keen-Eyed",THB,Theros Beyond Death,266,normal,mythic,2,46796,2a022e36-5074-4875-ac30-aaa09b7ef421,4.66,false,false,near_mint,en,EUR,2026-06-07T21:28:24.707Z
-"Heliod, Sun-Crowned",THB,Theros Beyond Death,259,normal,mythic,1,46803,e11cf760-da35-41f2-8cf5-a5141103eeb3,15.54,false,false,near_mint,en,EUR,2026-06-07T21:28:24.706Z
-God-Eternal Kefnet,WAR,War of the Spark,53,normal,mythic,1,44351,5e14060f-9167-4e28-a053-77689e066e30,1.45,false,false,near_mint,en,EUR,2026-06-07T21:28:24.705Z
-God-Eternal Kefnet,WAR,War of the Spark,53,normal,mythic,2,44351,5e14060f-9167-4e28-a053-77689e066e30,1.45,false,false,near_mint,it,EUR,2026-06-07T21:28:24.703Z
-The Scarab God,DRC,Aetherdrift Commander,120,normal,mythic,2,103108,7546b37d-c83a-4632-bebf-cc46d114481f,3.87,false,false,near_mint,it,EUR,2026-06-07T21:28:24.702Z
-The Scorpion God,ECC,Lorwyn Eclipsed Commander,133,normal,mythic,3,110538,792eabed-6c49-41f0-a9ce-0184e5c577e9,0.42,false,false,near_mint,en,EUR,2026-06-07T21:28:24.700Z
-The Locust God,MOC,March of the Machine Commander,335,normal,mythic,3,81765,7e599847-8ab0-4fd6-b2c0-cb44a7669aa5,6.25,false,false,near_mint,en,EUR,2026-06-07T21:28:24.699Z
-Rhonas the Indomitable,AKH,Amonkhet,182,normal,mythic,4,5503,50f23c47-278c-4188-8fb4-ae20a0c423c5,3.9,false,false,near_mint,it,EUR,2026-06-07T21:28:24.698Z
-Hazoret the Fervent,AKH,Amonkhet,136,normal,mythic,4,5549,36ed9f9d-99a7-49f4-b0ad-d71355809d32,1.0,false,false,near_mint,it,EUR,2026-06-07T21:28:24.697Z
-Bontu the Glorified,AKH,Amonkhet,82,normal,mythic,2,5603,4bc07386-909f-4946-9120-3acb58622e2f,1.5,false,false,near_mint,it,EUR,2026-06-07T21:28:24.696Z
-Kefnet the Mindful,DSC,Duskmourn: House of Horror Commander,118,normal,mythic,3,99344,ca06ae1a-4080-450a-8ff0-ad6aafd8f04c,0.27,false,false,near_mint,it,EUR,2026-06-07T21:28:24.695Z
-Oketra the True,AKH,Amonkhet,21,normal,mythic,4,5664,f2cc79cf-d4db-4236-b3e2-fd12662b2a74,2.41,false,false,near_mint,it,EUR,2026-06-07T21:28:24.694Z
-"Erebos, God of the Dead",THS,Theros,85,normal,mythic,1,15579,d0787e1f-0b75-44ab-a8fd-90358906a787,9.6,false,false,near_mint,it,EUR,2026-06-07T21:28:24.693Z
-"Nylea, God of the Hunt",THS,Theros,166,normal,mythic,1,15498,f185a734-a32a-4244-88e8-dabafbfd064f,9.65,false,false,near_mint,it,EUR,2026-06-07T21:28:24.692Z
-Kefnet the Mindful,MP2,Amonkhet Invocations,15,foil,special,1,5823,ef2d627d-60ec-4f68-bdfd-086841483b18,22.78,false,false,near_mint,en,EUR,2026-06-07T21:28:24.691Z
-"Purphoros, God of the Forge",CMM,Commander Masters,246,normal,mythic,1,84313,4736a2c4-c89c-48db-a104-6303e7e2eee8,22.28,false,false,near_mint,it,EUR,2026-06-07T21:28:24.690Z
-Oketra the True,MP2,Amonkhet Invocations,5,foil,special,1,5833,b3aa8c17-e37e-430e-a940-d016c4ab5852,23.27,false,false,near_mint,en,EUR,2026-06-07T21:28:24.689Z
-Hazoret the Fervent,MP2,Amonkhet Invocations,27,foil,special,1,5811,f582e3c3-c329-40bb-9ffb-c4812a7aedd5,26.36,false,false,near_mint,en,EUR,2026-06-07T21:28:24.688Z
-Bontu the Glorified,MP2,Amonkhet Invocations,20,foil,special,1,5818,57ebd0f2-3f5b-48ef-a530-ea6f667ee195,26.25,false,false,near_mint,en,EUR,2026-06-07T21:28:24.687Z
-Rhonas the Indomitable,MP2,Amonkhet Invocations,28,foil,special,1,5810,453d854c-5092-4e00-a388-499353f246c3,31.34,false,false,near_mint,en,EUR,2026-06-07T21:28:24.686Z
-The Scarab God,DRC,Aetherdrift Commander,120,normal,mythic,4,103108,7546b37d-c83a-4632-bebf-cc46d114481f,3.87,false,false,near_mint,en,EUR,2026-06-07T21:28:24.701Z
-"Kiora, Behemoth Beckoner",WAR,War of the Spark,232★,normal,uncommon,2,44423,1f2b1975-183b-4989-aa1f-a653ec732abf,1.16,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.777Z
-Vizier of the Menagerie,FDN,Foundations,649,normal,mythic,4,100318,3010ec33-c3f6-42ce-ad5a-e149e5c9a805,0.59,false,false,near_mint,it,EUR,2026-06-07T22:24:03.180Z
-Cavalier of Flame,M20,Core Set 2020,125,normal,mythic,1,45336,0c18c541-758b-4237-9961-9637e996e8a5,4.11,false,false,near_mint,en,EUR,2026-06-07T22:24:03.179Z
-Verdurous Gearhulk,MIC,Midnight Hunt Commander,145,normal,mythic,6,63588,3f3eb5d0-7a99-4f66-b0b8-a0d8acc3bc9e,0.36,false,false,near_mint,it,EUR,2026-06-07T22:24:03.178Z
-Cavalier of Flame,M20,Core Set 2020,125,normal,mythic,3,45336,0c18c541-758b-4237-9961-9637e996e8a5,4.11,false,false,near_mint,it,EUR,2026-06-07T22:24:03.177Z
-Inferno Titan,PDP12,Duels of the Planeswalkers 2012 Promos,3,foil,mythic,1,20421,17ac2bff-f570-4955-a8d4-7e12d616dd8b,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.176Z
-Past in Flames,C16,Commander 2016,131,normal,mythic,1,7223,70521337-ecab-461d-95cf-03024b569fef,1.31,false,false,near_mint,it,EUR,2026-06-07T22:24:03.175Z
-Combustible Gearhulk,DRC,Aetherdrift Commander,102,normal,mythic,4,103028,4be99ea7-331a-406d-8a75-5bcfe64d1890,0.22,false,false,near_mint,it,EUR,2026-06-07T22:24:03.174Z
-Kozilek's Return,M3C,Modern Horizons 3 Commander,214,normal,mythic,4,95064,eed3be26-6c05-48cf-889a-9cbbd4977283,0.94,false,false,near_mint,en,EUR,2026-06-07T22:24:03.173Z
-Hammer of Purphoros,EOC,Edge of Eternities Commander,88,normal,rare,1,107091,900de725-741b-4b25-8e40-78ed7575a83f,0.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.172Z
-Kozilek's Return,M3C,Modern Horizons 3 Commander,214,normal,mythic,4,95064,eed3be26-6c05-48cf-889a-9cbbd4977283,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.171Z
-Verix Bladewing,TDC,Tarkir: Dragonstorm Commander,243,normal,mythic,1,104674,5d951996-3379-431d-bbb0-a7d099e72e4e,0.22,false,false,near_mint,it,EUR,2026-06-07T22:24:03.170Z
-Hellkite Tyrant,RVR,Ravnica Remastered,111,normal,rare,1,89877,bd03d145-7cec-49da-917a-01f7355e252e,3.34,false,false,near_mint,it,EUR,2026-06-07T22:24:03.169Z
-Utvara Hellkite,RVR,Ravnica Remastered,129,normal,mythic,1,89942,df459109-d6ab-4b1d-9570-c7677ff4a014,12.56,false,false,near_mint,it,EUR,2026-06-07T22:24:03.168Z
-Stormbreath Dragon,TDC,Tarkir: Dragonstorm Commander,237,normal,mythic,1,104546,3637d9b8-87bb-478d-bfb1-59ddab7b5e4c,0.3,false,false,near_mint,it,EUR,2026-06-07T22:24:03.167Z
-Balefire Dragon,CMM,Commander Masters,207,normal,mythic,1,84238,37def363-c431-43b4-8c5f-933941507681,13.97,false,false,near_mint,it,EUR,2026-06-07T22:24:03.164Z
-Rekindling Phoenix,NCC,New Capenna Commander,273,normal,mythic,1,68135,1a9945ec-0996-434e-b177-97203eabaf24,0.42,false,false,near_mint,it,EUR,2026-06-07T22:24:03.162Z
-Akoum Firebird,BFZ,Battle for Zendikar,138,normal,mythic,4,10213,304a2e4c-da2c-43fb-b44d-9db55ff94f04,0.32,false,false,near_mint,it,EUR,2026-06-07T22:24:03.161Z
-Murderous Rider // Swift End,ELD,Throne of Eldraine,287,normal,rare,2,46020,49c98e70-e8fe-4fea-b1d0-e7560780fda9,0.62,false,false,near_mint,en,EUR,2026-06-07T22:24:03.160Z
-Cavalier of Night,M20,Core Set 2020,94,foil,mythic,1,45367,f03109b9-54a8-4d68-97c2-e42c7d5c2d41,17.81,false,false,near_mint,it,EUR,2026-06-07T22:24:03.159Z
-Whip of Erebos,DSC,Duskmourn: House of Horror Commander,159,normal,rare,2,99309,b738612f-4e78-4b19-9392-6c074956d6e4,7.31,false,false,near_mint,it,EUR,2026-06-07T22:24:03.158Z
-Army of the Damned,NCC,New Capenna Commander,242,normal,mythic,1,68376,bf818314-1eb4-48da-8e6f-ff7b89873b63,0.93,false,false,near_mint,it,EUR,2026-06-07T22:24:03.157Z
-Tree of Perdition,EMN,Eldritch Moon,109,foil,mythic,1,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,13.07,false,false,near_mint,it,EUR,2026-06-07T22:24:03.156Z
-Relentless Dead,SOI,Shadows over Innistrad,131,normal,mythic,4,8865,2a0d7998-2f3d-43b8-a0be-6ff7e5c83223,10.45,false,false,near_mint,it,EUR,2026-06-07T22:24:03.155Z
-Tree of Perdition,EMN,Eldritch Moon,109,normal,mythic,1,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,3.82,false,false,near_mint,en,EUR,2026-06-07T22:24:03.154Z
-Noxious Gearhulk,TDC,Tarkir: Dragonstorm Commander,191,normal,mythic,1,104511,289c11b7-a460-4a2f-b11a-e1ba54bd1f34,0.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.153Z
-Tree of Perdition,EMN,Eldritch Moon,109,normal,mythic,2,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,3.82,false,false,near_mint,it,EUR,2026-06-07T22:24:03.152Z
-Noxious Gearhulk,TDC,Tarkir: Dragonstorm Commander,191,normal,mythic,2,104511,289c11b7-a460-4a2f-b11a-e1ba54bd1f34,0.57,false,false,near_mint,en,EUR,2026-06-07T22:24:03.151Z
-Languish,CM2,Commander Anthology Volume II,67,normal,rare,4,1670,91bea17e-1b18-461b-8247-02fc56379575,0.48,false,false,near_mint,en,EUR,2026-06-07T22:24:03.150Z
-Mindwrack Demon,SOI,Shadows over Innistrad,124,normal,mythic,4,8872,b804cb9c-349e-4143-a372-cf65470d5b46,0.34,false,false,near_mint,it,EUR,2026-06-07T22:24:03.149Z
-Inverter of Truth,OGW,Oath of the Gatewatch,72,normal,mythic,1,9310,88c9d8c5-333b-4281-b923-b4a060927bbc,0.72,false,false,near_mint,de,EUR,2026-06-07T22:24:03.148Z
-Necropolis Regent,VOC,Crimson Vow Commander,132,normal,mythic,1,64598,9cd548d5-6162-4eff-adfc-69b7e3b45712,0.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.147Z
-Inverter of Truth,OGW,Oath of the Gatewatch,72,normal,mythic,2,9310,88c9d8c5-333b-4281-b923-b4a060927bbc,0.72,false,false,near_mint,it,EUR,2026-06-07T22:24:03.146Z
-"Kalitas, Traitor of Ghet",OGW,Oath of the Gatewatch,86,normal,mythic,3,9296,17a278d0-f601-4d57-bc3d-2972f8602a69,4.74,false,false,near_mint,it,EUR,2026-06-07T22:24:03.145Z
-"Drana, Liberator of Malakir",BFZ,Battle for Zendikar,109,foil,mythic,1,10242,d3f6ed18-eb6f-4d07-8660-cf7c074c87cd,9.87,false,false,near_mint,it,EUR,2026-06-07T22:24:03.144Z
-Bloodline Keeper // Lord of Lineage,INR,Innistrad Remastered,98,normal,mythic,2,102564,60658907-dd63-478d-a66a-123e4e9d2a00,5.87,false,false,near_mint,it,EUR,2026-06-07T22:24:03.143Z
-"Drana, Liberator of Malakir",LCC,The Lost Caverns of Ixalan Commander,193,normal,mythic,3,88248,0850b41d-3589-40cd-ae22-cc5b4ddee1c4,1.19,false,false,near_mint,it,EUR,2026-06-07T22:24:03.142Z
-Cavalier of Gales,M20,Core Set 2020,52,normal,mythic,3,45409,a5356b11-e505-4838-aecb-327689eeead1,2.81,false,false,near_mint,it,EUR,2026-06-07T22:24:03.141Z
-Startled Awake // Persistent Nightmare,SOI,Shadows over Innistrad,88,normal,mythic,1,8908,e630fc56-a96f-4abf-be8d-f0f40d5a9edf,0.71,false,false,near_mint,en,EUR,2026-06-07T22:24:03.140Z
-Mechanized Production,MKC,Murders at Karlov Manor Commander,109,normal,mythic,4,90574,eaf86997-68e8-4c37-99f1-db10ac08f54c,1.21,false,false,near_mint,it,EUR,2026-06-07T22:24:03.139Z
-Startled Awake // Persistent Nightmare,SOI,Shadows over Innistrad,88,normal,mythic,3,8908,e630fc56-a96f-4abf-be8d-f0f40d5a9edf,0.71,false,false,near_mint,it,EUR,2026-06-07T22:24:03.138Z
-As Foretold,2X2,Double Masters 2022,38,normal,mythic,4,70480,c468b523-84fc-4657-adef-acc1eec6ef2e,1.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.137Z
-Day's Undoing,CMM,Commander Masters,85,normal,rare,1,84734,ac13a82d-43f5-4b96-bf5f-18e33fae921b,1.25,false,false,near_mint,it,EUR,2026-06-07T22:24:03.136Z
-Disciple of the Ring,2X2,Double Masters 2022,46,normal,rare,1,70248,5a885848-005f-4387-8982-40052b924076,0.18,false,false,near_mint,en,EUR,2026-06-07T22:24:03.135Z
-Bident of Thassa,M3C,Modern Horizons 3 Commander,177,normal,rare,2,94759,723fbd4f-3243-4d93-a563-180c3ae47d4d,0.62,false,false,near_mint,it,EUR,2026-06-07T22:24:03.134Z
-"Search for Azcanta // Azcanta, the Sunken Ruin",XLN,Ixalan,74,normal,rare,1,3938,1a7e242e-bb48-4134-a1c2-6033713d658f,1.64,false,false,near_mint,it,EUR,2026-06-07T22:24:03.133Z
-Skaab Ruinator,DSC,Duskmourn: House of Horror Commander,128,normal,mythic,1,99186,668d4e90-61d3-4064-b867-6ac7a49a7d59,0.19,false,false,near_mint,it,EUR,2026-06-07T22:24:03.132Z
-Torrential Gearhulk,CMM,Commander Masters,128,normal,rare,4,84626,92872fea-2fb4-4154-815e-cad9d966e60f,0.52,false,false,near_mint,it,EUR,2026-06-07T22:24:03.131Z
-Deploy the Gatewatch,CMM,Commander Masters,819,normal,mythic,1,84226,34f4c453-97b4-4cd5-a766-85e5647f71d5,0.46,false,false,near_mint,en,EUR,2026-06-07T22:24:03.130Z
-Part the Waterveil,BFZ,Battle for Zendikar,80,normal,mythic,4,10271,83fe992f-0441-42be-89f9-2387b4bc24ce,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.129Z
-Spear of Heliod,THS,Theros,33,normal,rare,3,15631,34ef01da-d311-4d4f-9f7b-328e7bb17db4,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.127Z
-Deploy the Gatewatch,EMN,Eldritch Moon,20,normal,mythic,1,8316,a3aa54d9-9f01-46e4-b4bd-f8bc57b44ac1,0.37,false,false,near_mint,en,EUR,2026-06-07T22:24:03.126Z
-"Thalia, Heretic Cathar",INR,Innistrad Remastered,44,normal,rare,3,102756,c062937f-d519-4206-99b0-cbea01b85a0d,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.123Z
-Angel of Sanctions,DRC,Aetherdrift Commander,62,normal,mythic,1,103048,546b6ffc-44e3-4994-b84b-6282c6474a1a,0.2,false,false,near_mint,en,EUR,2026-06-07T22:24:03.120Z
-"Linvala, the Preserver",OGW,Oath of the Gatewatch,25,normal,mythic,1,9357,ef0dbb08-d124-46da-bfb1-af7ef4a18179,0.83,false,false,near_mint,en,EUR,2026-06-07T22:24:03.119Z
-Angel of Sanctions,DRC,Aetherdrift Commander,62,normal,mythic,3,103048,546b6ffc-44e3-4994-b84b-6282c6474a1a,0.2,false,false,near_mint,it,EUR,2026-06-07T22:24:03.118Z
-"Linvala, the Preserver",OGW,Oath of the Gatewatch,25,normal,mythic,2,9357,ef0dbb08-d124-46da-bfb1-af7ef4a18179,0.83,false,false,near_mint,it,EUR,2026-06-07T22:24:03.117Z
-"Archangel Avacyn // Avacyn, the Purifier",INR,Innistrad Remastered,11,normal,mythic,5,101895,fe675f03-cbb5-4177-b7d7-64a30260ee2a,1.35,false,false,near_mint,it,EUR,2026-06-07T22:24:03.116Z
-"Bruna, the Fading Light",INR,Innistrad Remastered,14,normal,rare,1,102597,6fccdb60-5fce-4a6e-a709-b986f9a4b653,1.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.115Z
-"Calix, Destiny's Hand",THB,Theros Beyond Death,257,foil,mythic,1,46805,11529e37-0558-4ba9-ad04-3ddda05d25f5,2.16,false,false,near_mint,it,EUR,2026-06-07T22:24:03.113Z
-Cataclysmic Gearhulk,MOC,March of the Machine Commander,176,normal,mythic,4,81980,d5b8efa8-2d62-45b8-9e48-6be0a4ee944d,0.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.112Z
-"Calix, Destiny's Hand",THB,Theros Beyond Death,257,normal,mythic,1,46805,11529e37-0558-4ba9-ad04-3ddda05d25f5,0.8,false,false,near_mint,it,EUR,2026-06-07T22:24:03.111Z
-"Ajani, Valiant Protector",AER,Aether Revolt,185,foil,mythic,1,6229,791fdd9a-0ab6-4db9-84f9-859d2d862518,1.21,false,false,near_mint,it,EUR,2026-06-07T22:24:03.110Z
-"Ashiok, Nightmare Muse",THB,Theros Beyond Death,256,normal,mythic,1,46806,c18d2a4a-cfde-434e-85eb-f9aae0da9dce,1.96,false,false,near_mint,en,EUR,2026-06-07T22:24:03.109Z
-Ajani Unyielding,NCC,New Capenna Commander,324,normal,mythic,3,68190,41000308-144d-4d3b-afec-e3928d20edfc,0.46,false,false,near_mint,it,EUR,2026-06-07T22:24:03.108Z
-"Chandra, Torch of Defiance",CMM,Commander Masters,876,normal,mythic,2,84194,2eac0eaa-55b2-444a-863d-c66769aab4ee,2.5,false,false,near_mint,it,EUR,2026-06-07T22:24:03.107Z
-"Liliana, Death Wielder",AKH,Amonkhet,275,foil,mythic,1,5410,ac79d8f6-7c36-4eb9-8bda-3b813c634399,5.03,false,false,near_mint,it,EUR,2026-06-07T22:24:03.106Z
-Saheeli Rai,KLD,Kaladesh,186,normal,mythic,2,7457,94b38464-39cd-4ee6-b9bf-a0bc1e128d9a,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.105Z
-"Nissa, Steward of Elements",M3C,Modern Horizons 3 Commander,270,normal,mythic,4,95038,d24cb7c1-3553-4bd6-9b87-237c6fc82b19,0.35,false,false,near_mint,it,EUR,2026-06-07T22:24:03.104Z
-Tezzeret the Schemer,AER,Aether Revolt,137,normal,mythic,3,6277,58265203-bc16-41d2-875c-2ff3b4870824,0.63,false,false,near_mint,it,EUR,2026-06-07T22:24:03.103Z
-"Vraska, Relic Seeker",XLN,Ixalan,232,normal,mythic,1,3780,967b7272-33a6-46e9-b0aa-4757aee54b3a,1.1,false,false,near_mint,it,EUR,2026-06-07T22:24:03.102Z
-Tezzeret the Schemer,AER,Aether Revolt,137,normal,mythic,1,6277,58265203-bc16-41d2-875c-2ff3b4870824,0.63,false,false,near_mint,en,EUR,2026-06-07T22:24:03.101Z
-"Vraska, Relic Seeker",XLN,Ixalan,232,normal,mythic,3,3780,967b7272-33a6-46e9-b0aa-4757aee54b3a,1.1,false,false,near_mint,en,EUR,2026-06-07T22:24:03.100Z
-Dovin Baan,KLD,Kaladesh,179,normal,mythic,2,7464,2344e710-4570-41b6-af84-a3e7d784003a,0.78,false,false,near_mint,ja,EUR,2026-06-07T22:24:03.099Z
-Angel of Invention,TDC,Tarkir: Dragonstorm Commander,109,normal,mythic,2,104823,98c42f02-6eda-4ef7-929f-b3a2ece9f650,0.37,false,false,near_mint,it,EUR,2026-06-07T22:24:03.122Z
-Deploy the Gatewatch,CMM,Commander Masters,819,normal,mythic,4,84226,34f4c453-97b4-4cd5-a766-85e5647f71d5,0.46,false,false,near_mint,it,EUR,2026-06-07T22:24:03.125Z
-Nahiri's Wrath,EMN,Eldritch Moon,137,normal,mythic,4,8197,1e6cb8b0-e3a5-4a94-845d-3b286aa392ac,0.58,false,false,near_mint,it,EUR,2026-06-07T22:24:03.163Z
-Pyromancer's Goggles,C21,Commander 2021,259,normal,mythic,1,58503,0f92d8df-e913-4a95-9f65-4fe98c332a6e,1.33,false,false,near_mint,en,EUR,2026-06-07T22:35:40.284Z
-Pyromancer's Goggles,C21,Commander 2021,259,normal,mythic,2,58503,0f92d8df-e913-4a95-9f65-4fe98c332a6e,1.33,false,false,near_mint,it,EUR,2026-06-07T22:35:40.283Z
-Gonti's Aether Heart,M3C,Modern Horizons 3 Commander,294,normal,mythic,3,94798,b2a3ac21-5e37-40c4-934a-4b00a5562b0e,0.52,false,false,near_mint,it,EUR,2026-06-07T22:35:40.282Z
-Walking Ballista,2XM,Double Masters,306,normal,rare,1,51887,5272436e-74f0-44c4-a291-ea8ebc3f1525,7.53,false,false,near_mint,en,EUR,2026-06-07T22:35:40.281Z
-The Chain Veil,M15,Magic 2015,215,normal,mythic,1,13637,0415cc0e-979e-42cc-a56d-88d13153a7de,3.49,false,false,near_mint,it,EUR,2026-06-07T22:35:40.280Z
-Grimoire of the Dead,C19,Commander 2019,213,normal,mythic,1,45721,0d8aac24-564a-420f-bb05-c67c3b0e2187,0.71,false,false,near_mint,it,EUR,2026-06-07T22:35:40.279Z
-Ring of Three Wishes,M14,Magic 2014,216,normal,mythic,1,15835,219ab03a-2b3b-4eef-8a42-2cbe793d2f33,1.46,false,false,near_mint,it,EUR,2026-06-07T22:35:40.278Z
-"Kozilek, the Great Distortion",CMM,Commander Masters,2,normal,mythic,2,84838,c41554e7-2a07-4cc7-b01b-44deed08e588,4.38,false,false,near_mint,it,EUR,2026-06-07T22:35:40.276Z
-Oblivion Sower,M3C,Modern Horizons 3 Commander,158,normal,mythic,1,94662,eb179ae3-28d9-4741-a055-e7e767d8a408,0.34,false,false,near_mint,it,EUR,2026-06-07T22:35:40.274Z
-Aethersphere Harvester,M3C,Modern Horizons 3 Commander,280,normal,rare,3,94737,40a3e817-0533-43b9-9350-2872e029ec50,0.12,false,false,near_mint,it,EUR,2026-06-07T22:35:40.273Z
-"Skysovereign, Consul Flagship",NEC,Neon Dynasty Commander,159,normal,mythic,1,67013,4f8075be-8932-49b3-990b-4b365fa27e94,1.54,false,false,near_mint,en,EUR,2026-06-07T22:35:40.272Z
-Heart of Kiran,AER,Aether Revolt,153,normal,mythic,1,6261,5e847c44-1849-4251-9075-88ed5c7792a6,0.37,false,false,near_mint,en,EUR,2026-06-07T22:35:40.271Z
-"Skysovereign, Consul Flagship",NEC,Neon Dynasty Commander,159,normal,mythic,3,67013,4f8075be-8932-49b3-990b-4b365fa27e94,1.54,false,false,near_mint,it,EUR,2026-06-07T22:35:40.270Z
-Heart of Kiran,AER,Aether Revolt,153,normal,mythic,4,6261,5e847c44-1849-4251-9075-88ed5c7792a6,0.37,false,false,near_mint,it,EUR,2026-06-07T22:35:40.269Z
-Anguished Unmaking,PSOI,Shadows over Innistrad Promos,242,foil,rare,1,9017,fa7a04aa-fd0b-4777-bdfb-8419fee3fbf3,5.2,false,false,near_mint,it,EUR,2026-06-07T22:35:40.268Z
-"Vona, Butcher of Magan",LCC,The Lost Caverns of Ixalan Commander,293,normal,mythic,2,88358,27beed9c-a42e-46de-8fbc-885da337ae75,0.37,false,false,near_mint,it,EUR,2026-06-07T22:35:40.267Z
-Progenitus,FDN,Foundations,244,foil,mythic,1,101277,e77fbc87-d78e-4602-baa0-da9b0d464dfb,1.46,false,false,near_mint,en,EUR,2026-06-07T22:35:40.266Z
-"Vona, Butcher of Magan",LCC,The Lost Caverns of Ixalan Commander,293,normal,mythic,3,88358,27beed9c-a42e-46de-8fbc-885da337ae75,0.37,false,false,near_mint,en,EUR,2026-06-07T22:35:40.265Z
-Llanowar Reborn,LCC,The Lost Caverns of Ixalan Commander,341,normal,uncommon,1,88361,284e165e-9ab6-47fc-9685-0fb03de237df,0.17,false,false,near_mint,it,EUR,2026-06-07T22:35:40.263Z
-Grim Flayer,DSC,Duskmourn: House of Horror Commander,218,normal,mythic,2,99299,b29e5af4-feb6-485a-a631-bfc42fa1b13a,0.25,false,false,near_mint,it,EUR,2026-06-07T22:35:40.261Z
-Rakdos's Return,GK2,RNA Guild Kit,72,normal,mythic,1,43955,bbc95892-c8fc-4e8d-9452-709cf9992db0,0.79,false,false,near_mint,it,EUR,2026-06-07T22:35:40.259Z
-Master of Cruelties,RVR,Ravnica Remastered,198,normal,mythic,1,90005,ffd68fe1-5cfc-44cf-8dfe-3488278cdcef,3.36,false,false,near_mint,it,EUR,2026-06-07T22:35:40.258Z
-Bow of Nylea,THS,Theros,153,normal,rare,1,15511,89a2c408-e953-4386-abaf-4af85aba9620,2.33,false,false,near_mint,en,EUR,2026-06-07T22:35:40.256Z
-Cavalier of Thorns,ECC,Lorwyn Eclipsed Commander,100,normal,mythic,1,110591,ace83f5b-2349-46b8-b27f-bf705912a6df,0.38,false,false,near_mint,it,EUR,2026-06-07T22:35:40.255Z
-Bow of Nylea,THS,Theros,153,normal,rare,4,15511,89a2c408-e953-4386-abaf-4af85aba9620,2.33,false,false,near_mint,it,EUR,2026-06-07T22:35:40.254Z
-Woodland Bellower,ORI,Magic Origins,207,normal,mythic,1,10735,a706d4bb-0b44-4e43-b340-7de799c086b8,4.09,false,false,near_mint,it,EUR,2026-06-07T22:35:40.253Z
-Greenwarden of Murasa,ECC,Lorwyn Eclipsed Commander,110,normal,mythic,4,110458,24249343-8274-4c16-bb51-4d37b4b60741,0.24,false,false,near_mint,it,EUR,2026-06-07T22:35:40.252Z
-Undergrowth Champion,BFZ,Battle for Zendikar,197,normal,mythic,2,10154,d53104d8-5b9a-45b6-a2f9-b2c5d231a03d,0.55,false,false,near_mint,en,EUR,2026-06-07T22:35:40.251Z
-Plumeveil,UMA,Ultimate Masters,218,normal,uncommon,1,43305,aad6c9c6-53db-4f6f-a20b-16dcbae42d0c,0.36,false,false,near_mint,en,EUR,2026-06-07T22:35:40.250Z
-Undergrowth Champion,BFZ,Battle for Zendikar,197,normal,mythic,3,10154,d53104d8-5b9a-45b6-a2f9-b2c5d231a03d,0.55,false,false,near_mint,it,EUR,2026-06-07T22:35:40.249Z
-Oath of Nissa,OGW,Oath of the Gatewatch,140,normal,rare,1,9242,613513ea-55dd-4ae8-93b2-247e468112a6,0.64,false,false,near_mint,de,EUR,2026-06-07T22:35:40.248Z
-Shaman of Forgotten Ways,DTK,Dragons of Tarkir,204,normal,mythic,3,11610,a3e9c8f7-2232-4a2a-8a00-0a2908bc7543,4.22,false,false,near_mint,it,EUR,2026-06-07T22:35:40.247Z
-Oath of Nissa,OGW,Oath of the Gatewatch,140,normal,rare,5,9242,613513ea-55dd-4ae8-93b2-247e468112a6,0.64,false,false,near_mint,it,EUR,2026-06-07T22:35:40.246Z
-Tireless Tracker,EOC,Edge of Eternities Commander,110,normal,rare,3,107045,66444549-ad9b-49c6-a7c6-34e977c1085d,0.24,false,false,near_mint,it,EUR,2026-06-07T22:35:40.245Z
-"Polukranos, World Eater",THS,Theros,172,normal,mythic,1,15492,4979cc1b-9c1a-47e4-ae37-7c41798eb89a,0.62,false,false,near_mint,it,EUR,2026-06-07T22:35:40.244Z
-Kalonian Hydra,BLC,Bloomburrow Commander,226,normal,mythic,1,96396,9a936dcd-684a-47f6-860c-2f3541d8286c,4.32,false,false,near_mint,it,EUR,2026-06-07T22:35:40.243Z
-"Ishkanah, Grafwidow",DSC,Duskmourn: House of Horror Commander,187,normal,mythic,2,99089,2a61bad1-f212-4d9b-8422-8ec548b8155c,0.54,false,false,near_mint,en,EUR,2026-06-07T22:35:40.242Z
-Ulvenwald Hydra,M3C,Modern Horizons 3 Commander,250,normal,mythic,3,94942,4ade356e-ed2f-4373-b898-c3ccb46324a1,0.39,false,false,near_mint,it,EUR,2026-06-07T22:35:40.241Z
-"Ishkanah, Grafwidow",DSC,Duskmourn: House of Horror Commander,187,normal,mythic,3,99089,2a61bad1-f212-4d9b-8422-8ec548b8155c,0.54,false,false,near_mint,it,EUR,2026-06-07T22:35:40.240Z
-World Breaker,EOC,Edge of Eternities Commander,112,normal,mythic,3,107171,d25856c9-cb3d-44d9-905e-007f1af65c06,0.25,false,false,near_mint,it,EUR,2026-06-07T22:35:40.239Z
-Uncage the Menagerie,HOU,Hour of Devastation,137,normal,mythic,3,4538,bc4aa918-53b9-4177-a859-f5a8eff09fe5,0.93,false,false,near_mint,it,EUR,2026-06-07T22:35:40.237Z
-Carnage Tyrant,XLN,Ixalan,179,normal,mythic,5,3833,3bd78731-949c-464a-826a-92f86d784911,3.46,false,false,near_mint,it,EUR,2026-06-07T22:35:40.236Z
-Hostage Taker,OTC,Outlaws of Thunder Junction Commander,231,normal,rare,5,93833,c168af49-acae-45de-8c62-0e6d1006f325,0.21,false,false,near_mint,it,EUR,2026-06-07T22:35:40.260Z
-Zagoth Triome,PIKO,Ikoria: Lair of Behemoths Promos,259s,foil,rare,1,50587,64ecb374-9be6-4ee2-807b-f2adbb19bb2a,20.73,false,false,near_mint,en,EUR,2026-06-07T22:40:56.877Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-07T23:18:34.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,1100,false,false,near_mint,en,EUR,2026-06-07T23:36:48.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-07T23:46:20.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-08T00:09:43.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-08T00:14:51.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-08T00:25:55.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-08T00:49:51.000Z
-webapp,binder,"Sol Ring",MPS,"Kaladesh Inventions",24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en,EUR,2026-06-08T00:56:40.000Z
-Stormcarved Coast,VOW,Innistrad: Crimson Vow,265,normal,rare,3,64139,299f1dee-b3d7-472b-aa0b-2f9b46a96da5,2.72,false,false,near_mint,en,EUR,2026-06-08T09:30:54.300Z
-Shattered Sanctum,VOW,Innistrad: Crimson Vow,264,normal,rare,2,64369,ad44c9aa-eb8f-4200-8dfe-2af728d80083,4.83,false,false,near_mint,en,EUR,2026-06-08T09:30:54.299Z
-Sundown Pass,VOW,Innistrad: Crimson Vow,266,normal,rare,1,64313,8f3fddd7-ede4-41c7-a645-a6af298a3d35,4.02,false,false,near_mint,en,EUR,2026-06-08T09:30:54.298Z
-Dreamroot Cascade,VOW,Innistrad: Crimson Vow,262,normal,rare,1,64459,eb604455-c411-414d-a2ef-e7567ee86a4d,1.38,false,false,near_mint,en,EUR,2026-06-08T09:30:54.297Z
-Stormcarved Coast,VOW,Innistrad: Crimson Vow,284,normal,rare,1,64166,3e589848-2c25-43e8-a940-7769f7936815,5.36,false,false,near_mint,en,EUR,2026-06-08T09:30:54.295Z
-Blood Crypt,RNA,Ravnica Allegiance,245,normal,rare,1,43620,5faba6c8-3463-47c1-ba01-09eb87fcb2d5,10.0,false,false,near_mint,it,EUR,2026-06-08T09:30:54.294Z
-Unholy Grotto,ONS,Onslaught,327,normal,rare,1,30976,52f464a9-586c-4cf3-894b-b407c9f4dcb8,4.75,false,false,near_mint,en,EUR,2026-06-08T09:30:54.293Z
-Sundown Pass,VOW,Innistrad: Crimson Vow,285,normal,rare,1,64231,5f1e7d34-f250-4a61-a95b-75450d134eec,7.52,false,false,near_mint,en,EUR,2026-06-08T09:30:54.292Z
-Raugrin Triome,IKO,Ikoria: Lair of Behemoths,251,normal,rare,1,49826,02138fbb-3962-4348-8d31-faaefba0b8b2,12.7,false,false,near_mint,it,EUR,2026-06-08T09:30:54.291Z
-Ketria Triome,IKO,Ikoria: Lair of Behemoths,250,normal,rare,1,49827,a249b1f4-2b22-4b67-a207-e0c4ae95d2e1,13.33,false,false,near_mint,en,EUR,2026-06-08T09:30:54.290Z
-Voldaren Estate,VOW,Innistrad: Crimson Vow,267,normal,rare,1,64130,2577e5fd-903a-44ce-989a-d53d56511ad3,0.25,false,false,near_mint,en,EUR,2026-06-08T09:30:54.289Z
-Yavimaya Coast,ORI,Magic Origins,252,normal,rare,1,10690,7ae3d45b-a40c-4003-960a-2d1d0847e750,0.45,false,false,near_mint,it,EUR,2026-06-08T09:30:54.288Z
-Wandering Fumarole,OGW,Oath of the Gatewatch,182,normal,rare,2,9200,dd0ee251-6c79-499b-8366-c281c989b061,0.2,false,false,near_mint,it,EUR,2026-06-08T09:30:54.287Z
-Yavimaya Coast,ORI,Magic Origins,252,normal,rare,1,10690,7ae3d45b-a40c-4003-960a-2d1d0847e750,0.45,false,false,near_mint,en,EUR,2026-06-08T09:30:54.286Z
-Wandering Fumarole,OGW,Oath of the Gatewatch,182,normal,rare,1,9200,dd0ee251-6c79-499b-8366-c281c989b061,0.2,false,false,near_mint,de,EUR,2026-06-08T09:30:54.285Z
-Needle Spires,OGW,Oath of the Gatewatch,175,normal,rare,1,9207,3d73700c-fa62-42be-aaca-5f8a50af20db,0.23,false,false,near_mint,en,EUR,2026-06-08T09:52:39.357Z
-Shivan Reef,ORI,Magic Origins,251,normal,rare,1,10691,f1d33afd-6f2a-43c8-ae5d-17a0674fcdd3,0.57,false,false,near_mint,en,EUR,2026-06-08T09:52:39.356Z
-Rootbound Crag,XLN,Ixalan,256,normal,rare,1,3756,b6f59e19-9ac1-4f86-893e-5b3364122fc6,0.87,false,false,near_mint,en,EUR,2026-06-08T09:52:39.355Z
-Sulfur Falls,ISD,Innistrad,248,normal,rare,1,18650,4968b65d-50e5-4d7e-b78b-cdada1cbf7a7,0.96,false,false,near_mint,it,EUR,2026-06-08T09:52:39.354Z
-Game Trail,SOI,Shadows over Innistrad,276,normal,rare,3,8720,21cb5950-adaa-438d-998b-3a64bd4a2b3e,0.52,false,false,near_mint,it,EUR,2026-06-08T09:52:39.351Z
-Game Trail,SOI,Shadows over Innistrad,276,normal,rare,3,8720,21cb5950-adaa-438d-998b-3a64bd4a2b3e,0.52,false,false,near_mint,en,EUR,2026-06-08T09:52:39.349Z
-Temple of Abandon,THS,Theros,224,normal,rare,1,15440,46febc5d-1625-4e48-bb3f-31ee06fc13dd,0.35,false,false,near_mint,it,EUR,2026-06-08T09:52:39.348Z
-Rootbound Crag,XLN,Ixalan,256,normal,rare,2,3756,b6f59e19-9ac1-4f86-893e-5b3364122fc6,0.87,false,false,near_mint,it,EUR,2026-06-08T09:52:39.347Z
-Cinder Glade,BFZ,Battle for Zendikar,235,normal,rare,1,10116,cfabc340-0391-4019-8e96-f010177b1d68,0.4,false,false,near_mint,it,EUR,2026-06-08T09:52:39.346Z
-Canopy Vista,BFZ,Battle for Zendikar,234,normal,rare,1,10117,a3262c7f-4fdf-4648-ba59-9279c75d222d,0.53,false,false,near_mint,en,EUR,2026-06-08T09:52:39.345Z
-Fortified Village,SOI,Shadows over Innistrad,274,normal,rare,7,8722,1feb9dc1-671d-43ad-ae22-ed1a9916b140,0.25,false,false,near_mint,it,EUR,2026-06-08T09:52:39.344Z
-Canopy Vista,BFZ,Battle for Zendikar,234,normal,rare,7,10117,a3262c7f-4fdf-4648-ba59-9279c75d222d,0.53,false,false,near_mint,it,EUR,2026-06-08T09:52:39.343Z
-Scattered Groves,AKH,Amonkhet,247,normal,rare,5,5438,ccb541aa-3bf6-41f3-89e5-9c6c56ea210a,0.19,false,false,near_mint,it,EUR,2026-06-08T09:52:39.342Z
-Sunpetal Grove,XLN,Ixalan,257,normal,rare,1,3755,0f234312-00e8-49f7-a489-f4c316b0a81a,1.11,false,false,near_mint,it,EUR,2026-06-08T09:52:39.338Z
-Prairie Stream,BFZ,Battle for Zendikar,241,normal,rare,5,10110,9625911f-1dd3-4044-ac06-3c0c3198b6fd,0.28,false,false,near_mint,it,EUR,2026-06-08T09:52:39.332Z
-Fetid Pools,AKH,Amonkhet,243,normal,rare,1,5442,ae703d94-6f1f-463b-ab25-1b3f462e7e78,0.39,false,false,near_mint,en,EUR,2026-06-08T09:52:39.331Z
-Temple of Deceit,THS,Theros,225,normal,rare,1,15439,686559d7-8ac1-496b-a5a6-1467bf8fc7c5,0.45,false,false,near_mint,it,EUR,2026-06-08T09:52:39.330Z
-Irrigated Farmland,AKH,Amonkhet,245,normal,rare,7,5440,4d87fcc0-cef5-4410-adf1-91c5f50c1d01,0.3,false,false,near_mint,it,EUR,2026-06-08T09:52:39.334Z
-Sheltered Thicket,AKH,Amonkhet,248,normal,rare,6,5437,d23cd764-3f5c-4c93-ba83-e5ff397003a2,0.19,false,false,near_mint,it,EUR,2026-06-08T09:52:39.350Z
-Zagoth Triome,PIKO,Ikoria: Lair of Behemoths Promos,259s,foil,rare,1,50587,64ecb374-9be6-4ee2-807b-f2adbb19bb2a,20.73,false,false,near_mint,it,EUR,2026-06-08T09:55:40.119Z
-Shrine of the Forsaken Gods,BFZ,Battle for Zendikar,245,foil,rare,1,10106,9da2af9a-28c4-4edd-95c4-cc09c2de4adc,1.31,false,false,near_mint,en,EUR,2026-06-08T10:02:32.503Z
-Kessig Wolf Run,ISD,Innistrad,243,normal,rare,1,18655,4a8447fe-7368-470a-911a-1083ec6cc831,0.37,false,false,near_mint,it,EUR,2026-06-08T10:02:32.502Z
-Nephalia Drownyard,ISD,Innistrad,245,normal,rare,1,18653,ef058312-6926-49f8-ae72-a8d60fedbf6c,0.62,false,false,near_mint,it,EUR,2026-06-08T10:02:32.500Z
-Thespian's Stage,GTC,Gatecrash,248,normal,rare,1,16576,b6f27909-e5cd-44c0-91c4-21624f692fd9,0.75,false,false,near_mint,it,EUR,2026-06-08T10:02:32.499Z
-Shrine of the Forsaken Gods,BFZ,Battle for Zendikar,245,normal,rare,2,10106,9da2af9a-28c4-4edd-95c4-cc09c2de4adc,0.25,false,false,near_mint,it,EUR,2026-06-08T10:02:32.497Z
-Ally Encampment,BFZ,Battle for Zendikar,228,normal,rare,1,10123,bcb7124c-ba69-4da8-ad81-58f00fd0181d,0.44,false,false,near_mint,en,EUR,2026-06-08T10:02:32.494Z
-Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,normal,rare,3,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,0.36,false,false,near_mint,it,EUR,2026-06-08T10:02:32.491Z
-Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,normal,rare,1,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,0.36,false,false,near_mint,en,EUR,2026-06-08T10:02:32.489Z
-Ruins of Oran-Rief,OGW,Oath of the Gatewatch,176,normal,rare,4,9206,9fed86e5-5631-401b-8820-9685f8296134,0.16,false,false,near_mint,it,EUR,2026-06-08T10:02:32.487Z
-Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,foil,rare,1,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,1.26,false,false,near_mint,it,EUR,2026-06-08T10:02:32.486Z
-Drownyard Temple,SOI,Shadows over Innistrad,271,normal,rare,1,8725,a5bb5657-18a1-455c-a87a-4e67971184ac,0.2,false,false,near_mint,it,EUR,2026-06-08T10:02:32.485Z
-"Westvale Abbey // Ormendahl, Profane Prince",SOI,Shadows over Innistrad,281,normal,rare,5,8715,c1f53d7a-9dad-46e8-b686-cd1362867445,1.22,false,false,near_mint,it,EUR,2026-06-08T10:02:32.484Z
-Corrupted Crossroads,OGW,Oath of the Gatewatch,169,normal,rare,5,9213,7043e193-8051-4f1b-9633-9c1f250d3607,0.19,false,false,near_mint,it,EUR,2026-06-08T10:02:32.483Z
-Mirrorpool,OGW,Oath of the Gatewatch,174,normal,mythic,5,9208,edbea2b5-eed3-464b-9d5c-9591f309f298,2.32,false,false,near_mint,it,EUR,2026-06-08T10:02:32.488Z
+﻿Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency,Added
+Endless Sands,C20,Commander 2020,272,normal,rare,4,50146,f436df63-41b9-416d-8e41-035261d4d0cc,0.29,false,false,near_mint,en,EUR,2026-06-07T21:07:21.380Z
+Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,1,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,fr,EUR,2026-06-07T21:07:34.816Z
+Spire of Industry,EOC,Edge of Eternities Commander,183,normal,rare,3,107258,35e9ec06-a848-4230-84a2-19cb8034e0f0,0.24,false,false,near_mint,en,EUR,2026-06-07T21:07:34.814Z
+Inventors' Fair,KLD,Kaladesh,247,normal,rare,1,7396,275471e3-ded1-40ac-91ef-369dce5764d9,9.53,false,false,near_mint,en,EUR,2026-06-07T21:07:34.813Z
+Geier Reach Sanitarium,LCC,The Lost Caverns of Ixalan Commander,335,normal,rare,2,88474,4b9c92f0-4242-4a3e-9ede-6a4935f5c75d,1.5,false,false,near_mint,en,EUR,2026-06-07T21:07:34.812Z
+Inventors' Fair,KLD,Kaladesh,247,normal,rare,7,7396,275471e3-ded1-40ac-91ef-369dce5764d9,9.53,false,false,near_mint,it,EUR,2026-06-07T21:07:34.811Z
+Geier Reach Sanitarium,LCC,The Lost Caverns of Ixalan Commander,335,normal,rare,2,88474,4b9c92f0-4242-4a3e-9ede-6a4935f5c75d,1.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.810Z
+Drownyard Temple,TDC,Tarkir: Dragonstorm Commander,359,normal,rare,4,105001,dbc8512a-9f6c-40d4-8049-14505e260746,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.807Z
+Corrupted Crossroads,M3C,Modern Horizons 3 Commander,332,normal,rare,4,94904,03b91bd1-de0f-4e3e-b467-174beba8ffeb,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.806Z
+Ruins of Oran-Rief,M3C,Modern Horizons 3 Commander,370,normal,rare,4,95047,dd563d94-787d-4098-8b38-b462640c4216,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.804Z
+Mirrorpool,CMM,Commander Masters,1010,normal,mythic,1,83995,0441cd2c-3646-4c69-ae97-ad3bcea7466f,2.18,false,false,near_mint,en,EUR,2026-06-07T21:07:34.803Z
+Sea Gate Wreckage,CMM,Commander Masters,1028,normal,rare,1,84110,1c137634-7531-4573-9bfa-623d8edf839c,0.25,false,false,near_mint,en,EUR,2026-06-07T21:07:34.802Z
+Mirrorpool,CMM,Commander Masters,1010,normal,mythic,3,83995,0441cd2c-3646-4c69-ae97-ad3bcea7466f,2.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.801Z
+Ally Encampment,BFZ,Battle for Zendikar,228,normal,rare,4,10123,bcb7124c-ba69-4da8-ad81-58f00fd0181d,0.4,false,false,near_mint,it,EUR,2026-06-07T21:07:34.799Z
+Sanctum of Ugin,BFZ,Battle for Zendikar,242,normal,rare,4,10109,86798d03-9f2d-46bd-a660-13c8dd5535ce,1.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.798Z
+Corrupted Crossroads,M3C,Modern Horizons 3 Commander,332,foil,rare,1,94904,03b91bd1-de0f-4e3e-b467-174beba8ffeb,0.49,false,false,near_mint,it,EUR,2026-06-07T21:07:34.797Z
+Shrine of the Forsaken Gods,M3C,Modern Horizons 3 Commander,376,foil,rare,2,95048,dde7ad4e-a38b-4981-8c9f-78a9e9ea2c36,1.37,false,false,near_mint,it,EUR,2026-06-07T21:07:34.796Z
+Ghost Quarter,CM2,Commander Anthology Volume II,253,normal,uncommon,1,1484,12f8071c-8955-4aa2-889c-6043df047223,0.6,false,false,near_mint,it,EUR,2026-06-07T21:07:34.795Z
+Shrine of the Forsaken Gods,M3C,Modern Horizons 3 Commander,376,normal,rare,1,95048,dde7ad4e-a38b-4981-8c9f-78a9e9ea2c36,0.2,false,false,near_mint,it,EUR,2026-06-07T21:07:34.794Z
+Grove of the Guardian,GK1,GRN Guild Kit,124,normal,rare,1,22,0079326b-ef87-49b8-9772-9134fb5deb3e,0.31,false,false,near_mint,it,EUR,2026-06-07T21:07:34.793Z
+Moorland Haunt,VOC,Crimson Vow Commander,175,normal,rare,1,64569,74deeeaa-95e9-42c9-89e3-e317ea63e216,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.792Z
+Thespian's Stage,M3C,Modern Horizons 3 Commander,395,normal,rare,1,94911,10c1ac95-c277-4430-8499-a005200e85aa,0.38,false,false,near_mint,it,EUR,2026-06-07T21:07:34.791Z
+Nephalia Drownyard,LCC,The Lost Caverns of Ixalan Commander,344,normal,rare,1,89063,fe2e25b7-f950-482b-9e35-266b1278a71a,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.790Z
+Stensia Bloodhall,ISD,Innistrad,247,normal,rare,1,18651,cc2741d8-2c02-4acd-8ca2-55b4bf6aef1c,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.789Z
+Kessig Wolf Run,TDC,Tarkir: Dragonstorm Commander,375,normal,rare,1,104536,32da0d6c-64dd-4aec-b63e-953e96164603,0.45,false,false,near_mint,it,EUR,2026-06-07T21:07:34.788Z
+Sunpetal Grove,TDC,Tarkir: Dragonstorm Commander,399,normal,rare,1,104654,565b4aaa-1990-4cb2-b519-2c0b1c9d5d18,1.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.787Z
+Temple Garden,RTR,Return to Ravnica,248,normal,rare,1,17174,b821e604-f9fd-47a4-b5ff-bfb5022834c2,6.77,false,false,near_mint,it,EUR,2026-06-07T21:07:34.786Z
+Sunpetal Grove,TDC,Tarkir: Dragonstorm Commander,399,normal,rare,3,104654,565b4aaa-1990-4cb2-b519-2c0b1c9d5d18,1.14,false,false,near_mint,en,EUR,2026-06-07T21:07:34.785Z
+Scattered Groves,OTC,Outlaws of Thunder Junction Commander,315,normal,rare,8,93467,0834b6e2-7a92-4767-8aca-9ec8961cd33e,0.27,false,false,near_mint,it,EUR,2026-06-07T21:07:34.784Z
+Canopy Vista,TDC,Tarkir: Dragonstorm Commander,343,normal,rare,7,104931,c2a85a8e-28bb-4899-a922-13a03dec844c,0.31,false,false,near_mint,it,EUR,2026-06-07T21:07:34.783Z
+Canopy Vista,TDC,Tarkir: Dragonstorm Commander,343,normal,rare,1,104931,c2a85a8e-28bb-4899-a922-13a03dec844c,0.31,false,false,near_mint,en,EUR,2026-06-07T21:07:34.781Z
+Cinder Glade,ECC,Lorwyn Eclipsed Commander,146,normal,rare,1,110469,306a7feb-f254-4ef1-a813-709601e87905,0.26,false,false,near_mint,it,EUR,2026-06-07T21:07:34.779Z
+Temple of Abandon,BLC,Bloomburrow Commander,338,normal,rare,2,96296,59866586-8a4c-464e-8273-2ec06f29d28e,0.17,false,false,near_mint,it,EUR,2026-06-07T21:07:34.777Z
+Shivan Reef,BLC,Bloomburrow Commander,331,normal,rare,1,96297,59d5e76c-4961-4dbf-be38-a18a2c16d33f,0.4,false,false,near_mint,it,EUR,2026-06-07T21:07:34.771Z
+Sulfur Falls,LCC,The Lost Caverns of Ixalan Commander,354,normal,rare,1,89055,fae97b42-b84b-4a12-91f4-9d115b58729a,0.56,false,false,near_mint,it,EUR,2026-06-07T21:07:34.770Z
+Spirebluff Canal,KLD,Kaladesh,249,normal,rare,6,7394,4e587ea7-0632-4789-ba75-3c410da2bb96,3.96,false,false,near_mint,it,EUR,2026-06-07T21:07:34.769Z
+Steam Vents,RTR,Return to Ravnica,247,normal,rare,1,17175,de911c88-f5c8-4955-9fa5-1f28a9b17236,9.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.768Z
+Wandering Fumarole,CLB,Commander Legends: Battle for Baldur's Gate,928,normal,rare,6,69659,ce3a6a8e-a01e-4d14-a6e5-c02c8205c749,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.767Z
+Yavimaya Coast,BLC,Bloomburrow Commander,355,normal,rare,2,96346,797b266b-4403-4ba4-9ffd-9c62fd981153,0.41,false,false,near_mint,it,EUR,2026-06-07T21:07:34.766Z
+Lumbering Falls,M3C,Modern Horizons 3 Commander,355,normal,rare,1,95018,c1a5d35b-8f33-4110-9bb3-298e0a263bda,0.17,false,false,near_mint,it,EUR,2026-06-07T21:07:34.765Z
+Breeding Pool,GTC,Gatecrash,240,normal,rare,1,16584,ece3bcdd-cb33-4923-b919-ba57a327d3cd,9.69,false,false,near_mint,it,EUR,2026-06-07T21:07:34.764Z
+Hinterland Harbor,DSC,Duskmourn: House of Horror Commander,284,normal,rare,2,99160,5675b928-33d5-4abf-a732-e36a5c7c4f86,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.763Z
+Temple of Mystery,THS,Theros,226,normal,rare,2,15438,2f66945b-3e64-498a-9478-5f96a61d4ec7,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.762Z
+Botanical Sanctum,KLD,Kaladesh,244,normal,rare,3,7399,8744471b-a528-47d9-84d0-4526273f55e9,1.5,false,false,near_mint,it,EUR,2026-06-07T21:07:34.761Z
+Lumbering Falls,M3C,Modern Horizons 3 Commander,355,normal,rare,4,95018,c1a5d35b-8f33-4110-9bb3-298e0a263bda,0.17,false,false,near_mint,en,EUR,2026-06-07T21:07:34.760Z
+Botanical Sanctum,PKLD,Kaladesh Promos,244s,foil,rare,1,7660,813ed97e-58d9-4471-9316-cb1db340cd20,3.89,false,false,near_mint,it,EUR,2026-06-07T21:07:34.759Z
+Twilight Mire,EOC,Edge of Eternities Commander,189,normal,rare,2,107133,b38ba12b-63ab-46ac-8fde-d1c9307c85e2,0.56,false,false,near_mint,en,EUR,2026-06-07T21:07:34.758Z
+Hissing Quagmire,OGW,Oath of the Gatewatch,171,normal,rare,2,9211,6ef11b54-205a-48e9-92d0-5d416be869ef,0.45,false,false,near_mint,en,EUR,2026-06-07T21:07:34.757Z
+Llanowar Wastes,C21,Commander 2021,297,normal,rare,2,58755,102f764d-43e1-4183-9b10-27beab571050,1.04,false,false,near_mint,en,EUR,2026-06-07T21:07:34.756Z
+Blooming Marsh,KLD,Kaladesh,243,normal,rare,2,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,1.93,false,false,near_mint,en,EUR,2026-06-07T21:07:34.755Z
+Blooming Marsh,KLD,Kaladesh,243,foil,rare,1,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,3.9,false,false,near_mint,it,EUR,2026-06-07T21:07:34.754Z
+Hissing Quagmire,OGW,Oath of the Gatewatch,171,normal,rare,6,9211,6ef11b54-205a-48e9-92d0-5d416be869ef,0.45,false,false,near_mint,it,EUR,2026-06-07T21:07:34.753Z
+Blooming Marsh,KLD,Kaladesh,243,normal,rare,5,7400,90da33d4-fe9c-42fe-b326-2fe337dc3ecd,1.93,false,false,near_mint,it,EUR,2026-06-07T21:07:34.752Z
+Godless Shrine,GTC,Gatecrash,242,normal,rare,1,16582,6fd672bb-18cf-44e3-8dda-5310b1e0fffe,8.24,false,false,near_mint,it,EUR,2026-06-07T21:07:34.751Z
+Caves of Koilos,DRC,Aetherdrift Commander,148,normal,rare,1,102934,18e5a0d3-d132-40e2-85ae-a1b743dfdd33,0.85,false,false,near_mint,it,EUR,2026-06-07T21:07:34.750Z
+Isolated Chapel,DRC,Aetherdrift Commander,162,normal,rare,1,103125,7b68c431-ad14-439b-9513-67479af8f2c2,0.51,false,false,near_mint,it,EUR,2026-06-07T21:07:34.749Z
+Temple of Silence,OTC,Outlaws of Thunder Junction Commander,333,normal,rare,1,93721,84790d0e-19ca-4191-bed9-03790555b5d2,0.22,false,false,near_mint,it,EUR,2026-06-07T21:07:34.746Z
+Clifftop Retreat,ISD,Innistrad,238,normal,rare,1,18660,fd7e1bf9-bd6a-48e3-9331-178e5142c06a,1.06,false,false,near_mint,it,EUR,2026-06-07T21:07:34.741Z
+Sacred Foundry,GTC,Gatecrash,245,normal,rare,1,16579,0a26d900-c652-4f9c-8681-a35c5f8b1937,9.3,false,false,near_mint,it,EUR,2026-06-07T21:07:34.740Z
+Battlefield Forge,BLC,Bloomburrow Commander,293,normal,rare,1,96208,24323a73-8c9a-4cd4-a98f-9ea0d1f33bf6,0.38,false,false,near_mint,en,EUR,2026-06-07T21:07:34.739Z
+Battlefield Forge,BLC,Bloomburrow Commander,293,normal,rare,2,96208,24323a73-8c9a-4cd4-a98f-9ea0d1f33bf6,0.38,false,false,near_mint,it,EUR,2026-06-07T21:07:34.737Z
+Needle Spires,OGW,Oath of the Gatewatch,175,foil,rare,1,9207,3d73700c-fa62-42be-aaca-5f8a50af20db,0.78,false,false,near_mint,de,EUR,2026-06-07T21:07:34.735Z
+Needle Spires,MKC,Murders at Karlov Manor Commander,278,normal,rare,1,90345,4a58a287-e4ca-4c6b-8096-142660cee299,0.15,false,false,near_mint,de,EUR,2026-06-07T21:07:34.734Z
+Temple of Triumph,OTC,Outlaws of Thunder Junction Commander,335,normal,rare,1,93465,07e73142-a8c0-4bd5-8ab4-cd10e572a975,0.12,false,false,near_mint,it,EUR,2026-06-07T21:07:34.733Z
+Needle Spires,MKC,Murders at Karlov Manor Commander,278,normal,rare,4,90345,4a58a287-e4ca-4c6b-8096-142660cee299,0.15,false,false,near_mint,it,EUR,2026-06-07T21:07:34.732Z
+Foreboding Ruins,DSC,Duskmourn: House of Horror Commander,277,normal,rare,4,99392,e9236b80-fa80-4da3-a357-db7749011499,0.46,false,false,near_mint,it,EUR,2026-06-07T21:07:34.730Z
+Canyon Slough,ECC,Lorwyn Eclipsed Commander,145,normal,rare,3,110629,d2ba7cfa-36f2-410f-80c3-5a06f4b48372,0.13,false,false,near_mint,en,EUR,2026-06-07T21:07:34.728Z
+Dragonskull Summit,DSC,Duskmourn: House of Horror Commander,271,normal,rare,3,99110,3b96a40e-828a-4cec-99cd-130dbcbdc67c,1.15,false,false,near_mint,en,EUR,2026-06-07T21:07:34.727Z
+Canyon Slough,ECC,Lorwyn Eclipsed Commander,145,normal,rare,5,110629,d2ba7cfa-36f2-410f-80c3-5a06f4b48372,0.13,false,false,near_mint,it,EUR,2026-06-07T21:07:34.726Z
+Temple of Deceit,FDN,Foundations,697,normal,rare,1,101244,e18748ce-e52e-4cd1-89d4-cd2578a0d574,0.2,false,false,near_mint,en,EUR,2026-06-07T21:07:34.725Z
+Drowned Catacomb,OTC,Outlaws of Thunder Junction Commander,290,normal,rare,4,93463,07b4a6dd-0e2f-43be-93c6-7578c34a9443,2.32,false,false,near_mint,en,EUR,2026-06-07T21:07:34.724Z
+Sunken Hollow,TDC,Tarkir: Dragonstorm Commander,398,normal,rare,4,104592,44f3e367-0dff-4cdb-b23a-52aa57fee946,0.35,false,false,near_mint,it,EUR,2026-06-07T21:07:34.723Z
+Temple of Deceit,DRC,Aetherdrift Commander,176,normal,rare,4,103271,ca93efca-93a0-4307-b004-ec74ad9841fc,0.2,false,false,near_mint,it,EUR,2026-06-07T21:07:34.722Z
+Sunken Hollow,TDC,Tarkir: Dragonstorm Commander,398,normal,rare,1,104592,44f3e367-0dff-4cdb-b23a-52aa57fee946,0.35,false,false,near_mint,en,EUR,2026-06-07T21:07:34.720Z
+Choked Estuary,MKC,Murders at Karlov Manor Commander,254,normal,rare,9,90572,e9ad18b2-1061-4893-9171-07ffe142a762,0.28,false,false,near_mint,it,EUR,2026-06-07T21:07:34.719Z
+Watery Grave,GTC,Gatecrash,249,normal,rare,1,16575,47fde349-010e-4a2e-838e-e924dbeec355,10.16,false,false,near_mint,en,EUR,2026-06-07T21:07:34.717Z
+Fetid Pools,TDC,Tarkir: Dragonstorm Commander,363,normal,rare,7,104971,d036dfb9-7da2-4375-83ee-b01eb95b64e6,0.27,false,false,near_mint,it,EUR,2026-06-07T21:07:34.716Z
+Prairie Stream,TDC,Tarkir: Dragonstorm Commander,384,normal,rare,6,105067,fa0af5ea-e9e1-4247-bde2-759c2653fc00,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.715Z
+Glacial Fortress,EOC,Edge of Eternities Commander,160,normal,rare,6,107308,a1fc8d86-b118-46e3-92a5-8cbf2ca282f7,0.41,false,false,near_mint,it,EUR,2026-06-07T21:07:34.714Z
+Port Town,SOI,Shadows over Innistrad,278,normal,rare,8,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,0.44,false,false,near_mint,it,EUR,2026-06-07T21:07:34.713Z
+Port Town,SOI,Shadows over Innistrad,278,foil,rare,1,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,1.29,false,false,near_mint,it,EUR,2026-06-07T21:07:34.711Z
+Port Town,SOI,Shadows over Innistrad,278,normal,rare,2,8718,b866712a-c3ef-4a43-ac0f-146c7836f0d6,0.44,false,false,near_mint,en,EUR,2026-06-07T21:07:34.709Z
+Irrigated Farmland,EOC,Edge of Eternities Commander,162,normal,rare,13,107261,3cbc4f0a-6735-461c-ae7a-3c2ce342c4da,0.18,false,false,near_mint,it,EUR,2026-06-07T21:07:34.710Z
+Fetid Pools,TDC,Tarkir: Dragonstorm Commander,363,normal,rare,2,104971,d036dfb9-7da2-4375-83ee-b01eb95b64e6,0.27,false,false,near_mint,en,EUR,2026-06-07T21:07:34.718Z
+Smoldering Marsh,ECC,Lorwyn Eclipsed Commander,168,normal,rare,4,110633,d6890462-aeb0-4356-93dc-b2eda0df0c0e,0.29,false,false,near_mint,en,EUR,2026-06-07T21:07:34.729Z
+Inspiring Vantage,KLD,Kaladesh,246,normal,rare,7,7397,160ac412-005f-48ca-a204-10207307c6c2,1.85,false,false,near_mint,it,EUR,2026-06-07T21:07:34.736Z
+Shambling Vent,CLB,Commander Legends: Battle for Baldur's Gate,914,normal,rare,7,69448,1f5bf05a-04a1-4dde-845b-eced21a785fa,0.32,false,false,near_mint,en,EUR,2026-06-07T21:07:34.742Z
+Caves of Koilos,DRC,Aetherdrift Commander,148,normal,rare,3,102934,18e5a0d3-d132-40e2-85ae-a1b743dfdd33,0.85,false,false,near_mint,en,EUR,2026-06-07T21:07:34.743Z
+Concealed Courtyard,KLD,Kaladesh,245,normal,rare,5,7398,c8769e97-aee8-4466-a9d7-0f4245ae4a97,1.03,false,false,near_mint,en,EUR,2026-06-07T21:07:34.745Z
+Sheltered Thicket,ECC,Lorwyn Eclipsed Commander,167,normal,rare,6,110593,ad7f87dd-1c43-4b6f-9d68-cc09ef76dbc2,0.14,false,false,near_mint,it,EUR,2026-06-07T21:07:34.772Z
+Game Trail,BLC,Bloomburrow Commander,306,normal,rare,4,96503,e42e3260-33d7-4cee-8cac-61ed006abf3e,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.773Z
+Rootbound Crag,ECC,Lorwyn Eclipsed Commander,163,normal,rare,4,110607,bc0f449a-01e2-4c22-8eb0-17ad1efb62e4,0.43,false,false,near_mint,it,EUR,2026-06-07T21:07:34.776Z
+Fortified Village,TDC,Tarkir: Dragonstorm Commander,366,normal,rare,7,104617,4a0aeb3a-923a-4b97-9d27-ea7e0b57de75,0.21,false,false,near_mint,it,EUR,2026-06-07T21:07:34.780Z
+Sea Gate Wreckage,CMM,Commander Masters,1028,normal,rare,5,84110,1c137634-7531-4573-9bfa-623d8edf839c,0.25,false,false,near_mint,it,EUR,2026-06-07T21:07:34.800Z
+Cascading Cataracts,AKH,Amonkhet,240,normal,rare,4,5445,778739db-4431-4e58-91de-d2619aeef3ce,1.05,false,false,near_mint,en,EUR,2026-06-07T21:07:34.815Z
+Foul Orchard,SOI,Shadows over Innistrad,275,foil,uncommon,1,8721,2378ac21-9912-40d7-972d-b1b71a8e4984,0.45,false,false,near_mint,en,EUR,2026-06-07T21:09:57.720Z
+Rakdos Guildgate,RNA,Ravnica Allegiance,256,foil,common,1,43609,d88b90fa-a7f1-4739-a507-d22dede9384f,0.34,false,false,near_mint,en,EUR,2026-06-07T21:09:57.719Z
+Swamp,ELD,Throne of Eldraine,260,foil,common,1,46078,41aa58c2-eaf2-4b17-b014-afbba7199d4a,0.2,false,false,near_mint,en,EUR,2026-06-07T21:09:57.718Z
+Mosswort Bridge,TDC,Tarkir: Dragonstorm Commander,379,normal,rare,1,104462,1490c0dc-06d6-45ee-af3c-2935b0ab1233,0.31,false,false,near_mint,en,EUR,2026-06-07T21:09:57.717Z
+Hostile Desert,MKC,Murders at Karlov Manor Commander,266,normal,rare,1,90543,d71031c2-7379-4d83-b6d6-61f3104593c4,0.13,false,false,near_mint,it,EUR,2026-06-07T21:09:57.716Z
+Arch of Orazca,LCC,The Lost Caverns of Ixalan Commander,319,normal,rare,1,88510,581dcadd-7de4-4b39-bab0-d3567194a252,0.29,false,false,near_mint,en,EUR,2026-06-07T21:09:57.715Z
+Scavenger Grounds,OTC,Outlaws of Thunder Junction Commander,316,normal,rare,1,93689,707d733d-2928-4215-91d2-1340fc9ee903,0.62,false,false,near_mint,en,EUR,2026-06-07T21:09:57.714Z
+Hostile Desert,MKC,Murders at Karlov Manor Commander,266,normal,rare,3,90543,d71031c2-7379-4d83-b6d6-61f3104593c4,0.13,false,false,near_mint,en,EUR,2026-06-07T21:09:57.713Z
+"Dovin, Hand of Control",WAR,War of the Spark,229★,normal,uncommon,1,44426,62c347f3-157e-45ca-95a8-bdf300b0811b,0.36,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.776Z
+"Tibalt, Rakish Instigator",WAR,War of the Spark,146★,normal,uncommon,2,44440,68718639-a767-4f4e-b7bf-1fbb65e6cae5,0.56,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.775Z
+"Samut, Tyrant Smasher",WAR,War of the Spark,235★,normal,uncommon,1,44420,197c8c75-3b53-49ab-adb5-32937b49e834,0.3,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.774Z
+"Angrath, Captain of Chaos",WAR,War of the Spark,227★,normal,uncommon,1,44428,3e98da7c-e61b-4921-9b27-eed3ce41221d,0.41,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.773Z
+"Jiang Yanggu, Wildcrafter",WAR,War of the Spark,164★,normal,uncommon,1,44438,31a66171-1143-4d23-81c3-ae8bb0ef63ad,0.52,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.772Z
+"Teyo, the Shieldmage",WAR,War of the Spark,32★,normal,uncommon,1,44451,52cc3498-b837-4444-b388-2d11c883a08a,0.51,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.771Z
+"Kaya, Bane of the Dead",WAR,War of the Spark,231★,normal,uncommon,1,44424,981850b2-3013-4f12-ab13-6410431585f2,0.31,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.770Z
+"Ob Nixilis, the Hate-Twisted",WAR,War of the Spark,100★,normal,uncommon,1,44444,5b67ca03-f759-4d7c-8527-7a569e7bfad1,0.53,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.769Z
+"Davriel, Rogue Shadowmage",WAR,War of the Spark,83★,normal,uncommon,1,44446,1ce03906-fef8-4636-945c-95b857cbeab0,0.67,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.768Z
+"Ashiok, Dream Render",WAR,War of the Spark,228★,normal,uncommon,1,44427,3df061ce-dd56-4a11-a932-f16d69f47d3b,1.69,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.767Z
+"Saheeli, Sublime Artificer",WAR,War of the Spark,234★,normal,uncommon,1,44421,ac555b4e-c682-46d2-a99e-1bd1656155d7,0.49,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.766Z
+"Nahiri, Storm of Stone",WAR,War of the Spark,233★,normal,uncommon,1,44422,3f17544a-7bcd-4315-8e14-bea8317ee13a,0.49,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.765Z
+"Vraska, Swarm's Eminence",WAR,War of the Spark,236★,normal,uncommon,2,44419,c1523eed-d417-44bc-90fc-f67ecb3dc2c4,0.75,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.764Z
+"Narset, Parter of Veils",WAR,War of the Spark,61★,normal,uncommon,1,44447,e078151b-74b7-426a-9ee5-d83799ca2b85,5.78,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.763Z
+"Ajani, the Greathearted",WAR,War of the Spark,184★,normal,rare,1,44435,bee535c3-4ccd-4eb1-85e9-d28bf6dc0710,0.69,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.762Z
+"Tamiyo, Collector of Tales",WAR,War of the Spark,220★,normal,rare,1,44430,e5ad78c6-8af3-4efa-b47a-29a646ea412a,1.87,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.761Z
+"Domri, Anarch of Bolas",WAR,War of the Spark,191★,normal,rare,1,44434,1b8ec2a4-e6b1-42a4-9a20-3b55eda4377f,1.62,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.760Z
+"Jace, Wielder of Mysteries",WAR,War of the Spark,54★,normal,rare,2,44449,d50eb8cf-dc8d-4c7e-bff7-db9254ff8a90,4.05,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.759Z
+"Vivien, Champion of the Wilds",WAR,War of the Spark,180★,normal,rare,1,44436,4422e69e-a7db-4582-b37d-59519b6871f9,1.2,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.758Z
+"Chandra, Fire Artisan",WAR,War of the Spark,119★,normal,rare,1,44443,3b129f92-e6c4-4967-bd0c-02ff85f09636,1.48,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.757Z
+"Sorin, Vengeful Bloodlord",WAR,War of the Spark,217★,normal,rare,1,44431,9a29e375-081c-43ac-aeb5-9d71d65c5ddd,1.91,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.756Z
+"Nissa, Who Shakes the World",WAR,War of the Spark,169★,normal,rare,1,44437,25d63632-c019-4f34-926a-42f829a4665c,4.17,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.755Z
+Gideon Blackblade,WAR,War of the Spark,13★,normal,mythic,1,44452,b9581ba4-8b7a-410c-9a7d-d4a976880435,2.16,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.754Z
+"Nicol Bolas, Dragon-God",WAR,War of the Spark,207★,normal,mythic,1,44433,c4a5770e-533d-479f-b469-1fbef08614c1,2.88,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.753Z
+"Huatli, Warrior Poet",XLN,Ixalan,224,normal,mythic,3,3788,a0cc61ba-e91a-4b30-841c-cae8dd288b40,2.36,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.752Z
+"Samut, the Tested",HOU,Hour of Devastation,144,normal,mythic,3,4531,09f06f55-7918-46c4-80ff-0bf39e091a4a,0.46,false,false,near_mint,en,EUR,2026-06-07T21:28:24.751Z
+"Arlinn Kord // Arlinn, Embraced by the Moon",INR,Innistrad Remastered,230,normal,mythic,3,102821,e72d7c11-2165-4c72-80f3-3c1a7b4b5572,1.11,false,false,near_mint,it,EUR,2026-06-07T21:28:24.750Z
+"Sorin, Grim Nemesis",SOI,Shadows over Innistrad,251,normal,mythic,3,8745,c2933144-c931-498a-9e91-f5165873c3b7,1.03,false,false,near_mint,it,EUR,2026-06-07T21:28:24.749Z
+"Nahiri, the Harbinger",CMM,Commander Masters,929,normal,mythic,4,84820,c0b2cc03-5d07-43e1-a8d9-298d17a5af44,0.53,false,false,near_mint,it,EUR,2026-06-07T21:28:24.748Z
+"Sorin, Grim Nemesis",SOI,Shadows over Innistrad,251,normal,mythic,2,8745,c2933144-c931-498a-9e91-f5165873c3b7,1.03,false,false,near_mint,en,EUR,2026-06-07T21:28:24.747Z
+"Tamiyo, Field Researcher",EMN,Eldritch Moon,190,normal,mythic,1,8144,9f9aced7-9ae9-432f-b8c0-caac9cad098b,1.84,false,false,near_mint,en,EUR,2026-06-07T21:28:24.746Z
+"Nicol Bolas, God-Pharaoh",2X2,Double Masters 2022,260,normal,mythic,3,70245,597ca22d-2f08-47b3-9d93-c4d685cefb5f,2.2,false,false,near_mint,en,EUR,2026-06-07T21:28:24.745Z
+"Jace, Cunning Castaway",XLN,Ixalan,60,normal,mythic,1,3952,b75f56f2-88fd-44ba-ad02-56ea3391f173,0.57,false,false,near_mint,it,EUR,2026-06-07T21:28:24.744Z
+"Jace, Unraveler of Secrets",INR,Innistrad Remastered,70,normal,mythic,2,102508,3d9c8217-013d-4e75-bdd1-9c46c8467edb,1.14,false,false,near_mint,it,EUR,2026-06-07T21:28:24.743Z
+"Jace, Cunning Castaway",XLN,Ixalan,60,normal,mythic,3,3952,b75f56f2-88fd-44ba-ad02-56ea3391f173,0.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.742Z
+Ob Nixilis Reignited,DSC,Duskmourn: House of Horror Commander,152,normal,mythic,1,99166,5af237ad-9294-47f5-a338-f9ca4fce3e70,0.26,false,false,near_mint,en,EUR,2026-06-07T21:28:24.741Z
+"Liliana, the Last Hope",EMN,Eldritch Moon,93,normal,mythic,2,8243,fa6ac7d2-0127-49a8-b7d2-a38308d3c27b,3.73,false,false,near_mint,en,EUR,2026-06-07T21:28:24.740Z
+Ob Nixilis Reignited,DSC,Duskmourn: House of Horror Commander,152,normal,mythic,1,99166,5af237ad-9294-47f5-a338-f9ca4fce3e70,0.26,false,false,near_mint,it,EUR,2026-06-07T21:28:24.739Z
+"Liliana, the Last Hope",EMN,Eldritch Moon,93,normal,mythic,3,8243,fa6ac7d2-0127-49a8-b7d2-a38308d3c27b,3.73,false,false,near_mint,it,EUR,2026-06-07T21:28:24.738Z
+"Liliana, Death's Majesty",DRC,Aetherdrift Commander,94,normal,mythic,4,103223,ae653ad0-c796-49d4-b893-25d627f1ff79,0.38,false,false,near_mint,it,EUR,2026-06-07T21:28:24.737Z
+"Nissa, Vital Force",KLD,Kaladesh,163,normal,mythic,4,7480,bbaaa98a-ec40-4ff1-8762-a719cf1c475d,2.37,false,false,near_mint,it,EUR,2026-06-07T21:28:24.736Z
+"Garruk, Cursed Huntsman",ELD,Throne of Eldraine,191,normal,mythic,1,46147,abef512f-8f1d-4257-b16f-c0eed58670ec,0.98,false,false,near_mint,it,EUR,2026-06-07T21:28:24.735Z
+Gideon of the Trials,AKH,Amonkhet,14,normal,mythic,1,5671,959ce13f-519f-4472-bbd1-f26a972723d7,1.12,false,false,near_mint,en,EUR,2026-06-07T21:28:24.734Z
+"Karn, Scion of Urza",DOM,Dominaria,1,normal,mythic,1,2275,07a3d9e8-8597-498b-869c-cff79e0df516,3.5,false,false,near_mint,it,EUR,2026-06-07T21:28:24.733Z
+Gideon of the Trials,AKH,Amonkhet,14,normal,mythic,3,5671,959ce13f-519f-4472-bbd1-f26a972723d7,1.12,false,false,near_mint,it,EUR,2026-06-07T21:28:24.732Z
+"Chandra, Flamecaller",C20,Commander 2020,145,normal,mythic,2,50273,a83ca3a1-82a9-4f47-b0b8-21687afd705b,0.42,false,false,near_mint,it,EUR,2026-06-07T21:28:24.731Z
+"Gideon, Ally of Zendikar",BFZ,Battle for Zendikar,29,normal,mythic,2,10322,187e887c-c39d-4d25-a506-cdc95fc70316,0.98,false,false,near_mint,it,EUR,2026-06-07T21:28:24.730Z
+"Nissa, Voice of Zendikar",OGW,Oath of the Gatewatch,138,normal,mythic,3,9244,a600b97b-1851-4b1b-a2af-f80e0307c02c,1.48,false,false,near_mint,it,EUR,2026-06-07T21:28:24.729Z
+"Gideon, Ally of Zendikar",BFZ,Battle for Zendikar,29,normal,mythic,4,10322,187e887c-c39d-4d25-a506-cdc95fc70316,0.98,false,false,near_mint,en,EUR,2026-06-07T21:28:24.728Z
+"Kiora, Master of the Depths",BFZ,Battle for Zendikar,213,normal,mythic,2,10138,4b63c228-3265-4029-9bc0-36b3e31dfb53,1.34,false,false,near_mint,it,EUR,2026-06-07T21:28:24.727Z
+"Kytheon, Hero of Akros // Gideon, Battle-Forged",ORI,Magic Origins,23,normal,mythic,2,10919,58c39df6-b237-40d1-bdcb-2fe5d05392a9,1.88,false,false,near_mint,it,EUR,2026-06-07T21:28:24.726Z
+"Nissa, Vastwood Seer // Nissa, Sage Animist",ORI,Magic Origins,189,normal,mythic,1,10753,ff0063da-ab6b-499d-8e87-8b34d46f0372,3.13,false,false,near_mint,it,EUR,2026-06-07T21:28:24.725Z
+"Jace, Vryn's Prodigy // Jace, Telepath Unbound",ORI,Magic Origins,60,normal,mythic,1,10882,02d6d693-f1f3-4317-bcc0-c21fa8490d38,4.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.724Z
+"Chandra, Fire of Kaladesh // Chandra, Roaring Flame",ORI,Magic Origins,135,normal,mythic,3,10807,b0d6caf0-4fa8-4ec5-b7f4-1307474d1b13,1.18,false,false,near_mint,it,EUR,2026-06-07T21:28:24.723Z
+Narset Transcendent,DTK,Dragons of Tarkir,225,normal,mythic,1,11589,4816d092-e34b-4397-8599-43d8e85a8f39,5.38,false,false,near_mint,it,EUR,2026-06-07T21:28:24.722Z
+"Sorin, Solemn Visitor",KTK,Khans of Tarkir,202,normal,mythic,1,13196,da1a9643-34d6-4b4b-b896-2d4626eca40a,1.28,false,false,near_mint,it,EUR,2026-06-07T21:28:24.721Z
+Sarkhan Unbroken,DTK,Dragons of Tarkir,230,normal,mythic,1,11584,192452f8-93c2-4a20-a52b-0093741a9e45,12.79,false,false,near_mint,it,EUR,2026-06-07T21:28:24.720Z
+Koth of the Hammer,SOM,Scars of Mirrodin,94,normal,mythic,1,20938,af8b9c79-a161-4d7d-944d-82a44a5f2ab9,1.07,false,false,near_mint,it,EUR,2026-06-07T21:28:24.719Z
+Garruk Wildspeaker,GVL,Duel Decks Anthology: Garruk vs. Liliana,1,foil,mythic,1,12353,6b56c367-7ac8-4541-9f2e-1fdc9c5aecdc,1.81,false,false,near_mint,en,EUR,2026-06-07T21:28:24.718Z
+"Nissa, Worldwaker",M15,Magic 2015,187,normal,mythic,1,13665,07eb2476-488b-4610-8567-f0456601f7fd,3.73,false,false,near_mint,it,EUR,2026-06-07T21:28:24.717Z
+"Xenagos, the Reveler",CLB,Commander Legends: Battle for Baldur's Gate,853,normal,mythic,1,69709,edfd90ee-a142-4a80-b383-802bbee2cef1,1.04,false,false,near_mint,it,EUR,2026-06-07T21:28:24.716Z
+Vraska the Unseen,C19,Commander 2019,207,normal,mythic,1,45727,a6ab9d2b-6cb3-4477-8d0e-712c530383bd,0.82,false,false,near_mint,it,EUR,2026-06-07T21:28:24.715Z
+Ral Zarek,RVR,Ravnica Remastered,216,normal,mythic,1,89641,3bdd2b4b-5ba3-4984-8d48-c4c1d75dd177,0.76,false,false,near_mint,it,EUR,2026-06-07T21:28:24.714Z
+"Garruk, Primal Hunter",C21,Commander 2021,190,normal,mythic,2,58605,79cfc0d7-fccb-47fb-87b6-08dd32528be6,1.17,false,false,near_mint,it,EUR,2026-06-07T21:28:24.713Z
+"Nicol Bolas, Planeswalker",M13,Magic 2013,199,normal,mythic,1,17624,0e3b1fea-5c2c-4848-8109-548f56b99d49,2.42,false,false,near_mint,en,EUR,2026-06-07T21:28:24.712Z
+Liliana of the Veil,ISD,Innistrad,105,normal,mythic,1,18793,ac506c17-adc8-49c6-9d8d-43db7cb1ec9d,9.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.711Z
+"Purphoros, Bronze-Blooded",THB,Theros Beyond Death,265,normal,mythic,3,46797,176596fd-fc6d-46ae-a64d-d9147430fe0f,2.57,false,false,near_mint,en,EUR,2026-06-07T21:28:24.710Z
+"Thassa, Deep-Dwelling",THB,Theros Beyond Death,261,normal,mythic,2,46801,27b52628-de05-4ec1-9978-e998cf17bb26,22.61,false,false,near_mint,en,EUR,2026-06-07T21:28:24.709Z
+"Erebos, Bleak-Hearted",THB,Theros Beyond Death,262,normal,mythic,2,46800,68f3c60d-2fcb-476f-bcc6-eec5879b08ee,1.44,false,false,near_mint,en,EUR,2026-06-07T21:28:24.708Z
+"Nylea, Keen-Eyed",THB,Theros Beyond Death,266,normal,mythic,2,46796,2a022e36-5074-4875-ac30-aaa09b7ef421,4.66,false,false,near_mint,en,EUR,2026-06-07T21:28:24.707Z
+"Heliod, Sun-Crowned",THB,Theros Beyond Death,259,normal,mythic,1,46803,e11cf760-da35-41f2-8cf5-a5141103eeb3,15.54,false,false,near_mint,en,EUR,2026-06-07T21:28:24.706Z
+God-Eternal Kefnet,WAR,War of the Spark,53,normal,mythic,1,44351,5e14060f-9167-4e28-a053-77689e066e30,1.45,false,false,near_mint,en,EUR,2026-06-07T21:28:24.705Z
+God-Eternal Kefnet,WAR,War of the Spark,53,normal,mythic,2,44351,5e14060f-9167-4e28-a053-77689e066e30,1.45,false,false,near_mint,it,EUR,2026-06-07T21:28:24.703Z
+The Scarab God,DRC,Aetherdrift Commander,120,normal,mythic,2,103108,7546b37d-c83a-4632-bebf-cc46d114481f,3.87,false,false,near_mint,it,EUR,2026-06-07T21:28:24.702Z
+The Scorpion God,ECC,Lorwyn Eclipsed Commander,133,normal,mythic,3,110538,792eabed-6c49-41f0-a9ce-0184e5c577e9,0.42,false,false,near_mint,en,EUR,2026-06-07T21:28:24.700Z
+The Locust God,MOC,March of the Machine Commander,335,normal,mythic,3,81765,7e599847-8ab0-4fd6-b2c0-cb44a7669aa5,6.25,false,false,near_mint,en,EUR,2026-06-07T21:28:24.699Z
+Rhonas the Indomitable,AKH,Amonkhet,182,normal,mythic,4,5503,50f23c47-278c-4188-8fb4-ae20a0c423c5,3.9,false,false,near_mint,it,EUR,2026-06-07T21:28:24.698Z
+Hazoret the Fervent,AKH,Amonkhet,136,normal,mythic,4,5549,36ed9f9d-99a7-49f4-b0ad-d71355809d32,1.0,false,false,near_mint,it,EUR,2026-06-07T21:28:24.697Z
+Bontu the Glorified,AKH,Amonkhet,82,normal,mythic,2,5603,4bc07386-909f-4946-9120-3acb58622e2f,1.5,false,false,near_mint,it,EUR,2026-06-07T21:28:24.696Z
+Kefnet the Mindful,DSC,Duskmourn: House of Horror Commander,118,normal,mythic,3,99344,ca06ae1a-4080-450a-8ff0-ad6aafd8f04c,0.27,false,false,near_mint,it,EUR,2026-06-07T21:28:24.695Z
+Oketra the True,AKH,Amonkhet,21,normal,mythic,4,5664,f2cc79cf-d4db-4236-b3e2-fd12662b2a74,2.41,false,false,near_mint,it,EUR,2026-06-07T21:28:24.694Z
+"Erebos, God of the Dead",THS,Theros,85,normal,mythic,1,15579,d0787e1f-0b75-44ab-a8fd-90358906a787,9.6,false,false,near_mint,it,EUR,2026-06-07T21:28:24.693Z
+"Nylea, God of the Hunt",THS,Theros,166,normal,mythic,1,15498,f185a734-a32a-4244-88e8-dabafbfd064f,9.65,false,false,near_mint,it,EUR,2026-06-07T21:28:24.692Z
+Kefnet the Mindful,MP2,Amonkhet Invocations,15,foil,special,1,5823,ef2d627d-60ec-4f68-bdfd-086841483b18,22.78,false,false,near_mint,en,EUR,2026-06-07T21:28:24.691Z
+"Purphoros, God of the Forge",CMM,Commander Masters,246,normal,mythic,1,84313,4736a2c4-c89c-48db-a104-6303e7e2eee8,22.28,false,false,near_mint,it,EUR,2026-06-07T21:28:24.690Z
+Oketra the True,MP2,Amonkhet Invocations,5,foil,special,1,5833,b3aa8c17-e37e-430e-a940-d016c4ab5852,23.27,false,false,near_mint,en,EUR,2026-06-07T21:28:24.689Z
+Hazoret the Fervent,MP2,Amonkhet Invocations,27,foil,special,1,5811,f582e3c3-c329-40bb-9ffb-c4812a7aedd5,26.36,false,false,near_mint,en,EUR,2026-06-07T21:28:24.688Z
+Bontu the Glorified,MP2,Amonkhet Invocations,20,foil,special,1,5818,57ebd0f2-3f5b-48ef-a530-ea6f667ee195,26.25,false,false,near_mint,en,EUR,2026-06-07T21:28:24.687Z
+Rhonas the Indomitable,MP2,Amonkhet Invocations,28,foil,special,1,5810,453d854c-5092-4e00-a388-499353f246c3,31.34,false,false,near_mint,en,EUR,2026-06-07T21:28:24.686Z
+The Scarab God,DRC,Aetherdrift Commander,120,normal,mythic,4,103108,7546b37d-c83a-4632-bebf-cc46d114481f,3.87,false,false,near_mint,en,EUR,2026-06-07T21:28:24.701Z
+"Kiora, Behemoth Beckoner",WAR,War of the Spark,232★,normal,uncommon,2,44423,1f2b1975-183b-4989-aa1f-a653ec732abf,1.16,false,false,near_mint,ja,EUR,2026-06-07T21:28:24.777Z
+Vizier of the Menagerie,FDN,Foundations,649,normal,mythic,4,100318,3010ec33-c3f6-42ce-ad5a-e149e5c9a805,0.59,false,false,near_mint,it,EUR,2026-06-07T22:24:03.180Z
+Cavalier of Flame,M20,Core Set 2020,125,normal,mythic,1,45336,0c18c541-758b-4237-9961-9637e996e8a5,4.11,false,false,near_mint,en,EUR,2026-06-07T22:24:03.179Z
+Verdurous Gearhulk,MIC,Midnight Hunt Commander,145,normal,mythic,6,63588,3f3eb5d0-7a99-4f66-b0b8-a0d8acc3bc9e,0.36,false,false,near_mint,it,EUR,2026-06-07T22:24:03.178Z
+Cavalier of Flame,M20,Core Set 2020,125,normal,mythic,3,45336,0c18c541-758b-4237-9961-9637e996e8a5,4.11,false,false,near_mint,it,EUR,2026-06-07T22:24:03.177Z
+Inferno Titan,PDP12,Duels of the Planeswalkers 2012 Promos,3,foil,mythic,1,20421,17ac2bff-f570-4955-a8d4-7e12d616dd8b,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.176Z
+Past in Flames,C16,Commander 2016,131,normal,mythic,1,7223,70521337-ecab-461d-95cf-03024b569fef,1.31,false,false,near_mint,it,EUR,2026-06-07T22:24:03.175Z
+Combustible Gearhulk,DRC,Aetherdrift Commander,102,normal,mythic,4,103028,4be99ea7-331a-406d-8a75-5bcfe64d1890,0.22,false,false,near_mint,it,EUR,2026-06-07T22:24:03.174Z
+Kozilek's Return,M3C,Modern Horizons 3 Commander,214,normal,mythic,4,95064,eed3be26-6c05-48cf-889a-9cbbd4977283,0.94,false,false,near_mint,en,EUR,2026-06-07T22:24:03.173Z
+Hammer of Purphoros,EOC,Edge of Eternities Commander,88,normal,rare,1,107091,900de725-741b-4b25-8e40-78ed7575a83f,0.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.172Z
+Kozilek's Return,M3C,Modern Horizons 3 Commander,214,normal,mythic,4,95064,eed3be26-6c05-48cf-889a-9cbbd4977283,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.171Z
+Verix Bladewing,TDC,Tarkir: Dragonstorm Commander,243,normal,mythic,1,104674,5d951996-3379-431d-bbb0-a7d099e72e4e,0.22,false,false,near_mint,it,EUR,2026-06-07T22:24:03.170Z
+Hellkite Tyrant,RVR,Ravnica Remastered,111,normal,rare,1,89877,bd03d145-7cec-49da-917a-01f7355e252e,3.34,false,false,near_mint,it,EUR,2026-06-07T22:24:03.169Z
+Utvara Hellkite,RVR,Ravnica Remastered,129,normal,mythic,1,89942,df459109-d6ab-4b1d-9570-c7677ff4a014,12.56,false,false,near_mint,it,EUR,2026-06-07T22:24:03.168Z
+Stormbreath Dragon,TDC,Tarkir: Dragonstorm Commander,237,normal,mythic,1,104546,3637d9b8-87bb-478d-bfb1-59ddab7b5e4c,0.3,false,false,near_mint,it,EUR,2026-06-07T22:24:03.167Z
+Balefire Dragon,CMM,Commander Masters,207,normal,mythic,1,84238,37def363-c431-43b4-8c5f-933941507681,13.97,false,false,near_mint,it,EUR,2026-06-07T22:24:03.164Z
+Rekindling Phoenix,NCC,New Capenna Commander,273,normal,mythic,1,68135,1a9945ec-0996-434e-b177-97203eabaf24,0.42,false,false,near_mint,it,EUR,2026-06-07T22:24:03.162Z
+Akoum Firebird,BFZ,Battle for Zendikar,138,normal,mythic,4,10213,304a2e4c-da2c-43fb-b44d-9db55ff94f04,0.32,false,false,near_mint,it,EUR,2026-06-07T22:24:03.161Z
+Murderous Rider // Swift End,ELD,Throne of Eldraine,287,normal,rare,2,46020,49c98e70-e8fe-4fea-b1d0-e7560780fda9,0.62,false,false,near_mint,en,EUR,2026-06-07T22:24:03.160Z
+Cavalier of Night,M20,Core Set 2020,94,foil,mythic,1,45367,f03109b9-54a8-4d68-97c2-e42c7d5c2d41,17.81,false,false,near_mint,it,EUR,2026-06-07T22:24:03.159Z
+Whip of Erebos,DSC,Duskmourn: House of Horror Commander,159,normal,rare,2,99309,b738612f-4e78-4b19-9392-6c074956d6e4,7.31,false,false,near_mint,it,EUR,2026-06-07T22:24:03.158Z
+Army of the Damned,NCC,New Capenna Commander,242,normal,mythic,1,68376,bf818314-1eb4-48da-8e6f-ff7b89873b63,0.93,false,false,near_mint,it,EUR,2026-06-07T22:24:03.157Z
+Tree of Perdition,EMN,Eldritch Moon,109,foil,mythic,1,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,13.07,false,false,near_mint,it,EUR,2026-06-07T22:24:03.156Z
+Relentless Dead,SOI,Shadows over Innistrad,131,normal,mythic,4,8865,2a0d7998-2f3d-43b8-a0be-6ff7e5c83223,10.45,false,false,near_mint,it,EUR,2026-06-07T22:24:03.155Z
+Tree of Perdition,EMN,Eldritch Moon,109,normal,mythic,1,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,3.82,false,false,near_mint,en,EUR,2026-06-07T22:24:03.154Z
+Noxious Gearhulk,TDC,Tarkir: Dragonstorm Commander,191,normal,mythic,1,104511,289c11b7-a460-4a2f-b11a-e1ba54bd1f34,0.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.153Z
+Tree of Perdition,EMN,Eldritch Moon,109,normal,mythic,2,8226,305bd19a-ae5e-46ca-8ff7-27810c968315,3.82,false,false,near_mint,it,EUR,2026-06-07T22:24:03.152Z
+Noxious Gearhulk,TDC,Tarkir: Dragonstorm Commander,191,normal,mythic,2,104511,289c11b7-a460-4a2f-b11a-e1ba54bd1f34,0.57,false,false,near_mint,en,EUR,2026-06-07T22:24:03.151Z
+Languish,CM2,Commander Anthology Volume II,67,normal,rare,4,1670,91bea17e-1b18-461b-8247-02fc56379575,0.48,false,false,near_mint,en,EUR,2026-06-07T22:24:03.150Z
+Mindwrack Demon,SOI,Shadows over Innistrad,124,normal,mythic,4,8872,b804cb9c-349e-4143-a372-cf65470d5b46,0.34,false,false,near_mint,it,EUR,2026-06-07T22:24:03.149Z
+Inverter of Truth,OGW,Oath of the Gatewatch,72,normal,mythic,1,9310,88c9d8c5-333b-4281-b923-b4a060927bbc,0.72,false,false,near_mint,de,EUR,2026-06-07T22:24:03.148Z
+Necropolis Regent,VOC,Crimson Vow Commander,132,normal,mythic,1,64598,9cd548d5-6162-4eff-adfc-69b7e3b45712,0.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.147Z
+Inverter of Truth,OGW,Oath of the Gatewatch,72,normal,mythic,2,9310,88c9d8c5-333b-4281-b923-b4a060927bbc,0.72,false,false,near_mint,it,EUR,2026-06-07T22:24:03.146Z
+"Kalitas, Traitor of Ghet",OGW,Oath of the Gatewatch,86,normal,mythic,3,9296,17a278d0-f601-4d57-bc3d-2972f8602a69,4.74,false,false,near_mint,it,EUR,2026-06-07T22:24:03.145Z
+"Drana, Liberator of Malakir",BFZ,Battle for Zendikar,109,foil,mythic,1,10242,d3f6ed18-eb6f-4d07-8660-cf7c074c87cd,9.87,false,false,near_mint,it,EUR,2026-06-07T22:24:03.144Z
+Bloodline Keeper // Lord of Lineage,INR,Innistrad Remastered,98,normal,mythic,2,102564,60658907-dd63-478d-a66a-123e4e9d2a00,5.87,false,false,near_mint,it,EUR,2026-06-07T22:24:03.143Z
+"Drana, Liberator of Malakir",LCC,The Lost Caverns of Ixalan Commander,193,normal,mythic,3,88248,0850b41d-3589-40cd-ae22-cc5b4ddee1c4,1.19,false,false,near_mint,it,EUR,2026-06-07T22:24:03.142Z
+Cavalier of Gales,M20,Core Set 2020,52,normal,mythic,3,45409,a5356b11-e505-4838-aecb-327689eeead1,2.81,false,false,near_mint,it,EUR,2026-06-07T22:24:03.141Z
+Startled Awake // Persistent Nightmare,SOI,Shadows over Innistrad,88,normal,mythic,1,8908,e630fc56-a96f-4abf-be8d-f0f40d5a9edf,0.71,false,false,near_mint,en,EUR,2026-06-07T22:24:03.140Z
+Mechanized Production,MKC,Murders at Karlov Manor Commander,109,normal,mythic,4,90574,eaf86997-68e8-4c37-99f1-db10ac08f54c,1.21,false,false,near_mint,it,EUR,2026-06-07T22:24:03.139Z
+Startled Awake // Persistent Nightmare,SOI,Shadows over Innistrad,88,normal,mythic,3,8908,e630fc56-a96f-4abf-be8d-f0f40d5a9edf,0.71,false,false,near_mint,it,EUR,2026-06-07T22:24:03.138Z
+As Foretold,2X2,Double Masters 2022,38,normal,mythic,4,70480,c468b523-84fc-4657-adef-acc1eec6ef2e,1.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.137Z
+Day's Undoing,CMM,Commander Masters,85,normal,rare,1,84734,ac13a82d-43f5-4b96-bf5f-18e33fae921b,1.25,false,false,near_mint,it,EUR,2026-06-07T22:24:03.136Z
+Disciple of the Ring,2X2,Double Masters 2022,46,normal,rare,1,70248,5a885848-005f-4387-8982-40052b924076,0.18,false,false,near_mint,en,EUR,2026-06-07T22:24:03.135Z
+Bident of Thassa,M3C,Modern Horizons 3 Commander,177,normal,rare,2,94759,723fbd4f-3243-4d93-a563-180c3ae47d4d,0.62,false,false,near_mint,it,EUR,2026-06-07T22:24:03.134Z
+"Search for Azcanta // Azcanta, the Sunken Ruin",XLN,Ixalan,74,normal,rare,1,3938,1a7e242e-bb48-4134-a1c2-6033713d658f,1.64,false,false,near_mint,it,EUR,2026-06-07T22:24:03.133Z
+Skaab Ruinator,DSC,Duskmourn: House of Horror Commander,128,normal,mythic,1,99186,668d4e90-61d3-4064-b867-6ac7a49a7d59,0.19,false,false,near_mint,it,EUR,2026-06-07T22:24:03.132Z
+Torrential Gearhulk,CMM,Commander Masters,128,normal,rare,4,84626,92872fea-2fb4-4154-815e-cad9d966e60f,0.52,false,false,near_mint,it,EUR,2026-06-07T22:24:03.131Z
+Deploy the Gatewatch,CMM,Commander Masters,819,normal,mythic,1,84226,34f4c453-97b4-4cd5-a766-85e5647f71d5,0.46,false,false,near_mint,en,EUR,2026-06-07T22:24:03.130Z
+Part the Waterveil,BFZ,Battle for Zendikar,80,normal,mythic,4,10271,83fe992f-0441-42be-89f9-2387b4bc24ce,0.94,false,false,near_mint,it,EUR,2026-06-07T22:24:03.129Z
+Spear of Heliod,THS,Theros,33,normal,rare,3,15631,34ef01da-d311-4d4f-9f7b-328e7bb17db4,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.127Z
+Deploy the Gatewatch,EMN,Eldritch Moon,20,normal,mythic,1,8316,a3aa54d9-9f01-46e4-b4bd-f8bc57b44ac1,0.37,false,false,near_mint,en,EUR,2026-06-07T22:24:03.126Z
+"Thalia, Heretic Cathar",INR,Innistrad Remastered,44,normal,rare,3,102756,c062937f-d519-4206-99b0-cbea01b85a0d,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.123Z
+Angel of Sanctions,DRC,Aetherdrift Commander,62,normal,mythic,1,103048,546b6ffc-44e3-4994-b84b-6282c6474a1a,0.2,false,false,near_mint,en,EUR,2026-06-07T22:24:03.120Z
+"Linvala, the Preserver",OGW,Oath of the Gatewatch,25,normal,mythic,1,9357,ef0dbb08-d124-46da-bfb1-af7ef4a18179,0.83,false,false,near_mint,en,EUR,2026-06-07T22:24:03.119Z
+Angel of Sanctions,DRC,Aetherdrift Commander,62,normal,mythic,3,103048,546b6ffc-44e3-4994-b84b-6282c6474a1a,0.2,false,false,near_mint,it,EUR,2026-06-07T22:24:03.118Z
+"Linvala, the Preserver",OGW,Oath of the Gatewatch,25,normal,mythic,2,9357,ef0dbb08-d124-46da-bfb1-af7ef4a18179,0.83,false,false,near_mint,it,EUR,2026-06-07T22:24:03.117Z
+"Archangel Avacyn // Avacyn, the Purifier",INR,Innistrad Remastered,11,normal,mythic,5,101895,fe675f03-cbb5-4177-b7d7-64a30260ee2a,1.35,false,false,near_mint,it,EUR,2026-06-07T22:24:03.116Z
+"Bruna, the Fading Light",INR,Innistrad Remastered,14,normal,rare,1,102597,6fccdb60-5fce-4a6e-a709-b986f9a4b653,1.57,false,false,near_mint,it,EUR,2026-06-07T22:24:03.115Z
+"Calix, Destiny's Hand",THB,Theros Beyond Death,257,foil,mythic,1,46805,11529e37-0558-4ba9-ad04-3ddda05d25f5,2.16,false,false,near_mint,it,EUR,2026-06-07T22:24:03.113Z
+Cataclysmic Gearhulk,MOC,March of the Machine Commander,176,normal,mythic,4,81980,d5b8efa8-2d62-45b8-9e48-6be0a4ee944d,0.27,false,false,near_mint,it,EUR,2026-06-07T22:24:03.112Z
+"Calix, Destiny's Hand",THB,Theros Beyond Death,257,normal,mythic,1,46805,11529e37-0558-4ba9-ad04-3ddda05d25f5,0.8,false,false,near_mint,it,EUR,2026-06-07T22:24:03.111Z
+"Ajani, Valiant Protector",AER,Aether Revolt,185,foil,mythic,1,6229,791fdd9a-0ab6-4db9-84f9-859d2d862518,1.21,false,false,near_mint,it,EUR,2026-06-07T22:24:03.110Z
+"Ashiok, Nightmare Muse",THB,Theros Beyond Death,256,normal,mythic,1,46806,c18d2a4a-cfde-434e-85eb-f9aae0da9dce,1.96,false,false,near_mint,en,EUR,2026-06-07T22:24:03.109Z
+Ajani Unyielding,NCC,New Capenna Commander,324,normal,mythic,3,68190,41000308-144d-4d3b-afec-e3928d20edfc,0.46,false,false,near_mint,it,EUR,2026-06-07T22:24:03.108Z
+"Chandra, Torch of Defiance",CMM,Commander Masters,876,normal,mythic,2,84194,2eac0eaa-55b2-444a-863d-c66769aab4ee,2.5,false,false,near_mint,it,EUR,2026-06-07T22:24:03.107Z
+"Liliana, Death Wielder",AKH,Amonkhet,275,foil,mythic,1,5410,ac79d8f6-7c36-4eb9-8bda-3b813c634399,5.03,false,false,near_mint,it,EUR,2026-06-07T22:24:03.106Z
+Saheeli Rai,KLD,Kaladesh,186,normal,mythic,2,7457,94b38464-39cd-4ee6-b9bf-a0bc1e128d9a,1.13,false,false,near_mint,it,EUR,2026-06-07T22:24:03.105Z
+"Nissa, Steward of Elements",M3C,Modern Horizons 3 Commander,270,normal,mythic,4,95038,d24cb7c1-3553-4bd6-9b87-237c6fc82b19,0.35,false,false,near_mint,it,EUR,2026-06-07T22:24:03.104Z
+Tezzeret the Schemer,AER,Aether Revolt,137,normal,mythic,3,6277,58265203-bc16-41d2-875c-2ff3b4870824,0.63,false,false,near_mint,it,EUR,2026-06-07T22:24:03.103Z
+"Vraska, Relic Seeker",XLN,Ixalan,232,normal,mythic,1,3780,967b7272-33a6-46e9-b0aa-4757aee54b3a,1.1,false,false,near_mint,it,EUR,2026-06-07T22:24:03.102Z
+Tezzeret the Schemer,AER,Aether Revolt,137,normal,mythic,1,6277,58265203-bc16-41d2-875c-2ff3b4870824,0.63,false,false,near_mint,en,EUR,2026-06-07T22:24:03.101Z
+"Vraska, Relic Seeker",XLN,Ixalan,232,normal,mythic,3,3780,967b7272-33a6-46e9-b0aa-4757aee54b3a,1.1,false,false,near_mint,en,EUR,2026-06-07T22:24:03.100Z
+Dovin Baan,KLD,Kaladesh,179,normal,mythic,2,7464,2344e710-4570-41b6-af84-a3e7d784003a,0.78,false,false,near_mint,ja,EUR,2026-06-07T22:24:03.099Z
+Angel of Invention,TDC,Tarkir: Dragonstorm Commander,109,normal,mythic,2,104823,98c42f02-6eda-4ef7-929f-b3a2ece9f650,0.37,false,false,near_mint,it,EUR,2026-06-07T22:24:03.122Z
+Deploy the Gatewatch,CMM,Commander Masters,819,normal,mythic,4,84226,34f4c453-97b4-4cd5-a766-85e5647f71d5,0.46,false,false,near_mint,it,EUR,2026-06-07T22:24:03.125Z
+Nahiri's Wrath,EMN,Eldritch Moon,137,normal,mythic,4,8197,1e6cb8b0-e3a5-4a94-845d-3b286aa392ac,0.58,false,false,near_mint,it,EUR,2026-06-07T22:24:03.163Z
+Pyromancer's Goggles,C21,Commander 2021,259,normal,mythic,1,58503,0f92d8df-e913-4a95-9f65-4fe98c332a6e,1.33,false,false,near_mint,en,EUR,2026-06-07T22:35:40.284Z
+Pyromancer's Goggles,C21,Commander 2021,259,normal,mythic,2,58503,0f92d8df-e913-4a95-9f65-4fe98c332a6e,1.33,false,false,near_mint,it,EUR,2026-06-07T22:35:40.283Z
+Gonti's Aether Heart,M3C,Modern Horizons 3 Commander,294,normal,mythic,3,94798,b2a3ac21-5e37-40c4-934a-4b00a5562b0e,0.52,false,false,near_mint,it,EUR,2026-06-07T22:35:40.282Z
+Walking Ballista,2XM,Double Masters,306,normal,rare,1,51887,5272436e-74f0-44c4-a291-ea8ebc3f1525,7.53,false,false,near_mint,en,EUR,2026-06-07T22:35:40.281Z
+The Chain Veil,M15,Magic 2015,215,normal,mythic,1,13637,0415cc0e-979e-42cc-a56d-88d13153a7de,3.49,false,false,near_mint,it,EUR,2026-06-07T22:35:40.280Z
+Grimoire of the Dead,C19,Commander 2019,213,normal,mythic,1,45721,0d8aac24-564a-420f-bb05-c67c3b0e2187,0.71,false,false,near_mint,it,EUR,2026-06-07T22:35:40.279Z
+Ring of Three Wishes,M14,Magic 2014,216,normal,mythic,1,15835,219ab03a-2b3b-4eef-8a42-2cbe793d2f33,1.46,false,false,near_mint,it,EUR,2026-06-07T22:35:40.278Z
+"Kozilek, the Great Distortion",CMM,Commander Masters,2,normal,mythic,2,84838,c41554e7-2a07-4cc7-b01b-44deed08e588,4.38,false,false,near_mint,it,EUR,2026-06-07T22:35:40.276Z
+Oblivion Sower,M3C,Modern Horizons 3 Commander,158,normal,mythic,1,94662,eb179ae3-28d9-4741-a055-e7e767d8a408,0.34,false,false,near_mint,it,EUR,2026-06-07T22:35:40.274Z
+Aethersphere Harvester,M3C,Modern Horizons 3 Commander,280,normal,rare,3,94737,40a3e817-0533-43b9-9350-2872e029ec50,0.12,false,false,near_mint,it,EUR,2026-06-07T22:35:40.273Z
+"Skysovereign, Consul Flagship",NEC,Neon Dynasty Commander,159,normal,mythic,1,67013,4f8075be-8932-49b3-990b-4b365fa27e94,1.54,false,false,near_mint,en,EUR,2026-06-07T22:35:40.272Z
+Heart of Kiran,AER,Aether Revolt,153,normal,mythic,1,6261,5e847c44-1849-4251-9075-88ed5c7792a6,0.37,false,false,near_mint,en,EUR,2026-06-07T22:35:40.271Z
+"Skysovereign, Consul Flagship",NEC,Neon Dynasty Commander,159,normal,mythic,3,67013,4f8075be-8932-49b3-990b-4b365fa27e94,1.54,false,false,near_mint,it,EUR,2026-06-07T22:35:40.270Z
+Heart of Kiran,AER,Aether Revolt,153,normal,mythic,4,6261,5e847c44-1849-4251-9075-88ed5c7792a6,0.37,false,false,near_mint,it,EUR,2026-06-07T22:35:40.269Z
+Anguished Unmaking,PSOI,Shadows over Innistrad Promos,242,foil,rare,1,9017,fa7a04aa-fd0b-4777-bdfb-8419fee3fbf3,5.2,false,false,near_mint,it,EUR,2026-06-07T22:35:40.268Z
+"Vona, Butcher of Magan",LCC,The Lost Caverns of Ixalan Commander,293,normal,mythic,2,88358,27beed9c-a42e-46de-8fbc-885da337ae75,0.37,false,false,near_mint,it,EUR,2026-06-07T22:35:40.267Z
+Progenitus,FDN,Foundations,244,foil,mythic,1,101277,e77fbc87-d78e-4602-baa0-da9b0d464dfb,1.46,false,false,near_mint,en,EUR,2026-06-07T22:35:40.266Z
+"Vona, Butcher of Magan",LCC,The Lost Caverns of Ixalan Commander,293,normal,mythic,3,88358,27beed9c-a42e-46de-8fbc-885da337ae75,0.37,false,false,near_mint,en,EUR,2026-06-07T22:35:40.265Z
+Llanowar Reborn,LCC,The Lost Caverns of Ixalan Commander,341,normal,uncommon,1,88361,284e165e-9ab6-47fc-9685-0fb03de237df,0.17,false,false,near_mint,it,EUR,2026-06-07T22:35:40.263Z
+Grim Flayer,DSC,Duskmourn: House of Horror Commander,218,normal,mythic,2,99299,b29e5af4-feb6-485a-a631-bfc42fa1b13a,0.25,false,false,near_mint,it,EUR,2026-06-07T22:35:40.261Z
+Rakdos's Return,GK2,RNA Guild Kit,72,normal,mythic,1,43955,bbc95892-c8fc-4e8d-9452-709cf9992db0,0.79,false,false,near_mint,it,EUR,2026-06-07T22:35:40.259Z
+Master of Cruelties,RVR,Ravnica Remastered,198,normal,mythic,1,90005,ffd68fe1-5cfc-44cf-8dfe-3488278cdcef,3.36,false,false,near_mint,it,EUR,2026-06-07T22:35:40.258Z
+Bow of Nylea,THS,Theros,153,normal,rare,1,15511,89a2c408-e953-4386-abaf-4af85aba9620,2.33,false,false,near_mint,en,EUR,2026-06-07T22:35:40.256Z
+Cavalier of Thorns,ECC,Lorwyn Eclipsed Commander,100,normal,mythic,1,110591,ace83f5b-2349-46b8-b27f-bf705912a6df,0.38,false,false,near_mint,it,EUR,2026-06-07T22:35:40.255Z
+Bow of Nylea,THS,Theros,153,normal,rare,4,15511,89a2c408-e953-4386-abaf-4af85aba9620,2.33,false,false,near_mint,it,EUR,2026-06-07T22:35:40.254Z
+Woodland Bellower,ORI,Magic Origins,207,normal,mythic,1,10735,a706d4bb-0b44-4e43-b340-7de799c086b8,4.09,false,false,near_mint,it,EUR,2026-06-07T22:35:40.253Z
+Greenwarden of Murasa,ECC,Lorwyn Eclipsed Commander,110,normal,mythic,4,110458,24249343-8274-4c16-bb51-4d37b4b60741,0.24,false,false,near_mint,it,EUR,2026-06-07T22:35:40.252Z
+Undergrowth Champion,BFZ,Battle for Zendikar,197,normal,mythic,2,10154,d53104d8-5b9a-45b6-a2f9-b2c5d231a03d,0.55,false,false,near_mint,en,EUR,2026-06-07T22:35:40.251Z
+Plumeveil,UMA,Ultimate Masters,218,normal,uncommon,1,43305,aad6c9c6-53db-4f6f-a20b-16dcbae42d0c,0.36,false,false,near_mint,en,EUR,2026-06-07T22:35:40.250Z
+Undergrowth Champion,BFZ,Battle for Zendikar,197,normal,mythic,3,10154,d53104d8-5b9a-45b6-a2f9-b2c5d231a03d,0.55,false,false,near_mint,it,EUR,2026-06-07T22:35:40.249Z
+Oath of Nissa,OGW,Oath of the Gatewatch,140,normal,rare,1,9242,613513ea-55dd-4ae8-93b2-247e468112a6,0.64,false,false,near_mint,de,EUR,2026-06-07T22:35:40.248Z
+Shaman of Forgotten Ways,DTK,Dragons of Tarkir,204,normal,mythic,3,11610,a3e9c8f7-2232-4a2a-8a00-0a2908bc7543,4.22,false,false,near_mint,it,EUR,2026-06-07T22:35:40.247Z
+Oath of Nissa,OGW,Oath of the Gatewatch,140,normal,rare,5,9242,613513ea-55dd-4ae8-93b2-247e468112a6,0.64,false,false,near_mint,it,EUR,2026-06-07T22:35:40.246Z
+Tireless Tracker,EOC,Edge of Eternities Commander,110,normal,rare,3,107045,66444549-ad9b-49c6-a7c6-34e977c1085d,0.24,false,false,near_mint,it,EUR,2026-06-07T22:35:40.245Z
+"Polukranos, World Eater",THS,Theros,172,normal,mythic,1,15492,4979cc1b-9c1a-47e4-ae37-7c41798eb89a,0.62,false,false,near_mint,it,EUR,2026-06-07T22:35:40.244Z
+Kalonian Hydra,BLC,Bloomburrow Commander,226,normal,mythic,1,96396,9a936dcd-684a-47f6-860c-2f3541d8286c,4.32,false,false,near_mint,it,EUR,2026-06-07T22:35:40.243Z
+"Ishkanah, Grafwidow",DSC,Duskmourn: House of Horror Commander,187,normal,mythic,2,99089,2a61bad1-f212-4d9b-8422-8ec548b8155c,0.54,false,false,near_mint,en,EUR,2026-06-07T22:35:40.242Z
+Ulvenwald Hydra,M3C,Modern Horizons 3 Commander,250,normal,mythic,3,94942,4ade356e-ed2f-4373-b898-c3ccb46324a1,0.39,false,false,near_mint,it,EUR,2026-06-07T22:35:40.241Z
+"Ishkanah, Grafwidow",DSC,Duskmourn: House of Horror Commander,187,normal,mythic,3,99089,2a61bad1-f212-4d9b-8422-8ec548b8155c,0.54,false,false,near_mint,it,EUR,2026-06-07T22:35:40.240Z
+World Breaker,EOC,Edge of Eternities Commander,112,normal,mythic,3,107171,d25856c9-cb3d-44d9-905e-007f1af65c06,0.25,false,false,near_mint,it,EUR,2026-06-07T22:35:40.239Z
+Uncage the Menagerie,HOU,Hour of Devastation,137,normal,mythic,3,4538,bc4aa918-53b9-4177-a859-f5a8eff09fe5,0.93,false,false,near_mint,it,EUR,2026-06-07T22:35:40.237Z
+Carnage Tyrant,XLN,Ixalan,179,normal,mythic,5,3833,3bd78731-949c-464a-826a-92f86d784911,3.46,false,false,near_mint,it,EUR,2026-06-07T22:35:40.236Z
+Hostage Taker,OTC,Outlaws of Thunder Junction Commander,231,normal,rare,5,93833,c168af49-acae-45de-8c62-0e6d1006f325,0.21,false,false,near_mint,it,EUR,2026-06-07T22:35:40.260Z
+Zagoth Triome,PIKO,Ikoria: Lair of Behemoths Promos,259s,foil,rare,1,50587,64ecb374-9be6-4ee2-807b-f2adbb19bb2a,20.73,false,false,near_mint,en,EUR,2026-06-07T22:40:56.877Z
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,1100,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+webapp,binder,Sol Ring,MPS,Kaladesh Inventions,24,foil,special,1,,880711b0-da06-4c4f-aa4e-1be58fc0bc67,871.99,false,false,near_mint,en
+Stormcarved Coast,VOW,Innistrad: Crimson Vow,265,normal,rare,3,64139,299f1dee-b3d7-472b-aa0b-2f9b46a96da5,2.72,false,false,near_mint,en,EUR,2026-06-08T09:30:54.300Z
+Shattered Sanctum,VOW,Innistrad: Crimson Vow,264,normal,rare,2,64369,ad44c9aa-eb8f-4200-8dfe-2af728d80083,4.83,false,false,near_mint,en,EUR,2026-06-08T09:30:54.299Z
+Sundown Pass,VOW,Innistrad: Crimson Vow,266,normal,rare,1,64313,8f3fddd7-ede4-41c7-a645-a6af298a3d35,4.02,false,false,near_mint,en,EUR,2026-06-08T09:30:54.298Z
+Dreamroot Cascade,VOW,Innistrad: Crimson Vow,262,normal,rare,1,64459,eb604455-c411-414d-a2ef-e7567ee86a4d,1.38,false,false,near_mint,en,EUR,2026-06-08T09:30:54.297Z
+Stormcarved Coast,VOW,Innistrad: Crimson Vow,284,normal,rare,1,64166,3e589848-2c25-43e8-a940-7769f7936815,5.36,false,false,near_mint,en,EUR,2026-06-08T09:30:54.295Z
+Blood Crypt,RNA,Ravnica Allegiance,245,normal,rare,1,43620,5faba6c8-3463-47c1-ba01-09eb87fcb2d5,10.0,false,false,near_mint,it,EUR,2026-06-08T09:30:54.294Z
+Unholy Grotto,ONS,Onslaught,327,normal,rare,1,30976,52f464a9-586c-4cf3-894b-b407c9f4dcb8,4.75,false,false,near_mint,en,EUR,2026-06-08T09:30:54.293Z
+Sundown Pass,VOW,Innistrad: Crimson Vow,285,normal,rare,1,64231,5f1e7d34-f250-4a61-a95b-75450d134eec,7.52,false,false,near_mint,en,EUR,2026-06-08T09:30:54.292Z
+Raugrin Triome,IKO,Ikoria: Lair of Behemoths,251,normal,rare,1,49826,02138fbb-3962-4348-8d31-faaefba0b8b2,12.7,false,false,near_mint,it,EUR,2026-06-08T09:30:54.291Z
+Ketria Triome,IKO,Ikoria: Lair of Behemoths,250,normal,rare,1,49827,a249b1f4-2b22-4b67-a207-e0c4ae95d2e1,13.33,false,false,near_mint,en,EUR,2026-06-08T09:30:54.290Z
+Voldaren Estate,VOW,Innistrad: Crimson Vow,267,normal,rare,1,64130,2577e5fd-903a-44ce-989a-d53d56511ad3,0.25,false,false,near_mint,en,EUR,2026-06-08T09:30:54.289Z
+Yavimaya Coast,ORI,Magic Origins,252,normal,rare,1,10690,7ae3d45b-a40c-4003-960a-2d1d0847e750,0.45,false,false,near_mint,it,EUR,2026-06-08T09:30:54.288Z
+Wandering Fumarole,OGW,Oath of the Gatewatch,182,normal,rare,2,9200,dd0ee251-6c79-499b-8366-c281c989b061,0.2,false,false,near_mint,it,EUR,2026-06-08T09:30:54.287Z
+Yavimaya Coast,ORI,Magic Origins,252,normal,rare,1,10690,7ae3d45b-a40c-4003-960a-2d1d0847e750,0.45,false,false,near_mint,en,EUR,2026-06-08T09:30:54.286Z
+Wandering Fumarole,OGW,Oath of the Gatewatch,182,normal,rare,1,9200,dd0ee251-6c79-499b-8366-c281c989b061,0.2,false,false,near_mint,de,EUR,2026-06-08T09:30:54.285Z
+Needle Spires,OGW,Oath of the Gatewatch,175,normal,rare,1,9207,3d73700c-fa62-42be-aaca-5f8a50af20db,0.23,false,false,near_mint,en,EUR,2026-06-08T09:52:39.357Z
+Shivan Reef,ORI,Magic Origins,251,normal,rare,1,10691,f1d33afd-6f2a-43c8-ae5d-17a0674fcdd3,0.57,false,false,near_mint,en,EUR,2026-06-08T09:52:39.356Z
+Rootbound Crag,XLN,Ixalan,256,normal,rare,1,3756,b6f59e19-9ac1-4f86-893e-5b3364122fc6,0.87,false,false,near_mint,en,EUR,2026-06-08T09:52:39.355Z
+Sulfur Falls,ISD,Innistrad,248,normal,rare,1,18650,4968b65d-50e5-4d7e-b78b-cdada1cbf7a7,0.96,false,false,near_mint,it,EUR,2026-06-08T09:52:39.354Z
+Game Trail,SOI,Shadows over Innistrad,276,normal,rare,3,8720,21cb5950-adaa-438d-998b-3a64bd4a2b3e,0.52,false,false,near_mint,it,EUR,2026-06-08T09:52:39.351Z
+Game Trail,SOI,Shadows over Innistrad,276,normal,rare,3,8720,21cb5950-adaa-438d-998b-3a64bd4a2b3e,0.52,false,false,near_mint,en,EUR,2026-06-08T09:52:39.349Z
+Temple of Abandon,THS,Theros,224,normal,rare,1,15440,46febc5d-1625-4e48-bb3f-31ee06fc13dd,0.35,false,false,near_mint,it,EUR,2026-06-08T09:52:39.348Z
+Rootbound Crag,XLN,Ixalan,256,normal,rare,2,3756,b6f59e19-9ac1-4f86-893e-5b3364122fc6,0.87,false,false,near_mint,it,EUR,2026-06-08T09:52:39.347Z
+Cinder Glade,BFZ,Battle for Zendikar,235,normal,rare,1,10116,cfabc340-0391-4019-8e96-f010177b1d68,0.4,false,false,near_mint,it,EUR,2026-06-08T09:52:39.346Z
+Canopy Vista,BFZ,Battle for Zendikar,234,normal,rare,1,10117,a3262c7f-4fdf-4648-ba59-9279c75d222d,0.53,false,false,near_mint,en,EUR,2026-06-08T09:52:39.345Z
+Fortified Village,SOI,Shadows over Innistrad,274,normal,rare,7,8722,1feb9dc1-671d-43ad-ae22-ed1a9916b140,0.25,false,false,near_mint,it,EUR,2026-06-08T09:52:39.344Z
+Canopy Vista,BFZ,Battle for Zendikar,234,normal,rare,7,10117,a3262c7f-4fdf-4648-ba59-9279c75d222d,0.53,false,false,near_mint,it,EUR,2026-06-08T09:52:39.343Z
+Scattered Groves,AKH,Amonkhet,247,normal,rare,5,5438,ccb541aa-3bf6-41f3-89e5-9c6c56ea210a,0.19,false,false,near_mint,it,EUR,2026-06-08T09:52:39.342Z
+Sunpetal Grove,XLN,Ixalan,257,normal,rare,1,3755,0f234312-00e8-49f7-a489-f4c316b0a81a,1.11,false,false,near_mint,it,EUR,2026-06-08T09:52:39.338Z
+Prairie Stream,BFZ,Battle for Zendikar,241,normal,rare,5,10110,9625911f-1dd3-4044-ac06-3c0c3198b6fd,0.28,false,false,near_mint,it,EUR,2026-06-08T09:52:39.332Z
+Fetid Pools,AKH,Amonkhet,243,normal,rare,1,5442,ae703d94-6f1f-463b-ab25-1b3f462e7e78,0.39,false,false,near_mint,en,EUR,2026-06-08T09:52:39.331Z
+Temple of Deceit,THS,Theros,225,normal,rare,1,15439,686559d7-8ac1-496b-a5a6-1467bf8fc7c5,0.45,false,false,near_mint,it,EUR,2026-06-08T09:52:39.330Z
+Irrigated Farmland,AKH,Amonkhet,245,normal,rare,7,5440,4d87fcc0-cef5-4410-adf1-91c5f50c1d01,0.3,false,false,near_mint,it,EUR,2026-06-08T09:52:39.334Z
+Sheltered Thicket,AKH,Amonkhet,248,normal,rare,6,5437,d23cd764-3f5c-4c93-ba83-e5ff397003a2,0.19,false,false,near_mint,it,EUR,2026-06-08T09:52:39.350Z
+Zagoth Triome,PIKO,Ikoria: Lair of Behemoths Promos,259s,foil,rare,1,50587,64ecb374-9be6-4ee2-807b-f2adbb19bb2a,20.73,false,false,near_mint,it,EUR,2026-06-08T09:55:40.119Z
+Shrine of the Forsaken Gods,BFZ,Battle for Zendikar,245,foil,rare,1,10106,9da2af9a-28c4-4edd-95c4-cc09c2de4adc,1.31,false,false,near_mint,en,EUR,2026-06-08T10:02:32.503Z
+Kessig Wolf Run,ISD,Innistrad,243,normal,rare,1,18655,4a8447fe-7368-470a-911a-1083ec6cc831,0.37,false,false,near_mint,it,EUR,2026-06-08T10:02:32.502Z
+Nephalia Drownyard,ISD,Innistrad,245,normal,rare,1,18653,ef058312-6926-49f8-ae72-a8d60fedbf6c,0.62,false,false,near_mint,it,EUR,2026-06-08T10:02:32.500Z
+Thespian's Stage,GTC,Gatecrash,248,normal,rare,1,16576,b6f27909-e5cd-44c0-91c4-21624f692fd9,0.75,false,false,near_mint,it,EUR,2026-06-08T10:02:32.499Z
+Shrine of the Forsaken Gods,BFZ,Battle for Zendikar,245,normal,rare,2,10106,9da2af9a-28c4-4edd-95c4-cc09c2de4adc,0.25,false,false,near_mint,it,EUR,2026-06-08T10:02:32.497Z
+Ally Encampment,BFZ,Battle for Zendikar,228,normal,rare,1,10123,bcb7124c-ba69-4da8-ad81-58f00fd0181d,0.44,false,false,near_mint,en,EUR,2026-06-08T10:02:32.494Z
+Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,normal,rare,3,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,0.36,false,false,near_mint,it,EUR,2026-06-08T10:02:32.491Z
+Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,normal,rare,1,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,0.36,false,false,near_mint,en,EUR,2026-06-08T10:02:32.489Z
+Ruins of Oran-Rief,OGW,Oath of the Gatewatch,176,normal,rare,4,9206,9fed86e5-5631-401b-8820-9685f8296134,0.16,false,false,near_mint,it,EUR,2026-06-08T10:02:32.487Z
+Sea Gate Wreckage,OGW,Oath of the Gatewatch,177,foil,rare,1,9205,cd42576b-9de5-4d77-9d30-1ef5b5a4fd73,1.26,false,false,near_mint,it,EUR,2026-06-08T10:02:32.486Z
+Drownyard Temple,SOI,Shadows over Innistrad,271,normal,rare,1,8725,a5bb5657-18a1-455c-a87a-4e67971184ac,0.2,false,false,near_mint,it,EUR,2026-06-08T10:02:32.485Z
+"Westvale Abbey // Ormendahl, Profane Prince",SOI,Shadows over Innistrad,281,normal,rare,5,8715,c1f53d7a-9dad-46e8-b686-cd1362867445,1.22,false,false,near_mint,it,EUR,2026-06-08T10:02:32.484Z
+Corrupted Crossroads,OGW,Oath of the Gatewatch,169,normal,rare,5,9213,7043e193-8051-4f1b-9633-9c1f250d3607,0.19,false,false,near_mint,it,EUR,2026-06-08T10:02:32.483Z
+Mirrorpool,OGW,Oath of the Gatewatch,174,normal,mythic,5,9208,edbea2b5-eed3-464b-9d5c-9591f309f298,2.32,false,false,near_mint,it,EUR,2026-06-08T10:02:32.488Z
+Hanweir Battlements,INR,Innistrad Remastered,279,normal,rare,4,102664,8c0acb91-edfc-43a5-af77-6614327fce43,1.15,false,false,near_mint,it,EUR,2026-06-07T21:07:34.809Z
+"Westvale Abbey // Ormendahl, Profane Prince",INR,Innistrad Remastered,287,normal,rare,8,102562,5fbc6091-a161-45b0-9932-543b569caaee,1.54,false,false,near_mint,it,EUR,2026-06-07T21:07:34.808Z
+Mirrorwing Dragon,INR,Innistrad Remastered,165,normal,mythic,1,102513,409aa60d-ce4f-4019-b5b9-702ab94ed429,0.41,false,false,near_mint,en,EUR,2026-06-07T22:24:03.166Z
+"Thalia, Heretic Cathar",INR,Innistrad Remastered,44,normal,rare,1,102756,c062937f-d519-4206-99b0-cbea01b85a0d,1.13,false,false,near_mint,en,EUR,2026-06-07T22:24:03.121Z
+"Gisela, the Broken Blade",INR,Innistrad Remastered,24,normal,mythic,6,102401,04506bad-3856-4184-8dda-941ded60f41a,15.22,false,false,near_mint,it,EUR,2026-06-07T22:24:03.114Z
+"Emrakul, the Promised End",INR,Innistrad Remastered,5,normal,mythic,2,101873,71911392-42b0-4b6d-baf7-918a4bd3b924,18.44,false,false,near_mint,it,EUR,2026-06-07T22:35:40.275Z
+Olivia Voldaren,INR,Innistrad Remastered,246,normal,mythic,1,102549,561d616c-df11-4144-acec-f9fe47efa5c7,2.92,false,false,near_mint,it,EUR,2026-06-07T22:35:40.257Z
+Deathcap Glade,INR,Innistrad Remastered,275,normal,rare,1,102476,2f20e738-bab6-4000-afca-9fc9e4261c34,5.01,false,false,near_mint,en,EUR,2026-06-08T09:30:54.296Z

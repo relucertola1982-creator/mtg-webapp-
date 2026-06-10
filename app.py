@@ -711,13 +711,25 @@ async def delete_card(request: Request, card_key: str,
             c_set, c_num, c_fin, c_lang = parts[0].upper(), parts[1], parts[2], parts[3]
             csv_content, csv_sha = _get_csv_from_github(coll)
             if csv_content and csv_sha:
-                lines = csv_content.splitlines(keepends=True)
-                new_lines = [l for l in lines if not (
-                    c_set.lower() in l.lower() and c_num in l and c_fin in l and c_lang in l
-                )]
-                if len(new_lines) < len(lines):
-                    _update_csv_on_github("".join(new_lines), csv_sha,
-                                          f"Remove {card_key} (sold)", coll)
+                try:
+                    reader = csv.DictReader(io.StringIO(csv_content))
+                    rows = list(reader)
+                    fieldnames = reader.fieldnames or []
+                    new_rows = [r for r in rows if not (
+                        r.get("Set code", "").upper() == c_set and
+                        str(r.get("Collector number", "")).strip() == c_num and
+                        (r.get("Foil", "") or "normal") == c_fin and
+                        r.get("Language", "") == c_lang
+                    )]
+                    if len(new_rows) < len(rows):
+                        buf = io.StringIO()
+                        w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+                        w.writeheader()
+                        w.writerows(new_rows)
+                        _update_csv_on_github(buf.getvalue(), csv_sha,
+                                              f"Remove {card_key} (sold)", coll)
+                except Exception:
+                    pass
     else:
         # 2b. Partial sell: update quantity in SQLite
         conn.execute(
@@ -804,23 +816,28 @@ async def remove_card(request: Request, card_key: str):
 
     parts = card_key.split("_")
     if len(parts) >= 4:
-        c_set  = parts[0].upper()
-        c_num  = parts[1]
-        c_fin  = parts[2]
-        c_lang = parts[3]
+        c_set, c_num, c_fin, c_lang = parts[0].upper(), parts[1], parts[2], parts[3]
         csv_content, csv_sha = _get_csv_from_github(coll)
         if csv_content and csv_sha:
-            lines = csv_content.splitlines(keepends=True)
-            new_lines = [
-                l for l in lines
-                if not (c_set.lower() in l.lower() and c_num in l and
-                        c_fin in l and c_lang in l)
-            ]
-            if len(new_lines) < len(lines):
-                _update_csv_on_github(
-                    "".join(new_lines), csv_sha,
-                    f"Remove {card_key} from collection (correction)", coll
-                )
+            try:
+                reader = csv.DictReader(io.StringIO(csv_content))
+                rows = list(reader)
+                fieldnames = reader.fieldnames or []
+                new_rows = [r for r in rows if not (
+                    r.get("Set code", "").upper() == c_set and
+                    str(r.get("Collector number", "")).strip() == c_num and
+                    (r.get("Foil", "") or "normal") == c_fin and
+                    r.get("Language", "") == c_lang
+                )]
+                if len(new_rows) < len(rows):
+                    buf = io.StringIO()
+                    w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+                    w.writeheader()
+                    w.writerows(new_rows)
+                    _update_csv_on_github(buf.getvalue(), csv_sha,
+                                          f"Remove {card_key} from collection (correction)", coll)
+            except Exception:
+                pass
 
     return RedirectResponse("/", status_code=302)
 

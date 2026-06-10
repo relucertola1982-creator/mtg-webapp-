@@ -3767,5 +3767,31 @@
     "language": "it",
     "quantity": 5,
     "ultimo_aggiornamento": "2026-06-08T10:47:39.039276"
+  },
+  "INR_44_normal_en": {
+    "nome": "Thalia, Heretic Cathar",
+    "set": "Innistrad Remastered",
+    "set_code": "INR",
+    "collector_number": "44",
+    "prezzo": 1.13,
+    "foil": false,
+    "finish": "normal",
+    "language": "en",
+    "quantity": 1,
+    "frame_effects": "",
+    "ultimo_aggiornamento": "2026-06-10T15:17:22.660236"
+  },
+  "INR_5_normal_it": {
+    "nome": "Emrakul, the Promised End",
+    "set": "Innistrad Remastered",
+    "set_code": "INR",
+    "collector_number": "5",
+    "prezzo": 18.44,
+    "foil": false,
+    "finish": "normal",
+    "language": "it",
+    "quantity": 2,
+    "frame_effects": "",
+    "ultimo_aggiornamento": "2026-06-10T15:17:22.660248"
   }
 }
