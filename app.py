@@ -947,11 +947,12 @@ async def sold_list(request: Request):
         ).fetchall()
         conn.close()
         cards = [dict(row) for row in rows]
-    total_sold_value = sum(float(c.get("last_price") or 0) for c in cards)
+    total_sold_value = sum(float(c.get("last_price") or 0) * int(c.get("quantity_sold") or 1) for c in cards)
+    total_sold_copies = sum(int(c.get("quantity_sold") or 1) for c in cards)
     return templates.TemplateResponse("sold.html", {
         "request": request, "user": user,
         **_coll_ctx(user),
-        "cards": cards, "total_sold_value": total_sold_value,
+        "cards": cards, "total_sold_value": total_sold_value, "total_sold_copies": total_sold_copies,
     })
 
 
@@ -1067,8 +1068,10 @@ async def sold_export(request: Request):
     buf = io.StringIO()
     writer = csv.writer(buf)
     writer.writerow(["Nome", "Set", "# Collezionista", "Finitura", "Lingua",
-                     "Versione Speciale", "Ultimo Prezzo (EUR)", "Data Vendita"])
+                     "Versione Speciale", "Quantità", "Prezzo Unitario (EUR)", "Totale (EUR)", "Data Vendita"])
     for c in cards:
+        qty = int(c.get("quantity_sold") or 1)
+        unit_price = float(c.get("last_price") or 0)
         writer.writerow([
             c.get("card_name", ""),
             (c.get("set_code") or "").upper(),
@@ -1076,7 +1079,9 @@ async def sold_export(request: Request):
             c.get("finish", "normal"),
             c.get("language", "en"),
             c.get("frame_effects", ""),
-            f"{float(c.get('last_price') or 0):.2f}",
+            qty,
+            f"{unit_price:.2f}",
+            f"{unit_price * qty:.2f}",
             (c.get("sold_at") or "")[:16].replace("T", " "),
         ])
     csv_bytes = buf.getvalue().encode("utf-8-sig")  # BOM for Excel

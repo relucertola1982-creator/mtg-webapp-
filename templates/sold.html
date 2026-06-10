@@ -14,7 +14,7 @@
     <div style="background:rgba(200,155,60,0.1); border:1px solid rgba(200,155,60,0.28);
                 border-radius:20px; padding:0.3rem 0.9rem;
                 font-size:0.8rem; font-weight:600; color:var(--gold-light);">
-      {{ cards|length }} vendute
+      {{ total_sold_copies }} vendute
     </div>
     <a href="/sold/export" class="btn btn-ghost" style="font-size:0.82rem; padding:0.45rem 1rem; text-decoration:none;">
       📥 Esporta CSV
@@ -33,7 +33,7 @@
     <div class="stat-lbl">Totale Ricavato</div>
   </div>
   <div class="stat-card">
-    <div class="stat-val">{{ cards|length }}</div>
+    <div class="stat-val">{{ total_sold_copies }}</div>
     <div class="stat-lbl">Carte Vendute</div>
   </div>
 </div>
@@ -44,6 +44,7 @@
       <thead>
         <tr>
           <th data-i18n="th-card">Carta</th>
+          <th style="text-align:center;">Qtà</th>
           <th data-i18n="th-set">Set · #</th>
           <th data-i18n="th-version">Versione</th>
           <th data-i18n="th-lang">Lingua</th>
@@ -56,6 +57,9 @@
         {% for c in cards %}
         <tr>
           <td style="font-weight:500;">{{ c.card_name }}</td>
+          <td style="text-align:center; font-weight:600; color:var(--gold-light);">
+            {% if c.quantity_sold and c.quantity_sold > 1 %}{{ c.quantity_sold }}x{% else %}1{% endif %}
+          </td>
           <td style="color:rgba(200,200,220,0.52); font-size:0.82rem; white-space:nowrap;">
             {% if c.set_code %}{{ c.set_code|upper }}{% endif %}
             {% if c.collector_number %}<span style="opacity:0.45;"> #{{ c.collector_number }}</span>{% endif %}
