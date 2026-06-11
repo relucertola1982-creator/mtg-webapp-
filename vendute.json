@@ -1,5 +1,19 @@
 [
   {
+    "id": "20260611105522878009",
+    "card_key": "SOS_319_normal_en",
+    "card_name": "Mana Sculpt",
+    "set_code": "SOS",
+    "set_name": "Secrets of Strixhaven",
+    "collector_number": "319",
+    "finish": "normal",
+    "language": "en",
+    "frame_effects": "extendedart",
+    "last_price": 1.65,
+    "quantity_sold": 1,
+    "sold_at": "2026-06-11T10:55:22.878003"
+  },
+  {
     "id": "20260607145634329275",
     "card_key": "SOA_44_normal_en",
     "card_name": "Jeska's Will",
