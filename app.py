@@ -555,6 +555,49 @@ def _get_history_from_github(card_key: str, collection="") -> list:
     return []
 
 
+def _bulk_update_storico_github(prices: dict, timestamp: str, collection: str = "") -> bool:
+    """Append price points to storico_prezzi.json on GitHub. Only appends if price changed.
+    prices: {card_key: price_float}"""
+    if not GITHUB_REPO or not GITHUB_TOKEN or not prices:
+        return False
+    fname = _cf("storico_prezzi.json", collection)
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{fname}"
+    for _ in range(2):
+        storico = {}
+        sha = None
+        try:
+            r = requests.get(url, headers=_gh_headers(), timeout=10)
+            if r.ok:
+                rd = r.json()
+                sha = rd.get("sha")
+                storico = json.loads(base64.b64decode(rd["content"]).decode("utf-8"))
+        except Exception:
+            pass
+        changed = False
+        for card_key, price in prices.items():
+            punti = storico.get(card_key, [])
+            if punti and abs(punti[-1]["price"] - price) <= 0.001:
+                continue
+            punti.append({"price": price, "date": timestamp})
+            storico[card_key] = punti[-500:]
+            changed = True
+        if not changed:
+            return True
+        encoded = base64.b64encode(
+            json.dumps(storico, ensure_ascii=False, indent=2).encode("utf-8")
+        ).decode("ascii")
+        payload = {"message": f"Update storico for {len(prices)} card(s)", "content": encoded}
+        if sha:
+            payload["sha"] = sha
+        try:
+            r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
+            if r.ok:
+                return True
+        except Exception:
+            pass
+    return False
+
+
 def _load_sold_from_github(collection="") -> list:
     """Read vendute.json from GitHub. Returns list of dicts (newest first)."""
     if not GITHUB_REPO:
@@ -1189,6 +1232,13 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             local.write_text(new_content, encoding="utf-8")
         except Exception:
             pass
+
+        # Update storico_prezzi.json on GitHub
+        try:
+            _bulk_update_storico_github({card_key: price_val}, entry["ultimo_aggiornamento"], collection)
+        except Exception:
+            pass
+
         return True
     except Exception:
         return False
@@ -1280,6 +1330,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         json_content, json_sha = _get_json_from_github(coll)
         prezzi = json.loads(json_content) if json_content else {}
         now_iso = datetime.now().isoformat()
+        new_storico: dict = {}
 
         BATCH = 75
         for i in range(0, len(new_rows or []), BATCH):
@@ -1350,6 +1401,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                             "quantity": qty,
                             "ultimo_aggiornamento": now_iso,
                         }
+                        new_storico[card_key] = price_val
                         prices_fetched += 1
 
         # Write updated prezzi to GitHub with retry
@@ -1364,6 +1416,13 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
             new_prezzi = json.dumps(prezzi_existing, ensure_ascii=False, indent=2)
 
         (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(new_prezzi, encoding="utf-8")
+
+        # Update storico for all newly fetched cards in one GitHub write
+        if new_storico:
+            try:
+                _bulk_update_storico_github(new_storico, now_iso, coll)
+            except Exception:
+                pass
 
     except Exception:
         pass  # prices will be picked up by tracker on next run
