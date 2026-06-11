@@ -1,5 +1,19 @@
 [
   {
+    "id": "20260611134919531364",
+    "card_key": "SOA_185_foil_ja",
+    "card_name": "Pick Your Poison",
+    "set_code": "SOA",
+    "set_name": "Secrets of Strixhaven Mystical Archive",
+    "collector_number": "185",
+    "finish": "foil",
+    "language": "ja",
+    "frame_effects": "silverscroll",
+    "last_price": 6.0,
+    "quantity_sold": 1,
+    "sold_at": "2026-06-11T13:49:19.531356"
+  },
+  {
     "id": "20260611105522878009",
     "card_key": "SOS_319_normal_en",
     "card_name": "Mana Sculpt",
