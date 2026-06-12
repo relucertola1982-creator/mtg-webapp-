@@ -100,6 +100,7 @@ def init_db():
         "ALTER TABLE fetch_log ADD COLUMN collection TEXT DEFAULT ''",
         "ALTER TABLE users ADD COLUMN collection TEXT DEFAULT ''",
         "ALTER TABLE price_history ADD COLUMN quantity INTEGER DEFAULT 1",
+        "ALTER TABLE sold_cards ADD COLUMN quantity_sold INTEGER DEFAULT 1",
     ]:
         try:
             conn.execute(col)
@@ -172,8 +173,8 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
                     "SELECT id, price, quantity FROM price_history WHERE card_key=? AND collection=? ORDER BY id DESC LIMIT 1",
                     (key, collection)
                 ).fetchone()
-                # CDN is authoritative for PRICES only — preserve existing SQLite quantity
-                keep_qty = int(last_row["quantity"] or 1) if last_row else int(d.get("quantity") or 1)
+                # GitHub JSON is the persistent source of truth for quantity too
+                keep_qty = int(d.get("quantity") or (last_row["quantity"] if last_row else 1) or 1)
                 if not last_row or abs(last_row["price"] - price_val) > 0.001:
                     conn.execute(
                         """INSERT INTO price_history
@@ -408,6 +409,35 @@ def _cf(filename: str, collection: str = "") -> str:
     return f"{collection}_{filename}" if collection else filename
 
 
+MANABOX_HEADER = ("Binder Name,Binder Type,Name,Set code,Set name,Collector number,"
+                  "Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,"
+                  "Misprint,Altered,Condition,Language,Purchase price currency,Added\n")
+
+
+def _append_csv_row(csv_content: str, fields: dict) -> str:
+    """Append a row aligned to the CSV's own header — collections may have
+    different column layouts (e.g. David's CSV has no Binder columns)."""
+    header_line = csv_content.split("\n", 1)[0]
+    fieldnames = next(csv.reader(io.StringIO(header_line)), [])
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+    w.writerow({k: fields.get(k, "") for k in fieldnames})
+    return csv_content.rstrip("\n") + "\n" + buf.getvalue()
+
+
+def _manabox_fields(name, set_code, set_name, col_num, finish, rarity,
+                    quantity, scryfall_id, purchase_price, language, added):
+    return {
+        "Binder Name": "webapp", "Binder Type": "binder", "Name": name,
+        "Set code": set_code, "Set name": set_name, "Collector number": col_num,
+        "Foil": finish, "Rarity": rarity, "Quantity": quantity,
+        "ManaBox ID": "", "Scryfall ID": scryfall_id,
+        "Purchase price": purchase_price, "Misprint": "false", "Altered": "false",
+        "Condition": "near_mint", "Language": language,
+        "Purchase price currency": "EUR", "Added": added,
+    }
+
+
 # ── Collections management helpers ───────────────────────────────────────────
 
 _collections_cache: dict = {"data": None, "ts": 0.0}
@@ -447,23 +477,24 @@ def _save_collections(data: dict) -> bool:
     encoded = base64.b64encode(
         json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
     ).decode("ascii")
-    sha = None
-    try:
-        r = requests.get(url, headers=_gh_headers(), timeout=10)
-        if r.ok:
-            sha = r.json().get("sha")
-    except Exception:
-        pass
-    payload = {"message": "Update collections", "content": encoded}
-    if sha:
-        payload["sha"] = sha
-    try:
-        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
-        if r.ok:
-            _collections_cache["data"] = None
-            return True
-    except Exception:
-        pass
+    for _ in range(2):
+        sha = None
+        try:
+            r = requests.get(url, headers=_gh_headers(), timeout=10)
+            if r.ok:
+                sha = r.json().get("sha")
+        except Exception:
+            pass
+        payload = {"message": "Update collections", "content": encoded}
+        if sha:
+            payload["sha"] = sha
+        try:
+            r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
+            if r.ok:
+                _collections_cache["data"] = None
+                return True
+        except Exception:
+            pass
     return False
 
 
@@ -624,21 +655,24 @@ def _save_sold_to_github(entries: list, message: str, collection="") -> bool:
     encoded = base64.b64encode(
         _json.dumps(entries, indent=2, ensure_ascii=False).encode("utf-8")
     ).decode("ascii")
-    sha = None
-    try:
-        r = requests.get(url, headers=_gh_headers(), timeout=10)
-        if r.ok:
-            sha = r.json().get("sha")
-    except Exception:
-        pass
-    payload = {"message": message, "content": encoded}
-    if sha:
-        payload["sha"] = sha
-    try:
-        r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
-        return r.ok
-    except Exception:
-        return False
+    for _ in range(2):
+        sha = None
+        try:
+            r = requests.get(url, headers=_gh_headers(), timeout=10)
+            if r.ok:
+                sha = r.json().get("sha")
+        except Exception:
+            pass
+        payload = {"message": message, "content": encoded}
+        if sha:
+            payload["sha"] = sha
+        try:
+            r = requests.put(url, headers=_gh_headers(), json=payload, timeout=20)
+            if r.ok:
+                return True
+        except Exception:
+            pass
+    return False
 
 
 def _update_json_on_github(new_content: str, sha, message: str, collection="") -> bool:
@@ -720,12 +754,12 @@ async def delete_card(request: Request, card_key: str,
     conn.execute(
         """INSERT INTO sold_cards
            (card_key, card_name, set_code, set_name, collector_number,
-            finish, language, frame_effects, last_price, collection)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            finish, language, frame_effects, last_price, collection, quantity_sold)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (card_key, last["card_name"], last["set_code"] or "", last["set_name"] or "",
          last["collector_number"] or "", last["finish"] or "normal",
          last["language"] or "en", last["frame_effects"] or "",
-         final_price, coll)
+         final_price, coll, qty_to_sell)
     )
 
     if full_remove:
@@ -808,19 +842,22 @@ async def delete_card(request: Request, card_key: str,
                     rows = list(reader)
                     fieldnames = reader.fieldnames or []
                     updated = False
+                    new_rows = []
                     for row in rows:
                         if (row.get("Set code","").upper() == c_set and
                                 str(row.get("Collector number","")).strip() == c_num and
                                 (row.get("Foil","") or "normal") == c_fin and
                                 row.get("Language","") == c_lang):
+                            if updated:
+                                continue  # collapse duplicate rows for the same card
                             row["Quantity"] = str(remaining)
                             updated = True
-                            break
+                        new_rows.append(row)
                     if updated:
                         buf = io.StringIO()
                         w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
                         w.writeheader()
-                        w.writerows(rows)
+                        w.writerows(new_rows)
                         _update_csv_on_github(buf.getvalue(), csv_sha,
                                               f"Partial sell {card_key}: qty={remaining}", coll)
                 except Exception:
@@ -930,7 +967,10 @@ async def edit_card_lang(request: Request, card_key: str,
 
     coll = user.get("collection", "")
 
-    # Update prezzi_riferimento.json (with retry)
+    # Update prezzi_riferimento.json (with retry); SQLite is updated only if
+    # this write succeeds, otherwise the two stores diverge and the old key
+    # resurrects at the next fetch.
+    gh_ok = not GITHUB_REPO
     for _ in range(2):
         json_content, json_sha = _get_json_from_github(coll)
         if not json_content:
@@ -947,46 +987,64 @@ async def edit_card_lang(request: Request, card_key: str,
         new_json = json.dumps(prezzi, ensure_ascii=False, indent=2)
         if _update_json_on_github(new_json, json_sha, f"Edit card {card_key}->{new_key} fx={manual_fx}", coll):
             (BASE_DIR / _cf("prezzi_riferimento.json", coll)).write_text(new_json, encoding="utf-8")
+            gh_ok = True
             break
 
     if lang_changed:
-        try:
-            storico_fname = _cf("storico_prezzi.json", coll)
-            url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{storico_fname}"
-            r_st = requests.get(url_st, headers=_gh_headers(), timeout=15)
-            if r_st.ok:
+        storico_fname = _cf("storico_prezzi.json", coll)
+        url_st = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{storico_fname}"
+        for _ in range(2):
+            try:
+                r_st = requests.get(url_st, headers=_gh_headers(), timeout=15)
+                if not r_st.ok:
+                    break
                 st_data = r_st.json()
                 storico = json.loads(base64.b64decode(st_data["content"]).decode("utf-8"))
-                if card_key in storico:
-                    storico[new_key] = storico.pop(card_key)
-                    enc = base64.b64encode(
-                        json.dumps(storico, ensure_ascii=False, indent=2).encode()).decode()
-                    requests.put(url_st, headers=_gh_headers(), json={
-                        "message": f"Rename storico {card_key}->{new_key}",
-                        "content": enc, "sha": st_data["sha"]
-                    }, timeout=15)
-        except Exception:
-            pass
+                if card_key not in storico:
+                    break
+                storico[new_key] = storico.pop(card_key)
+                enc = base64.b64encode(
+                    json.dumps(storico, ensure_ascii=False, indent=2).encode()).decode()
+                r_put = requests.put(url_st, headers=_gh_headers(), json={
+                    "message": f"Rename storico {card_key}->{new_key}",
+                    "content": enc, "sha": st_data["sha"]
+                }, timeout=15)
+                if r_put.ok:
+                    break
+            except Exception:
+                break
 
         csv_content, csv_sha = _get_csv_from_github(coll)
         if csv_content and csv_sha:
-            lines = csv_content.splitlines(keepends=True)
-            new_lines = []
-            for line in lines:
-                low = line.lower()
-                if (set_code.lower() in low and col_num in low and
-                        finish in low and old_lang in low):
-                    line = line.replace(f",{old_lang},", f",{new_lang},")
-                new_lines.append(line)
-            _update_csv_on_github("".join(new_lines), csv_sha,
-                                  f"Edit lang {card_key}->{new_lang}", coll)
+            try:
+                reader = csv.DictReader(io.StringIO(csv_content))
+                rows = list(reader)
+                fieldnames = reader.fieldnames or []
+                changed = False
+                for row in rows:
+                    if (row.get("Set code", "").upper() == set_code and
+                            str(row.get("Collector number", "")).strip() == col_num and
+                            (row.get("Foil", "") or "normal") == finish and
+                            row.get("Language", "") == old_lang):
+                        row["Language"] = new_lang
+                        changed = True
+                if changed:
+                    buf = io.StringIO()
+                    w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+                    w.writeheader()
+                    w.writerows(rows)
+                    _update_csv_on_github(buf.getvalue(), csv_sha,
+                                          f"Edit lang {card_key}->{new_lang}", coll)
+            except Exception:
+                pass
 
-    conn = get_db()
-    conn.execute(
-        "UPDATE price_history SET card_key=?, language=?, frame_effects=? WHERE card_key=? AND collection=?",
-        (new_key, new_lang, manual_fx, card_key, coll))
-    conn.commit()
-    conn.close()
+    if gh_ok:
+        conn = get_db()
+        conn.execute(
+            "UPDATE price_history SET card_key=?, language=?, frame_effects=? WHERE card_key=? AND collection=?",
+            (new_key, new_lang, manual_fx, card_key, coll))
+        conn.commit()
+        conn.close()
 
     return RedirectResponse("/", status_code=302)
 
@@ -1082,16 +1140,15 @@ async def sold_relist(request: Request, sold_id: str):
         except Exception:
             pass
 
-    name_safe     = name.replace('"', '""')
-    set_name_safe = set_name.replace('"', '""')
-    new_row = (f'webapp,binder,"{name_safe}",{set_code},"{set_name_safe}",'
-               f'{col_num},{finish},{rarity},{qty_sold},,{scryfall_id},'
-               f'0,false,false,near_mint,{language},EUR,{now_str}\n')
-
-    csv_content, csv_sha = _get_csv_from_github(coll)
-    if csv_content and csv_sha:
-        updated = csv_content.rstrip("\n") + "\n" + new_row
-        _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})", coll)
+    fields = _manabox_fields(name, set_code, set_name, col_num, finish, rarity,
+                             qty_sold, scryfall_id, 0, language, now_str)
+    for _ in range(2):
+        csv_content, csv_sha = _get_csv_from_github(coll)
+        if not (csv_content and csv_sha):
+            break
+        updated = _append_csv_row(csv_content, fields)
+        if _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})", coll):
+            break
 
     # 3. Add back to prezzi_riferimento.json with current Scryfall price
     if scryfall_id:
@@ -1219,12 +1276,14 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
 
         # Write to GitHub JSON (with retry on SHA conflict)
         new_content = "{}"
+        gh_ok = not GITHUB_REPO  # local-only mode counts as success
         for _ in range(3):
             json_content, sha = _get_json_from_github(collection)
             prezzi = json.loads(json_content) if json_content else {}
             prezzi[card_key] = entry
             new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
             if _update_json_on_github(new_content, sha, f"Add {name} price via webapp", collection):
+                gh_ok = True
                 break
 
         local = BASE_DIR / _cf("prezzi_riferimento.json", collection)
@@ -1239,7 +1298,7 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         except Exception:
             pass
 
-        return True
+        return gh_ok
     except Exception:
         return False
 
@@ -1291,38 +1350,48 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
         existing_content = ",".join(f'"{f}"' if "," in f else f for f in (reader.fieldnames or [])) + "\n"
         existing_sha = None
 
-    existing_reader = csv.DictReader(io.StringIO(existing_content))
-    existing_rows = list(existing_reader)
-    fieldnames = existing_reader.fieldnames or reader.fieldnames
+    # Dedup key normalized the same way everywhere: empty Foil = "normal",
+    # stripped collector number, default language "en"
+    def _row_key(r):
+        return ((r.get("Set code") or "").strip().upper(),
+                str(r.get("Collector number") or "").strip(),
+                (r.get("Foil") or "").strip() or "normal",
+                (r.get("Language") or "en").strip())
 
-    # Dedup key: (set_code, collector_number, finish, language)
-    existing_keys = {
-        (r["Set code"].upper(), r["Collector number"], r["Foil"], r["Language"])
-        for r in existing_rows
-    }
+    def _find_new_rows(content):
+        rdr = csv.DictReader(io.StringIO(content))
+        seen = {_row_key(r) for r in rdr}
+        fresh = []
+        for r in uploaded_rows:
+            k = _row_key(r)
+            if k not in seen:
+                fresh.append(r)
+                seen.add(k)  # also dedup duplicate rows within the upload itself
+        return fresh, (rdr.fieldnames or reader.fieldnames)
 
-    # --- 3. Find new rows ---
-    new_rows = []
-    for r in uploaded_rows:
-        key = (r["Set code"].upper(), r["Collector number"], r["Foil"], r["Language"])
-        if key not in existing_keys:
-            new_rows.append(r)
+    new_rows, fieldnames = _find_new_rows(existing_content)
 
     # --- 4. Append new rows to CSV on GitHub (only if there are new rows) ---
     if new_rows:
-        buf = io.StringIO()
-        writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
-        writer.writerows(new_rows)
-        updated_content = existing_content.rstrip("\n") + "\n" + buf.getvalue()
-
         for _ in range(2):
+            buf = io.StringIO()
+            writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+            writer.writerows(new_rows)
+            updated_content = existing_content.rstrip("\n") + "\n" + buf.getvalue()
             ok_csv = _update_csv_on_github(
                 updated_content, existing_sha,
                 f"Import {len(new_rows)} cards from ManaBox CSV", coll
             )
             if ok_csv:
                 break
+            # SHA conflict: re-fetch and rebuild against the fresh content,
+            # otherwise we'd overwrite concurrent changes with stale data
             existing_content, existing_sha = _get_csv_from_github(coll)
+            if existing_content is None:
+                break
+            new_rows, fieldnames = _find_new_rows(existing_content)
+            if not new_rows:
+                break
 
     # --- 5. Batch-fetch prices from Scryfall (75 cards per request, only for new rows) ---
     prices_fetched = 0
@@ -1515,6 +1584,7 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
             ctx["result"]["qty_error"] = str(e)
 
     ctx["result"] = {
+        **(ctx.get("result") if isinstance(ctx.get("result"), dict) else {}),
         "added": len(new_rows),
         "skipped": len(uploaded_rows) - len(new_rows),
         "prices_fetched": prices_fetched,
@@ -1561,20 +1631,18 @@ async def add_card_post(
     coll = user.get("collection", "")
 
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.000Z")
-    name_safe     = name.replace('"', '""')
-    set_name_safe = set_name.replace('"', '""')
     lang = language.strip() or "en"
-    new_row = (f'webapp,binder,"{name_safe}",{set_code.upper()},"{set_name_safe}",'
-               f'{collector_number},{foil},{rarity},{quantity},,{scryfall_id},'
-               f'{purchase_price},false,false,near_mint,{lang},EUR,{now}\n')
+    fields = _manabox_fields(name, set_code.upper(), set_name, collector_number,
+                             foil, rarity, quantity, scryfall_id, purchase_price,
+                             lang, now)
 
     ok = False
     for _ in range(3):
         csv_content, sha = _get_csv_from_github(coll)
         if csv_content is None:
-            csv_content = "Source,Trade In,Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,Language,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Currency,Added\n"
+            csv_content = MANABOX_HEADER
             sha = None
-        updated = csv_content.rstrip("\n") + "\n" + new_row
+        updated = _append_csv_row(csv_content, fields)
         ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp", coll)
         if ok:
             break
