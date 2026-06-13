@@ -287,13 +287,20 @@ function selectPrinting(card) {
   enableSubmit();
 }
 
+// Prezzo SOLO per la finitura selezionata: mai il prezzo dell'altra finitura.
+// Ritorna stringa (es. "21.27") o null se Scryfall non ha il prezzo eur per quella finitura.
+function priceForFinish(card, fin) {
+  if (!card) return null;
+  const p = (fin === 'foil' || fin === 'etched') ? card.prices?.eur_foil : card.prices?.eur;
+  return p || null;
+}
+
 function updateSuggestedPrice() {
   if (!selectedCard) return;
   const fin = document.getElementById('finish-select').value;
-  const eur = (fin === 'foil' || fin === 'etched')
-    ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
-    : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
-  document.getElementById('price-input').value = parseFloat(eur || 0).toFixed(2);
+  const eur = priceForFinish(selectedCard, fin);
+  document.getElementById('price-input').value = eur ? parseFloat(eur).toFixed(2) : '0.00';
+  document.getElementById('price-input').placeholder = eur ? '0.00' : 'prezzo non disponibile';
 }
 
 document.getElementById('finish-select').addEventListener('change', updateSuggestedPrice);
@@ -303,10 +310,13 @@ function updatePreview(card) {
   if (imgUrl) {
     previewWrap.innerHTML = `<img src="${imgUrl}" style="width:100%;height:100%;object-fit:cover;" alt="${card.name}">`;
   }
-  const eur = card.prices?.eur || card.prices?.eur_foil;
+  // Mostra entrambi i prezzi separatamente, cosi' la differenza normal/foil e' visibile subito
+  const parts = [];
+  if (card.prices?.eur)      parts.push(`📄 €${card.prices.eur}`);
+  if (card.prices?.eur_foil) parts.push(`✨ €${card.prices.eur_foil}`);
   document.getElementById('meta-name').textContent  = card.name;
   document.getElementById('meta-set').textContent   = `${card.set_name} · #${card.collector_number} · ${card.rarity}`;
-  document.getElementById('meta-price').textContent = eur ? `Prezzo attuale: €${eur}` : '';
+  document.getElementById('meta-price').textContent = parts.length ? parts.join(' · ') : 'Prezzo non disponibile';
   cardMeta.style.display = 'block';
 }
 
@@ -317,8 +327,10 @@ function disableSubmit() {
   submitBtn.disabled = true; submitBtn.style.opacity = '0.4'; submitBtn.style.cursor = 'not-allowed';
 }
 
-document.getElementById('submit-form').addEventListener('submit', () => {
-  if (!selectedCard) return;
+document.getElementById('submit-form').addEventListener('submit', (e) => {
+  // Senza carta selezionata il form invierebbe i default nascosti
+  // (foil="normal", lang="en"): blocca l'invio del tutto.
+  if (!selectedCard) { e.preventDefault(); return; }
   document.getElementById('f-name').value             = selectedCard.name;
   document.getElementById('f-set-code').value         = selectedCard.set;
   document.getElementById('f-set-name').value         = selectedCard.set_name;
@@ -329,10 +341,10 @@ document.getElementById('submit-form').addEventListener('submit', () => {
   document.getElementById('f-lang').value             = document.getElementById('lang-select').value;
   document.getElementById('f-price').value            = document.getElementById('price-input').value;
   document.getElementById('f-qty').value              = document.getElementById('qty-input').value;
-  const eur = (document.getElementById('finish-select').value === 'foil' || document.getElementById('finish-select').value === 'etched')
-    ? (selectedCard.prices?.eur_foil || selectedCard.prices?.eur || '0')
-    : (selectedCard.prices?.eur || selectedCard.prices?.eur_foil || '0');
-  document.getElementById('f-market-price').value     = parseFloat(eur || 0).toFixed(2);
+  const eur = priceForFinish(selectedCard, document.getElementById('finish-select').value);
+  // Se il prezzo per la finitura scelta non esiste: 0.00 (mai l'altra finitura);
+  // il tracker orario lo aggiornera' appena Scryfall lo espone.
+  document.getElementById('f-market-price').value     = eur ? parseFloat(eur).toFixed(2) : '0.00';
 });
 </script>
 {% endblock %}

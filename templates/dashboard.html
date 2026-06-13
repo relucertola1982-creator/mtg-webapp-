@@ -55,6 +55,16 @@
     <option value="silverscroll">✦ Silverscroll</option>
   </select>
 
+  <select id="color-f" class="inp" style="width:150px;">
+    <option value="">Tutti i colori</option>
+    <option value="W">⚪ Bianco</option>
+    <option value="U">🔵 Blu</option>
+    <option value="B">⚫ Nero</option>
+    <option value="R">🔴 Rosso</option>
+    <option value="G">🟢 Verde</option>
+    <option value="artifact">🟤 Artefatto</option>
+  </select>
+
   <select id="lang-f" class="inp" style="width:140px;">
     <option value="">Tutte le lingue</option>
     <option value="en">🇬🇧 English</option>
@@ -104,6 +114,8 @@
             data-foil="{{ 'foil' if c.foil else 'normal' }}"
             data-finish="{{ c.finish or 'normal' }}"
             data-fx="{{ c.frame_effects or '' }}"
+            data-colors="{{ c.colors or '' }}"
+            data-artifact="{{ '1' if c.is_artifact else '0' }}"
             data-lang="{{ c.language or 'en' }}"
             data-price="{{ c.prezzo }}"
             data-set="{{ c.set_code|lower }}"
@@ -388,14 +400,17 @@ const rows  = Array.from(document.querySelectorAll('.row'));
 const tbody = document.getElementById('tbody');
 
 function filter() {
-  const q    = document.getElementById('q').value.toLowerCase();
-  const ver  = document.getElementById('foil-f').value;
-  const lang = document.getElementById('lang-f').value;
-  const sort = document.getElementById('sort-f').value;
+  const q     = document.getElementById('q').value.toLowerCase();
+  const ver   = document.getElementById('foil-f').value;
+  const color = document.getElementById('color-f').value;
+  const lang  = document.getElementById('lang-f').value;
+  const sort  = document.getElementById('sort-f').value;
 
   let vis = rows.filter(r => {
     if (!r.dataset.name.includes(q)) return false;
     if (lang && r.dataset.lang !== lang) return false;
+    if (color === 'artifact') { if (r.dataset.artifact !== '1') return false; }
+    else if (color)           { if (!r.dataset.colors.includes(color)) return false; }
     if (ver === 'silverscroll') return r.dataset.fx.includes('silverscroll');
     if (ver === 'foil')   return r.dataset.finish === 'foil';
     if (ver === 'normal') return r.dataset.finish === 'normal';
@@ -416,6 +431,7 @@ function filter() {
 
 document.getElementById('q').addEventListener('input', filter);
 document.getElementById('foil-f').addEventListener('change', filter);
+document.getElementById('color-f').addEventListener('change', filter);
 document.getElementById('lang-f').addEventListener('change', filter);
 document.getElementById('sort-f').addEventListener('change', filter);
 

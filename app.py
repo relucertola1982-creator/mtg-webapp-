@@ -101,6 +101,8 @@ def init_db():
         "ALTER TABLE users ADD COLUMN collection TEXT DEFAULT ''",
         "ALTER TABLE price_history ADD COLUMN quantity INTEGER DEFAULT 1",
         "ALTER TABLE sold_cards ADD COLUMN quantity_sold INTEGER DEFAULT 1",
+        "ALTER TABLE price_history ADD COLUMN colors TEXT DEFAULT ''",
+        "ALTER TABLE price_history ADD COLUMN is_artifact INTEGER DEFAULT 0",
     ]:
         try:
             conn.execute(col)
@@ -179,14 +181,15 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
                     conn.execute(
                         """INSERT INTO price_history
                            (card_key, card_name, set_code, set_name, collector_number,
-                            foil, finish, language, frame_effects, price, recorded_at, collection, quantity)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            foil, finish, language, frame_effects, price, recorded_at, collection, quantity,
+                            colors, is_artifact)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                         (key, d.get("nome", ""), d.get("set_code", ""), d.get("set", ""),
                          d.get("collector_number", ""), 1 if d.get("foil") else 0,
                          d.get("finish", "foil" if d.get("foil") else "normal"),
                          d.get("language", "en"), d.get("frame_effects", ""),
                          price_val, d.get("ultimo_aggiornamento", now), collection,
-                         keep_qty)
+                         keep_qty, d.get("colors", ""), 1 if d.get("is_artifact") else 0)
                     )
             conn.execute("INSERT INTO fetch_log (cards_count, collection) VALUES (?, ?)",
                          (len(raw), collection))
@@ -195,7 +198,8 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
     rows = conn.execute("""
         SELECT ph.card_key, ph.card_name, ph.set_code, ph.set_name,
                ph.collector_number, ph.foil, ph.finish, ph.language,
-               ph.frame_effects, ph.price, ph.recorded_at, ph.quantity
+               ph.frame_effects, ph.price, ph.recorded_at, ph.quantity,
+               ph.colors, ph.is_artifact
         FROM price_history ph
         INNER JOIN (
             SELECT card_key, MAX(id) AS mid FROM price_history
@@ -219,6 +223,8 @@ def get_prices(force: bool = False, collection: str = "") -> dict:
             "finish":           row["finish"] or ("foil" if row["foil"] else "normal"),
             "language":         row["language"] or "en",
             "frame_effects":    row["frame_effects"] or "",
+            "colors":           row["colors"] or "",
+            "is_artifact":      bool(row["is_artifact"]),
             "prezzo":           row["price"],
             "quantity":         int(row["quantity"] or 1),
             "ultimo_aggiornamento": row["recorded_at"],
@@ -423,6 +429,43 @@ def _append_csv_row(csv_content: str, fields: dict) -> str:
     w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
     w.writerow({k: fields.get(k, "") for k in fieldnames})
     return csv_content.rstrip("\n") + "\n" + buf.getvalue()
+
+
+def _csv_row_key(row: dict) -> tuple:
+    """Chiave normalizzata (set, collector, finish, lang) — identica ovunque:
+    Foil vuoto = 'normal', collector number senza spazi, lingua default 'en'."""
+    return ((row.get("Set code") or "").strip().upper(),
+            str(row.get("Collector number") or "").strip(),
+            ((row.get("Foil") or "").strip().lower() or "normal"),
+            ((row.get("Language") or "").strip().lower() or "en"))
+
+
+def _merge_csv_quantity(csv_content: str, fields: dict) -> str:
+    """Se una riga con la stessa (set, collector, finish, lang) esiste già,
+    somma la quantità su quella riga invece di appenderne una duplicata —
+    le righe duplicate erano fonte di quantità incoerenti (il tracker prende
+    l'ultima riga, il JSON l'ultima scrittura). Altrimenti appende."""
+    key = _csv_row_key(fields)
+    reader = csv.DictReader(io.StringIO(csv_content))
+    rows = list(reader)
+    fieldnames = reader.fieldnames or []
+    for row in rows:
+        if _csv_row_key(row) == key:
+            try:
+                old_q = int(row.get("Quantity") or 1)
+            except (ValueError, TypeError):
+                old_q = 1
+            try:
+                add_q = max(1, int(fields.get("Quantity") or 1))
+            except (ValueError, TypeError):
+                add_q = 1
+            row["Quantity"] = str(old_q + add_q)
+            buf = io.StringIO()
+            w = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+            w.writeheader()
+            w.writerows(rows)
+            return buf.getvalue()
+    return _append_csv_row(csv_content, fields)
 
 
 def _manabox_fields(name, set_code, set_name, col_num, finish, rarity,
@@ -959,8 +1002,9 @@ async def edit_card_lang(request: Request, card_key: str,
                 cd = r.json()
                 prices = cd.get("prices", {})
                 is_foil = finish in ("foil", "etched")
-                p = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
-                    else (prices.get("eur") or prices.get("eur_foil"))
+                # Mai usare il prezzo della finitura sbagliata: se Scryfall non
+                # ha il prezzo per questa finitura, manteniamo quello esistente
+                p = prices.get("eur_foil") if is_foil else prices.get("eur")
                 new_price = float(p) if p else None
         except Exception:
             pass
@@ -1146,7 +1190,7 @@ async def sold_relist(request: Request, sold_id: str):
         csv_content, csv_sha = _get_csv_from_github(coll)
         if not (csv_content and csv_sha):
             break
-        updated = _append_csv_row(csv_content, fields)
+        updated = _merge_csv_quantity(csv_content, fields)
         if _update_csv_on_github(updated, csv_sha, f"Relist {name} ({set_code})", coll):
             break
 
@@ -1214,6 +1258,23 @@ async def sold_export(request: Request):
 
 # ── Add card routes ───────────────────────────────────────────────────────────
 
+def _scryfall_colors(card_data: dict) -> str:
+    """Colori in ordine canonico WUBRG (unisce le facce per le double-faced)."""
+    cols = card_data.get("colors")
+    if cols is None:
+        cols = []
+        for f in (card_data.get("card_faces") or []):
+            cols += (f.get("colors") or [])
+    return "".join(c for c in "WUBRG" if c in cols)
+
+
+def _scryfall_is_artifact(card_data: dict) -> bool:
+    tl = card_data.get("type_line") or ""
+    if not tl:
+        tl = " ".join(f.get("type_line", "") for f in (card_data.get("card_faces") or []))
+    return "Artifact" in tl
+
+
 def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
                         collector_number: str, finish: str,
                         language: str, scryfall_id: str,
@@ -1227,6 +1288,8 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
     # Use price passed from frontend if available (avoids a Scryfall round-trip)
     price_val = float(market_price) if market_price is not None else 0.0
     frame_effects_str = ""
+    colors_str = ""
+    is_artifact = False
     resolved_set_name = set_name or ""
 
     # Only call Scryfall if we don't already have the price
@@ -1236,11 +1299,24 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
             if r.ok:
                 card_data = r.json()
                 prices = card_data.get("prices", {})
-                price_str = (prices.get("eur_foil") or prices.get("eur")) if is_foil \
-                            else (prices.get("eur") or prices.get("eur_foil"))
+                # Solo il prezzo della finitura richiesta: se manca resta 0.0,
+                # mai il prezzo dell'altra finitura
+                price_str = prices.get("eur_foil") if is_foil else prices.get("eur")
                 price_val = float(price_str) if price_str else 0.0
                 frame_effects_str = ",".join(card_data.get("frame_effects") or [])
+                colors_str = _scryfall_colors(card_data)
+                is_artifact = _scryfall_is_artifact(card_data)
                 resolved_set_name = set_name or card_data.get("set_name", "")
+        except Exception:
+            pass
+    elif scryfall_id:
+        # Prezzo già noto dal frontend, ma serve comunque l'info colore per il filtro
+        try:
+            r = requests.get(f"https://api.scryfall.com/cards/{scryfall_id}", timeout=10)
+            if r.ok:
+                card_data = r.json()
+                colors_str = _scryfall_colors(card_data)
+                is_artifact = _scryfall_is_artifact(card_data)
         except Exception:
             pass
 
@@ -1255,21 +1331,33 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         "language": language,
         "quantity": qty,
         "frame_effects": frame_effects_str,
+        "colors": colors_str,
+        "is_artifact": is_artifact,
         "ultimo_aggiornamento": datetime.now().isoformat(),
     }
 
     try:
-        # Write to SQLite immediately (bypasses CDN caching delay)
+        # Write to SQLite immediately (bypasses CDN caching delay).
+        # Se la carta (stessa chiave finish+lang) esiste già, la quantità si
+        # SOMMA: "aggiungi" significa aggiungere copie, non azzerare le esistenti.
         now_iso = datetime.now().isoformat()
         conn = get_db()
+        prev = conn.execute(
+            "SELECT quantity FROM price_history WHERE card_key=? AND collection=? "
+            "ORDER BY id DESC LIMIT 1",
+            (card_key, collection)
+        ).fetchone()
+        db_qty = qty + (int(prev["quantity"] or 0) if prev else 0)
         conn.execute(
             """INSERT INTO price_history
                (card_key, card_name, set_code, set_name, collector_number,
-                foil, finish, language, frame_effects, price, recorded_at, collection, quantity)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                foil, finish, language, frame_effects, price, recorded_at, collection, quantity,
+                colors, is_artifact)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
             (card_key, name, set_code.upper(), resolved_set_name,
              collector_number, 1 if is_foil else 0, finish, language,
-             frame_effects_str, price_val, now_iso, collection, qty)
+             frame_effects_str, price_val, now_iso, collection, db_qty,
+             colors_str, 1 if is_artifact else 0)
         )
         conn.commit()
         conn.close()
@@ -1280,7 +1368,13 @@ def _add_card_to_prezzi(name: str, set_code: str, set_name: str,
         for _ in range(3):
             json_content, sha = _get_json_from_github(collection)
             prezzi = json.loads(json_content) if json_content else {}
-            prezzi[card_key] = entry
+            e = dict(entry)
+            if card_key in prezzi:
+                # somma le copie e preserva il flag manuale silverscroll
+                e["quantity"] = qty + int(prezzi[card_key].get("quantity") or 0)
+                if prezzi[card_key].get("frame_effects") == "silverscroll":
+                    e["frame_effects"] = "silverscroll"
+            prezzi[card_key] = e
             new_content = json.dumps(prezzi, ensure_ascii=False, indent=2)
             if _update_json_on_github(new_content, sha, f"Add {name} price via webapp", collection):
                 gh_ok = True
@@ -1451,8 +1545,9 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                     finish   = (finish_map.get("Foil") or "normal")
                     language = (finish_map.get("Language") or "en")
                     is_foil  = finish in ("foil", "etched")
-                    price_str = (prices_d.get("eur_foil") or prices_d.get("eur")) if is_foil \
-                                else (prices_d.get("eur") or prices_d.get("eur_foil"))
+                    # Niente fallback incrociato foil<->normal: se il prezzo per
+                    # questa finitura manca, 0.0 (il tracker riprovera' ogni ora)
+                    price_str = prices_d.get("eur_foil") if is_foil else prices_d.get("eur")
                     price_val = float(price_str) if price_str else 0.0
                     qty = max(1, int(finish_map.get("Quantity") or 1))
 
@@ -1562,11 +1657,13 @@ async def import_csv_post(request: Request, file: UploadFile = File(...)):
                 conn_sync.execute(
                     """INSERT INTO price_history (card_key, card_name, set_code, set_name,
                        collector_number, foil, finish, language, frame_effects, price,
-                       recorded_at, collection, quantity) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                       recorded_at, collection, quantity, colors, is_artifact)
+                       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (ck, d.get("nome",""), d.get("set_code",""), d.get("set",""),
                      d.get("collector_number",""), 1 if d.get("foil") else 0,
                      d.get("finish","normal"), d.get("language","en"),
-                     d.get("frame_effects",""), price_d, now_sync, coll, qty)
+                     d.get("frame_effects",""), price_d, now_sync, coll, qty,
+                     d.get("colors",""), 1 if d.get("is_artifact") else 0)
                 )
             elif (last["quantity"] or 1) != qty:
                 conn_sync.execute(
@@ -1642,7 +1739,7 @@ async def add_card_post(
         if csv_content is None:
             csv_content = MANABOX_HEADER
             sha = None
-        updated = _append_csv_row(csv_content, fields)
+        updated = _merge_csv_quantity(csv_content, fields)
         ok = _update_csv_on_github(updated, sha, f"Add {name} ({set_code.upper()}) via webapp", coll)
         if ok:
             break
