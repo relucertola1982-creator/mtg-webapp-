@@ -3937,21 +3937,6 @@
     "quantity": 1,
     "ultimo_aggiornamento": "2026-06-21T14:02:08.223871"
   },
-  "MPS_24_foil_en": {
-    "nome": "Sol Ring",
-    "set": "Kaladesh Inventions",
-    "set_code": "MPS",
-    "collector_number": "24",
-    "prezzo": 871.99,
-    "foil": true,
-    "finish": "foil",
-    "language": "en",
-    "quantity": 1,
-    "frame_effects": "",
-    "ultimo_aggiornamento": "2026-06-08T00:56:41.187139",
-    "colors": "",
-    "is_artifact": true
-  },
   "VOW_265_normal_en": {
     "nome": "Stormcarved Coast",
     "set": "Innistrad: Crimson Vow",
