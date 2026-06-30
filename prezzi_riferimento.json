@@ -13,7 +13,7 @@
     "colors": "BG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:02.695475"
+    "ultimo_aggiornamento": "2026-06-30T18:01:11.267469"
   },
   "SOS_316_normal_en": {
     "nome": "Exhibition Tidecaller",
@@ -33,7 +33,7 @@
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "69",
-    "prezzo": 2.55,
+    "prezzo": 2.51,
     "prezzo_acquisto": 2.22,
     "foil": false,
     "finish": "normal",
@@ -42,14 +42,14 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:02.916371"
+    "ultimo_aggiornamento": "2026-06-30T18:01:11.489095"
   },
   "SOC_78_normal_en": {
     "nome": "Stensian Sanguinist // Exsanguinate",
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "78",
-    "prezzo": 6.42,
+    "prezzo": 6.46,
     "prezzo_acquisto": 6.19,
     "foil": false,
     "finish": "normal",
@@ -58,7 +58,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:03.134106"
+    "ultimo_aggiornamento": "2026-06-30T18:01:11.734822"
   },
   "SOS_302_foil_en": {
     "nome": "Dreamroot Cascade",
@@ -78,7 +78,7 @@
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "145",
-    "prezzo": 3.61,
+    "prezzo": 3.49,
     "prezzo_acquisto": 4.56,
     "foil": true,
     "finish": "foil",
@@ -87,7 +87,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:03.532801"
+    "ultimo_aggiornamento": "2026-06-30T18:01:13.986761"
   },
   "SOS_99_foil_en": {
     "nome": "Scheming Silvertongue // Sign in Blood",
@@ -129,7 +129,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:03.735498"
+    "ultimo_aggiornamento": "2026-06-30T18:01:14.733162"
   },
   "SOA_3_normal_en": {
     "nome": "Armageddon",
@@ -145,7 +145,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:04.132323"
+    "ultimo_aggiornamento": "2026-06-30T18:01:15.179484"
   },
   "SOA_30_foil_en": {
     "nome": "Living End",
@@ -161,7 +161,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:04.328145"
+    "ultimo_aggiornamento": "2026-06-30T18:01:15.418234"
   },
   "SOS_325_foil_en": {
     "nome": "Grave Researcher // Reanimate",
@@ -177,7 +177,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:04.795558"
+    "ultimo_aggiornamento": "2026-06-30T18:01:15.818125"
   },
   "SOA_77_normal_en": {
     "nome": "Winds of Abandon",
@@ -193,7 +193,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:05.003480"
+    "ultimo_aggiornamento": "2026-06-30T18:01:16.026949"
   },
   "SOS_309_foil_en": {
     "nome": "Emeritus of Truce // Swords to Plowshares",
@@ -209,7 +209,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:05.211612"
+    "ultimo_aggiornamento": "2026-06-30T18:01:16.236991"
   },
   "SOA_104_normal_en": {
     "nome": "Brotherhood's End",
@@ -238,7 +238,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:13.924133"
+    "ultimo_aggiornamento": "2026-06-30T18:01:30.444521"
   },
   "SOA_51_normal_en": {
     "nome": "Crop Rotation",
@@ -254,7 +254,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:05.612651"
+    "ultimo_aggiornamento": "2026-06-30T18:01:16.701707"
   },
   "SOS_304_normal_en": {
     "nome": "Stormcarved Coast",
@@ -270,7 +270,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:05.815853"
+    "ultimo_aggiornamento": "2026-06-30T18:01:16.909909"
   },
   "SOS_291_normal_en": {
     "nome": "Echocasting Symposium",
@@ -286,7 +286,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:06.017696"
+    "ultimo_aggiornamento": "2026-06-30T18:01:17.107800"
   },
   "SOC_75_normal_en": {
     "nome": "Defiling Daemogoth",
@@ -315,7 +315,7 @@
     "colors": "BG",
     "is_artifact": true,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-06-30T17:01:06.431407"
+    "ultimo_aggiornamento": "2026-06-30T18:01:17.600439"
   },
   "SOA_142_foil_ja": {
     "nome": "Winds of Abandon",
@@ -331,7 +331,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:15.029340"
+    "ultimo_aggiornamento": "2026-06-30T18:01:31.289163"
   },
   "SOS_344_normal_en": {
     "nome": "Ark of Hunger",
@@ -347,7 +347,7 @@
     "colors": "WR",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:07.067263"
+    "ultimo_aggiornamento": "2026-06-30T18:01:18.306306"
   },
   "SOS_221_foil_en": {
     "nome": "Resonating Lute",
@@ -363,7 +363,7 @@
     "colors": "UR",
     "is_artifact": true,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-06-30T17:01:07.294519"
+    "ultimo_aggiornamento": "2026-06-30T18:01:18.525696"
   },
   "SOC_427_foil_en": {
     "nome": "Sol Ring",
@@ -379,7 +379,7 @@
     "colors": "",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:07.518143"
+    "ultimo_aggiornamento": "2026-06-30T18:01:19.938627"
   },
   "SOC_432_foil_en": {
     "nome": "Talisman of Resilience",
@@ -395,14 +395,14 @@
     "colors": "",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:07.721423"
+    "ultimo_aggiornamento": "2026-06-30T18:01:20.151002"
   },
   "SOS_339_normal_en": {
     "nome": "Emeritus of Abundance // Regrowth",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "339",
-    "prezzo": 6.05,
+    "prezzo": 5.86,
     "prezzo_acquisto": 6.91,
     "foil": false,
     "finish": "normal",
@@ -411,7 +411,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:07.922064"
+    "ultimo_aggiornamento": "2026-06-30T18:01:23.515948"
   },
   "SOS_221_normal_en": {
     "nome": "Resonating Lute",
@@ -427,7 +427,7 @@
     "colors": "UR",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:08.324577"
+    "ultimo_aggiornamento": "2026-06-30T18:01:24.307075"
   },
   "SOS_201_normal_en": {
     "nome": "Lorehold, the Historian",
@@ -443,7 +443,7 @@
     "colors": "WR",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:08.754315"
+    "ultimo_aggiornamento": "2026-06-30T18:01:24.954322"
   },
   "SOS_264_normal_en": {
     "nome": "Sundown Pass",
@@ -476,7 +476,7 @@
     "set": "Special Guests",
     "set_code": "SPG",
     "collector_number": "150",
-    "prezzo": 5.22,
+    "prezzo": 5.19,
     "prezzo_acquisto": 6.05,
     "foil": true,
     "finish": "foil",
@@ -485,14 +485,14 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:09.427983"
+    "ultimo_aggiornamento": "2026-06-30T18:01:25.516110"
   },
   "SOA_135_foil_ja": {
     "nome": "Helping Hand",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "135",
-    "prezzo": 7.97,
+    "prezzo": 7.88,
     "prezzo_acquisto": 8.81,
     "foil": true,
     "finish": "foil",
@@ -501,7 +501,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:14.132048"
+    "ultimo_aggiornamento": "2026-06-30T18:01:30.640951"
   },
   "SOA_103_normal_de": {
     "nome": "Big Score",
@@ -517,14 +517,14 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:15.423683"
+    "ultimo_aggiornamento": "2026-06-30T18:01:31.546462"
   },
   "SOS_288_normal_de": {
     "nome": "Witherbloom, the Balancer",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "288",
-    "prezzo": 12.93,
+    "prezzo": 12.67,
     "prezzo_acquisto": 14.23,
     "foil": false,
     "finish": "normal",
@@ -533,7 +533,7 @@
     "colors": "BG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:09.954072"
+    "ultimo_aggiornamento": "2026-06-30T18:01:25.999732"
   },
   "SOA_2_normal_ja": {
     "nome": "Angel's Grace",
@@ -562,7 +562,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:10.194462"
+    "ultimo_aggiornamento": "2026-06-30T18:01:26.305759"
   },
   "SOS_288_foil_de": {
     "nome": "Witherbloom, the Balancer",
@@ -578,7 +578,7 @@
     "colors": "BG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:10.448718"
+    "ultimo_aggiornamento": "2026-06-30T18:01:26.540464"
   },
   "SOA_25_normal_de": {
     "nome": "Ad Nauseam",
@@ -594,7 +594,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:10.715369"
+    "ultimo_aggiornamento": "2026-06-30T18:01:26.904409"
   },
   "SOS_335_normal_de": {
     "nome": "Molten-Core Maestro",
@@ -623,7 +623,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:10.920765"
+    "ultimo_aggiornamento": "2026-06-30T18:01:27.097458"
   },
   "SOA_53_normal_de": {
     "nome": "Glimpse of Nature",
@@ -665,14 +665,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:15.698272"
+    "ultimo_aggiornamento": "2026-06-30T18:01:31.835893"
   },
   "SOS_339_normal_de": {
     "nome": "Emeritus of Abundance // Regrowth",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "339",
-    "prezzo": 6.05,
+    "prezzo": 5.86,
     "prezzo_acquisto": 6.95,
     "foil": false,
     "finish": "normal",
@@ -681,7 +681,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:11.415618"
+    "ultimo_aggiornamento": "2026-06-30T18:01:27.563771"
   },
   "SOA_50_normal_de": {
     "nome": "Berserk",
@@ -697,14 +697,14 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:11.662282"
+    "ultimo_aggiornamento": "2026-06-30T18:01:28.223806"
   },
   "SOC_81_normal_de": {
     "nome": "Naktamun Lorespinner // Wheel of Fortune",
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "81",
-    "prezzo": 2.16,
+    "prezzo": 2.21,
     "prezzo_acquisto": 2.26,
     "foil": false,
     "finish": "normal",
@@ -713,7 +713,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:11.906575"
+    "ultimo_aggiornamento": "2026-06-30T18:01:28.547360"
   },
   "SOA_49_foil_de": {
     "nome": "Awaken the Woods",
@@ -729,7 +729,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:12.174465"
+    "ultimo_aggiornamento": "2026-06-30T18:01:28.798719"
   },
   "SOS_259_foil_de": {
     "nome": "Petrified Hamlet",
@@ -758,7 +758,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:12.422058"
+    "ultimo_aggiornamento": "2026-06-30T18:01:29.055937"
   },
   "SOA_53_foil_ja": {
     "nome": "Glimpse of Nature",
@@ -787,7 +787,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:12.759191"
+    "ultimo_aggiornamento": "2026-06-30T18:01:29.314720"
   },
   "SOC_57_normal_de": {
     "nome": "Turbulent Springs",
@@ -803,7 +803,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:13.026023"
+    "ultimo_aggiornamento": "2026-06-30T18:01:29.595924"
   },
   "SOS_15_foil_de": {
     "nome": "Erode",
@@ -819,7 +819,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:13.301730"
+    "ultimo_aggiornamento": "2026-06-30T18:01:29.849571"
   },
   "SOA_147_foil_ja": {
     "nome": "Disdainful Stroke",
@@ -835,7 +835,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:14.530343"
+    "ultimo_aggiornamento": "2026-06-30T18:01:31.086932"
   },
   "SOA_159_foil_ja": {
     "nome": "Feed the Swarm",
@@ -851,7 +851,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:13.726362"
+    "ultimo_aggiornamento": "2026-06-30T18:01:30.241648"
   },
   "SOA_9_normal_de": {
     "nome": "Reprieve",
@@ -893,7 +893,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:13.522681"
+    "ultimo_aggiornamento": "2026-06-30T18:01:30.045692"
   },
   "SOS_259_normal_de": {
     "nome": "Petrified Hamlet",
@@ -935,7 +935,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:03.338966"
+    "ultimo_aggiornamento": "2026-06-30T18:01:11.953507"
   },
   "SOA_24_foil_en": {
     "nome": "Stock Up",
@@ -951,7 +951,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:03.932695"
+    "ultimo_aggiornamento": "2026-06-30T18:01:14.941899"
   },
   "SOS_310_normal_en": {
     "nome": "Erode",
@@ -967,7 +967,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:04.541331"
+    "ultimo_aggiornamento": "2026-06-30T18:01:15.618109"
   },
   "SOA_169_foil_en": {
     "nome": "Brotherhood's End",
@@ -983,7 +983,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:05.409916"
+    "ultimo_aggiornamento": "2026-06-30T18:01:16.471804"
   },
   "SOA_185_foil_en": {
     "nome": "Pick Your Poison",
@@ -999,7 +999,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:06.220862"
+    "ultimo_aggiornamento": "2026-06-30T18:01:17.352273"
   },
   "SOA_89_normal_en": {
     "nome": "Stock Up",
@@ -1015,7 +1015,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:06.625530"
+    "ultimo_aggiornamento": "2026-06-30T18:01:17.817331"
   },
   "SOA_142_foil_en": {
     "nome": "Winds of Abandon",
@@ -1031,7 +1031,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:06.845842"
+    "ultimo_aggiornamento": "2026-06-30T18:01:18.040366"
   },
   "SOA_97_normal_en": {
     "nome": "Sheoldred's Edict",
@@ -1047,7 +1047,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-06-30T17:01:08.126216"
+    "ultimo_aggiornamento": "2026-06-30T18:01:24.113810"
   },
   "SOS_115_normal_en": {
     "nome": "Flashback",
@@ -1063,7 +1063,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:08.524882"
+    "ultimo_aggiornamento": "2026-06-30T18:01:24.588733"
   },
   "MUL_97_etched_en": {
     "nome": "Arixmethes, Slumbering Isle",
@@ -1079,7 +1079,7 @@
     "colors": "UG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:09.065735"
+    "ultimo_aggiornamento": "2026-06-30T18:01:25.253421"
   },
   "SOA_103_normal_ja": {
     "nome": "Big Score",
@@ -1095,7 +1095,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:09.630150"
+    "ultimo_aggiornamento": "2026-06-30T18:01:25.709062"
   },
   "SOA_93_normal_ja": {
     "nome": "Dismember",
@@ -1111,7 +1111,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:11.122766"
+    "ultimo_aggiornamento": "2026-06-30T18:01:27.296730"
   },
   "SOA_185_foil_ja": {
     "nome": "Pick Your Poison",
@@ -1127,6 +1127,6 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-06-30T17:01:14.331287"
+    "ultimo_aggiornamento": "2026-06-30T18:01:30.835487"
   }
 }
