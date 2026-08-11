@@ -32,7 +32,7 @@
     "set": "Kaladesh",
     "set_code": "KLD",
     "collector_number": "247",
-    "prezzo": 10.75,
+    "prezzo": 10.38,
     "prezzo_acquisto": 9.53,
     "foil": false,
     "finish": "normal",
@@ -41,7 +41,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:52.004071"
+    "ultimo_aggiornamento": "2026-08-11T16:01:35.699542"
   },
   "LCC_335_normal_en": {
     "nome": "Geier Reach Sanitarium",
@@ -141,7 +141,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:53.397462"
+    "ultimo_aggiornamento": "2026-08-11T16:01:37.273027"
   },
   "CMM_1028_normal_en": {
     "nome": "Sea Gate Wreckage",
@@ -316,7 +316,7 @@
     "set": "Return to Ravnica",
     "set_code": "RTR",
     "collector_number": "248",
-    "prezzo": 7.05,
+    "prezzo": 7.0,
     "prezzo_acquisto": 6.77,
     "foil": false,
     "finish": "normal",
@@ -325,7 +325,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:54.274965"
+    "ultimo_aggiornamento": "2026-08-11T16:01:37.788630"
   },
   "OTC_315_normal_it": {
     "nome": "Scattered Groves",
@@ -425,14 +425,14 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 6,
-    "ultimo_aggiornamento": "2026-08-11T15:01:55.467686"
+    "ultimo_aggiornamento": "2026-08-11T16:01:38.160824"
   },
   "RTR_247_normal_it": {
     "nome": "Steam Vents",
     "set": "Return to Ravnica",
     "set_code": "RTR",
     "collector_number": "247",
-    "prezzo": 9.24,
+    "prezzo": 9.65,
     "prezzo_acquisto": 9.5,
     "foil": false,
     "finish": "normal",
@@ -441,7 +441,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:55.791148"
+    "ultimo_aggiornamento": "2026-08-11T16:01:38.434160"
   },
   "CLB_928_normal_it": {
     "nome": "Wandering Fumarole",
@@ -499,7 +499,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:56.550458"
+    "ultimo_aggiornamento": "2026-08-11T16:01:39.246987"
   },
   "DSC_284_normal_it": {
     "nome": "Hinterland Harbor",
@@ -548,7 +548,7 @@
     "set": "Kaladesh Promos",
     "set_code": "PKLD",
     "collector_number": "244s",
-    "prezzo": 3.96,
+    "prezzo": 3.7,
     "prezzo_acquisto": 3.89,
     "foil": true,
     "finish": "foil",
@@ -557,7 +557,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:57.058647"
+    "ultimo_aggiornamento": "2026-08-11T16:01:39.510396"
   },
   "EOC_189_normal_en": {
     "nome": "Twilight Mire",
@@ -629,7 +629,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:58.162744"
+    "ultimo_aggiornamento": "2026-08-11T16:01:40.517305"
   },
   "DRC_148_normal_it": {
     "nome": "Caves of Koilos",
@@ -701,7 +701,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:58.512868"
+    "ultimo_aggiornamento": "2026-08-11T16:01:40.790848"
   },
   "BLC_293_normal_en": {
     "nome": "Battlefield Forge",
@@ -829,7 +829,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:01:59.177190"
+    "ultimo_aggiornamento": "2026-08-11T16:01:41.097914"
   },
   "TDC_398_normal_it": {
     "nome": "Sunken Hollow",
@@ -901,7 +901,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:59.415224"
+    "ultimo_aggiornamento": "2026-08-11T16:01:41.305428"
   },
   "TDC_363_normal_it": {
     "nome": "Fetid Pools",
@@ -1421,7 +1421,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:59.651590"
+    "ultimo_aggiornamento": "2026-08-11T16:01:41.597468"
   },
   "WAR_184★_normal_ja": {
     "nome": "Ajani, the Greathearted",
@@ -1479,7 +1479,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:01:59.890215"
+    "ultimo_aggiornamento": "2026-08-11T16:01:41.800000"
   },
   "WAR_180★_normal_ja": {
     "nome": "Vivien, Champion of the Wilds",
@@ -1537,7 +1537,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:00.122849"
+    "ultimo_aggiornamento": "2026-08-11T16:01:42.004408"
   },
   "WAR_13★_normal_ja": {
     "nome": "Gideon Blackblade",
@@ -1553,7 +1553,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:00.363626"
+    "ultimo_aggiornamento": "2026-08-11T16:01:42.213611"
   },
   "WAR_207★_normal_ja": {
     "nome": "Nicol Bolas, Dragon-God",
@@ -1569,7 +1569,7 @@
     "colors": "UBR",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:00.598564"
+    "ultimo_aggiornamento": "2026-08-11T16:01:42.416508"
   },
   "XLN_224_normal_ja": {
     "nome": "Huatli, Warrior Poet",
@@ -1585,7 +1585,7 @@
     "colors": "WR",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:00.908272"
+    "ultimo_aggiornamento": "2026-08-11T16:01:42.685616"
   },
   "HOU_144_normal_en": {
     "nome": "Samut, the Tested",
@@ -1671,7 +1671,7 @@
     "colors": "UBR",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:01.140412"
+    "ultimo_aggiornamento": "2026-08-11T16:01:42.996845"
   },
   "XLN_60_normal_it": {
     "nome": "Jace, Cunning Castaway",
@@ -1729,7 +1729,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:01.811203"
+    "ultimo_aggiornamento": "2026-08-11T16:01:43.295615"
   },
   "DRC_94_normal_it": {
     "nome": "Liliana, Death's Majesty",
@@ -1750,7 +1750,7 @@
     "set": "Kaladesh",
     "set_code": "KLD",
     "collector_number": "163",
-    "prezzo": 2.59,
+    "prezzo": 2.5,
     "prezzo_acquisto": 2.37,
     "foil": false,
     "finish": "normal",
@@ -1759,7 +1759,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:02.456878"
+    "ultimo_aggiornamento": "2026-08-11T16:01:43.815318"
   },
   "ELD_191_normal_it": {
     "nome": "Garruk, Cursed Huntsman",
@@ -1794,7 +1794,7 @@
     "set": "Dominaria",
     "set_code": "DOM",
     "collector_number": "1",
-    "prezzo": 4.04,
+    "prezzo": 4.09,
     "prezzo_acquisto": 3.5,
     "foil": false,
     "finish": "normal",
@@ -1803,7 +1803,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:03.161972"
+    "ultimo_aggiornamento": "2026-08-11T16:01:44.605235"
   },
   "C20_145_normal_it": {
     "nome": "Chandra, Flamecaller",
@@ -1889,7 +1889,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:03.486846"
+    "ultimo_aggiornamento": "2026-08-11T16:01:44.860606"
   },
   "ORI_60_normal_en": {
     "nome": "Jace, Vryn's Prodigy // Jace, Telepath Unbound",
@@ -1905,7 +1905,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:03.719322"
+    "ultimo_aggiornamento": "2026-08-11T16:01:45.061059"
   },
   "ORI_135_normal_it": {
     "nome": "Chandra, Fire of Kaladesh // Chandra, Roaring Flame",
@@ -1935,7 +1935,7 @@
     "colors": "WU",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:04.857099"
+    "ultimo_aggiornamento": "2026-08-11T16:01:45.324275"
   },
   "KTK_202_normal_it": {
     "nome": "Sorin, Solemn Visitor",
@@ -1965,7 +1965,7 @@
     "colors": "URG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:05.182677"
+    "ultimo_aggiornamento": "2026-08-11T16:01:45.605638"
   },
   "SOM_94_normal_it": {
     "nome": "Koth of the Hammer",
@@ -2009,7 +2009,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:05.502077"
+    "ultimo_aggiornamento": "2026-08-11T16:01:45.872526"
   },
   "CLB_853_normal_it": {
     "nome": "Xenagos, the Reveler",
@@ -2081,7 +2081,7 @@
     "colors": "UBR",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:05.742449"
+    "ultimo_aggiornamento": "2026-08-11T16:01:46.081302"
   },
   "ISD_105_normal_en": {
     "nome": "Liliana of the Veil",
@@ -2097,14 +2097,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:05.978859"
+    "ultimo_aggiornamento": "2026-08-11T16:01:46.291616"
   },
   "THB_265_normal_en": {
     "nome": "Purphoros, Bronze-Blooded",
     "set": "Theros Beyond Death",
     "set_code": "THB",
     "collector_number": "265",
-    "prezzo": 2.9,
+    "prezzo": 3.05,
     "prezzo_acquisto": 2.57,
     "foil": false,
     "finish": "normal",
@@ -2113,7 +2113,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:06.211529"
+    "ultimo_aggiornamento": "2026-08-11T16:01:46.599283"
   },
   "THB_261_normal_en": {
     "nome": "Thassa, Deep-Dwelling",
@@ -2129,7 +2129,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:06.434483"
+    "ultimo_aggiornamento": "2026-08-11T16:01:47.360139"
   },
   "THB_262_normal_en": {
     "nome": "Erebos, Bleak-Hearted",
@@ -2150,7 +2150,7 @@
     "set": "Theros Beyond Death",
     "set_code": "THB",
     "collector_number": "266",
-    "prezzo": 4.22,
+    "prezzo": 4.02,
     "prezzo_acquisto": 4.66,
     "foil": false,
     "finish": "normal",
@@ -2159,7 +2159,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:06.684444"
+    "ultimo_aggiornamento": "2026-08-11T16:01:47.574002"
   },
   "THB_259_normal_en": {
     "nome": "Heliod, Sun-Crowned",
@@ -2175,7 +2175,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:07.342585"
+    "ultimo_aggiornamento": "2026-08-11T16:01:48.256605"
   },
   "WAR_53_normal_en": {
     "nome": "God-Eternal Kefnet",
@@ -2205,7 +2205,7 @@
     "colors": "UB",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:07.660624"
+    "ultimo_aggiornamento": "2026-08-11T16:01:48.629639"
   },
   "ECC_133_normal_en": {
     "nome": "The Scorpion God",
@@ -2235,7 +2235,7 @@
     "colors": "UR",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:07.897980"
+    "ultimo_aggiornamento": "2026-08-11T16:01:48.832476"
   },
   "AKH_182_normal_it": {
     "nome": "Rhonas the Indomitable",
@@ -2251,7 +2251,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:08.622568"
+    "ultimo_aggiornamento": "2026-08-11T16:01:49.180517"
   },
   "AKH_136_normal_it": {
     "nome": "Hazoret the Fervent",
@@ -2309,7 +2309,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:09.843929"
+    "ultimo_aggiornamento": "2026-08-11T16:01:49.631849"
   },
   "THS_85_normal_it": {
     "nome": "Erebos, God of the Dead",
@@ -2325,7 +2325,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:10.554154"
+    "ultimo_aggiornamento": "2026-08-11T16:01:49.895521"
   },
   "THS_166_normal_it": {
     "nome": "Nylea, God of the Hunt",
@@ -2341,7 +2341,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:10.869049"
+    "ultimo_aggiornamento": "2026-08-11T16:01:50.171665"
   },
   "MP2_15_foil_en": {
     "nome": "Kefnet the Mindful",
@@ -2357,7 +2357,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:11.111099"
+    "ultimo_aggiornamento": "2026-08-11T16:01:50.373945"
   },
   "CMM_246_normal_it": {
     "nome": "Purphoros, God of the Forge",
@@ -2373,7 +2373,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:11.876544"
+    "ultimo_aggiornamento": "2026-08-11T16:01:50.633140"
   },
   "MP2_5_foil_en": {
     "nome": "Oketra the True",
@@ -2389,7 +2389,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:12.114112"
+    "ultimo_aggiornamento": "2026-08-11T16:01:50.948782"
   },
   "MP2_27_foil_en": {
     "nome": "Hazoret the Fervent",
@@ -2405,7 +2405,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:12.350498"
+    "ultimo_aggiornamento": "2026-08-11T16:01:51.158678"
   },
   "MP2_20_foil_en": {
     "nome": "Bontu the Glorified",
@@ -2421,7 +2421,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:12.585666"
+    "ultimo_aggiornamento": "2026-08-11T16:01:51.479024"
   },
   "MP2_28_foil_en": {
     "nome": "Rhonas the Indomitable",
@@ -2437,7 +2437,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:12.815399"
+    "ultimo_aggiornamento": "2026-08-11T16:01:51.682465"
   },
   "WAR_232★_normal_ja": {
     "nome": "Kiora, Behemoth Beckoner",
@@ -2472,7 +2472,7 @@
     "set": "Core Set 2020",
     "set_code": "M20",
     "collector_number": "125",
-    "prezzo": 3.14,
+    "prezzo": 2.98,
     "prezzo_acquisto": 4.11,
     "foil": false,
     "finish": "normal",
@@ -2481,7 +2481,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:13.288691"
+    "ultimo_aggiornamento": "2026-08-11T16:01:52.206273"
   },
   "MIC_145_normal_it": {
     "nome": "Verdurous Gearhulk",
@@ -2595,7 +2595,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:15.347650"
+    "ultimo_aggiornamento": "2026-08-11T16:01:53.931772"
   },
   "RVR_129_normal_it": {
     "nome": "Utvara Hellkite",
@@ -2611,7 +2611,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:15.666864"
+    "ultimo_aggiornamento": "2026-08-11T16:01:54.192707"
   },
   "TDC_237_normal_it": {
     "nome": "Stormbreath Dragon",
@@ -2655,7 +2655,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:16.202554"
+    "ultimo_aggiornamento": "2026-08-11T16:01:54.452352"
   },
   "NCC_273_normal_it": {
     "nome": "Rekindling Phoenix",
@@ -2713,14 +2713,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:16.530208"
+    "ultimo_aggiornamento": "2026-08-11T16:01:54.808190"
   },
   "DSC_159_normal_it": {
     "nome": "Whip of Erebos",
     "set": "Duskmourn: House of Horror Commander",
     "set_code": "DSC",
     "collector_number": "159",
-    "prezzo": 7.64,
+    "prezzo": 7.52,
     "prezzo_acquisto": 7.31,
     "foil": false,
     "finish": "normal",
@@ -2729,7 +2729,7 @@
     "colors": "B",
     "is_artifact": true,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:16.853427"
+    "ultimo_aggiornamento": "2026-08-11T16:01:55.076999"
   },
   "NCC_242_normal_it": {
     "nome": "Army of the Damned",
@@ -2759,14 +2759,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:17.187658"
+    "ultimo_aggiornamento": "2026-08-11T16:01:55.453013"
   },
   "SOI_131_normal_it": {
     "nome": "Relentless Dead",
     "set": "Shadows over Innistrad",
     "set_code": "SOI",
     "collector_number": "131",
-    "prezzo": 8.58,
+    "prezzo": 9.2,
     "prezzo_acquisto": 10.45,
     "foil": false,
     "finish": "normal",
@@ -2775,7 +2775,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:17.497599"
+    "ultimo_aggiornamento": "2026-08-11T16:01:55.704037"
   },
   "TDC_191_normal_it": {
     "nome": "Noxious Gearhulk",
@@ -2861,7 +2861,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:18.769607"
+    "ultimo_aggiornamento": "2026-08-11T16:01:56.975988"
   },
   "BFZ_109_foil_it": {
     "nome": "Drana, Liberator of Malakir",
@@ -2877,14 +2877,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:19.158536"
+    "ultimo_aggiornamento": "2026-08-11T16:01:57.239526"
   },
   "INR_98_normal_it": {
     "nome": "Bloodline Keeper // Lord of Lineage",
     "set": "Innistrad Remastered",
     "set_code": "INR",
     "collector_number": "98",
-    "prezzo": 6.24,
+    "prezzo": 6.12,
     "prezzo_acquisto": 5.87,
     "foil": false,
     "finish": "normal",
@@ -2893,7 +2893,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:19.690029"
+    "ultimo_aggiornamento": "2026-08-11T16:01:57.512951"
   },
   "LCC_193_normal_it": {
     "nome": "Drana, Liberator of Malakir",
@@ -2923,7 +2923,7 @@
     "colors": "U",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:20.000244"
+    "ultimo_aggiornamento": "2026-08-11T16:01:57.777965"
   },
   "SOI_88_normal_en": {
     "nome": "Startled Awake // Persistent Nightmare",
@@ -3191,7 +3191,7 @@
     "colors": "W",
     "is_artifact": false,
     "quantity": 6,
-    "ultimo_aggiornamento": "2026-08-11T15:02:20.565540"
+    "ultimo_aggiornamento": "2026-08-11T16:01:58.037420"
   },
   "THB_257_foil_it": {
     "nome": "Calix, Destiny's Hand",
@@ -3207,7 +3207,7 @@
     "colors": "WG",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:21.130074"
+    "ultimo_aggiornamento": "2026-08-11T16:01:58.300437"
   },
   "MOC_176_normal_it": {
     "nome": "Cataclysmic Gearhulk",
@@ -3270,7 +3270,7 @@
     "set": "Commander Masters",
     "set_code": "CMM",
     "collector_number": "876",
-    "prezzo": 2.31,
+    "prezzo": 2.23,
     "prezzo_acquisto": 2.5,
     "foil": false,
     "finish": "normal",
@@ -3279,7 +3279,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:21.646926"
+    "ultimo_aggiornamento": "2026-08-11T16:01:58.696631"
   },
   "AKH_275_foil_it": {
     "nome": "Liliana, Death Wielder",
@@ -3295,7 +3295,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:21.978553"
+    "ultimo_aggiornamento": "2026-08-11T16:01:59.589269"
   },
   "KLD_186_normal_it": {
     "nome": "Saheeli Rai",
@@ -3437,14 +3437,14 @@
     "colors": "",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:22.208301"
+    "ultimo_aggiornamento": "2026-08-11T16:01:59.796868"
   },
   "M15_215_normal_it": {
     "nome": "The Chain Veil",
     "set": "Magic 2015",
     "set_code": "M15",
     "collector_number": "215",
-    "prezzo": 3.81,
+    "prezzo": 3.67,
     "prezzo_acquisto": 3.49,
     "foil": false,
     "finish": "normal",
@@ -3453,7 +3453,7 @@
     "colors": "",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:22.525991"
+    "ultimo_aggiornamento": "2026-08-11T16:02:00.275094"
   },
   "C19_213_normal_it": {
     "nome": "Grimoire of the Dead",
@@ -3497,7 +3497,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:23.318837"
+    "ultimo_aggiornamento": "2026-08-11T16:02:01.280688"
   },
   "M3C_158_normal_it": {
     "nome": "Oblivion Sower",
@@ -3569,7 +3569,7 @@
     "colors": "WB",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:24.429873"
+    "ultimo_aggiornamento": "2026-08-11T16:02:01.803640"
   },
   "LCC_293_normal_it": {
     "nome": "Vona, Butcher of Magan",
@@ -3646,7 +3646,7 @@
     "set": "Ravnica Remastered",
     "set_code": "RVR",
     "collector_number": "198",
-    "prezzo": 3.09,
+    "prezzo": 3.15,
     "prezzo_acquisto": 3.36,
     "foil": false,
     "finish": "normal",
@@ -3655,7 +3655,7 @@
     "colors": "BR",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:24.759866"
+    "ultimo_aggiornamento": "2026-08-11T16:02:02.075324"
   },
   "INR_246_normal_it": {
     "nome": "Olivia Voldaren",
@@ -3671,14 +3671,14 @@
     "colors": "BR",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:25.266053"
+    "ultimo_aggiornamento": "2026-08-11T16:02:02.442679"
   },
   "THS_153_normal_en": {
     "nome": "Bow of Nylea",
     "set": "Theros",
     "set_code": "THS",
     "collector_number": "153",
-    "prezzo": 2.74,
+    "prezzo": 2.87,
     "prezzo_acquisto": 2.33,
     "foil": false,
     "finish": "normal",
@@ -3687,7 +3687,7 @@
     "colors": "G",
     "is_artifact": true,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:25.503038"
+    "ultimo_aggiornamento": "2026-08-11T16:02:02.646989"
   },
   "ECC_100_normal_it": {
     "nome": "Cavalier of Thorns",
@@ -3717,7 +3717,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:26.975613"
+    "ultimo_aggiornamento": "2026-08-11T16:02:04.203338"
   },
   "ECC_110_normal_it": {
     "nome": "Greenwarden of Murasa",
@@ -3789,7 +3789,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:27.300890"
+    "ultimo_aggiornamento": "2026-08-11T16:02:04.568720"
   },
   "EOC_110_normal_it": {
     "nome": "Tireless Tracker",
@@ -3833,7 +3833,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:27.855628"
+    "ultimo_aggiornamento": "2026-08-11T16:02:04.837167"
   },
   "DSC_187_normal_en": {
     "nome": "Ishkanah, Grafwidow",
@@ -3905,7 +3905,7 @@
     "colors": "G",
     "is_artifact": false,
     "quantity": 5,
-    "ultimo_aggiornamento": "2026-08-11T15:02:28.188153"
+    "ultimo_aggiornamento": "2026-08-11T16:02:05.110339"
   },
   "OTC_231_normal_it": {
     "nome": "Hostage Taker",
@@ -3935,7 +3935,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:28.415333"
+    "ultimo_aggiornamento": "2026-08-11T16:02:05.316978"
   },
   "VOW_265_normal_en": {
     "nome": "Stormcarved Coast",
@@ -3951,7 +3951,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:28.867947"
+    "ultimo_aggiornamento": "2026-08-11T16:02:05.524973"
   },
   "VOW_264_normal_en": {
     "nome": "Shattered Sanctum",
@@ -3967,7 +3967,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:29.102336"
+    "ultimo_aggiornamento": "2026-08-11T16:02:05.727342"
   },
   "VOW_266_normal_en": {
     "nome": "Sundown Pass",
@@ -3983,7 +3983,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:29.346041"
+    "ultimo_aggiornamento": "2026-08-11T16:02:05.941035"
   },
   "VOW_262_normal_en": {
     "nome": "Dreamroot Cascade",
@@ -4013,7 +4013,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:29.570764"
+    "ultimo_aggiornamento": "2026-08-11T16:02:06.158001"
   },
   "RNA_245_normal_it": {
     "nome": "Blood Crypt",
@@ -4029,7 +4029,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:30.135472"
+    "ultimo_aggiornamento": "2026-08-11T16:02:06.730645"
   },
   "ONS_327_normal_en": {
     "nome": "Unholy Grotto",
@@ -4045,7 +4045,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:30.576249"
+    "ultimo_aggiornamento": "2026-08-11T16:02:06.934557"
   },
   "VOW_285_normal_en": {
     "nome": "Sundown Pass",
@@ -4061,14 +4061,14 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:30.830084"
+    "ultimo_aggiornamento": "2026-08-11T16:02:07.141530"
   },
   "IKO_251_normal_it": {
     "nome": "Raugrin Triome",
     "set": "Ikoria: Lair of Behemoths",
     "set_code": "IKO",
     "collector_number": "251",
-    "prezzo": 11.02,
+    "prezzo": 10.97,
     "prezzo_acquisto": 12.7,
     "foil": false,
     "finish": "normal",
@@ -4077,14 +4077,14 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:31.167651"
+    "ultimo_aggiornamento": "2026-08-11T16:02:07.393604"
   },
   "IKO_250_normal_en": {
     "nome": "Ketria Triome",
     "set": "Ikoria: Lair of Behemoths",
     "set_code": "IKO",
     "collector_number": "250",
-    "prezzo": 12.57,
+    "prezzo": 12.32,
     "prezzo_acquisto": 13.33,
     "foil": false,
     "finish": "normal",
@@ -4093,7 +4093,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:31.400064"
+    "ultimo_aggiornamento": "2026-08-11T16:02:07.596539"
   },
   "VOW_267_normal_en": {
     "nome": "Voldaren Estate",
@@ -4375,7 +4375,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:31.943634"
+    "ultimo_aggiornamento": "2026-08-11T16:02:07.858739"
   },
   "BFZ_245_foil_en": {
     "nome": "Shrine of the Forsaken Gods",
@@ -4531,7 +4531,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 5,
-    "ultimo_aggiornamento": "2026-08-11T15:02:32.257828"
+    "ultimo_aggiornamento": "2026-08-11T16:02:08.124800"
   },
   "INR_44_normal_en": {
     "nome": "Thalia, Heretic Cathar",
@@ -4553,7 +4553,7 @@
     "set": "Innistrad Remastered",
     "set_code": "INR",
     "collector_number": "5",
-    "prezzo": 20.07,
+    "prezzo": 20.13,
     "prezzo_acquisto": 18.44,
     "foil": false,
     "finish": "normal",
@@ -4562,14 +4562,14 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:23.868842"
+    "ultimo_aggiornamento": "2026-08-11T16:02:01.541301"
   },
   "KLD_247_normal_it": {
     "nome": "Inventors' Fair",
     "set": "Kaladesh",
     "set_code": "KLD",
     "collector_number": "247",
-    "prezzo": 10.75,
+    "prezzo": 10.38,
     "prezzo_acquisto": 9.53,
     "foil": false,
     "finish": "normal",
@@ -4578,7 +4578,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 7,
-    "ultimo_aggiornamento": "2026-08-11T15:01:52.749619"
+    "ultimo_aggiornamento": "2026-08-11T16:01:36.521458"
   },
   "CMM_1010_normal_it": {
     "nome": "Mirrorpool",
@@ -4594,7 +4594,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:01:53.959416"
+    "ultimo_aggiornamento": "2026-08-11T16:01:37.528076"
   },
   "KLD_243_foil_it": {
     "nome": "Blooming Marsh",
@@ -4610,7 +4610,7 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:01:57.814205"
+    "ultimo_aggiornamento": "2026-08-11T16:01:40.254791"
   },
   "EMN_93_normal_it": {
     "nome": "Liliana, the Last Hope",
@@ -4626,7 +4626,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:02.137146"
+    "ultimo_aggiornamento": "2026-08-11T16:01:43.558685"
   },
   "DRC_120_normal_en": {
     "nome": "The Scarab God",
@@ -4642,14 +4642,14 @@
     "colors": "UB",
     "is_artifact": false,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:13.049300"
+    "ultimo_aggiornamento": "2026-08-11T16:01:51.882217"
   },
   "M20_125_normal_it": {
     "nome": "Cavalier of Flame",
     "set": "Core Set 2020",
     "set_code": "M20",
     "collector_number": "125",
-    "prezzo": 3.14,
+    "prezzo": 2.98,
     "prezzo_acquisto": 4.11,
     "foil": false,
     "finish": "normal",
@@ -4658,7 +4658,7 @@
     "colors": "R",
     "is_artifact": false,
     "quantity": 3,
-    "ultimo_aggiornamento": "2026-08-11T15:02:13.624633"
+    "ultimo_aggiornamento": "2026-08-11T16:01:53.017810"
   },
   "EMN_109_normal_en": {
     "nome": "Tree of Perdition",
@@ -4674,7 +4674,7 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:18.110746"
+    "ultimo_aggiornamento": "2026-08-11T16:01:56.456049"
   },
   "EMN_109_normal_it": {
     "nome": "Tree of Perdition",
@@ -4690,14 +4690,14 @@
     "colors": "B",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:18.419197"
+    "ultimo_aggiornamento": "2026-08-11T16:01:56.708031"
   },
   "INR_5_normal_en": {
     "nome": "Emrakul, the Promised End",
     "set": "Innistrad Remastered",
     "set_code": "INR",
     "collector_number": "5",
-    "prezzo": 20.07,
+    "prezzo": 20.13,
     "prezzo_acquisto": 18.44,
     "foil": false,
     "finish": "normal",
@@ -4706,14 +4706,14 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-08-11T15:02:22.761647"
+    "ultimo_aggiornamento": "2026-08-11T16:02:01.027155"
   },
   "THS_153_normal_it": {
     "nome": "Bow of Nylea",
     "set": "Theros",
     "set_code": "THS",
     "collector_number": "153",
-    "prezzo": 2.74,
+    "prezzo": 2.87,
     "prezzo_acquisto": 2.33,
     "foil": false,
     "finish": "normal",
@@ -4722,7 +4722,7 @@
     "colors": "G",
     "is_artifact": true,
     "quantity": 4,
-    "ultimo_aggiornamento": "2026-08-11T15:02:26.248122"
+    "ultimo_aggiornamento": "2026-08-11T16:02:03.456774"
   },
   "VOW_284_normal_en": {
     "nome": "Stormcarved Coast",
@@ -4738,6 +4738,6 @@
     "colors": "",
     "is_artifact": false,
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-08-11T15:02:29.814027"
+    "ultimo_aggiornamento": "2026-08-11T16:02:06.366809"
   }
 }
