@@ -10,7 +10,7 @@
     "language": "en",
     "frame_effects": "showcase,inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:21.190932"
+    "ultimo_aggiornamento": "2026-09-19T16:53:34.849735"
   },
   "SOS_316_normal_en": {
     "nome": "Exhibition Tidecaller",
@@ -23,7 +23,7 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:21.791174"
+    "ultimo_aggiornamento": "2026-09-19T16:53:35.191259"
   },
   "SOC_69_normal_en": {
     "nome": "Expansion Algorithm",
@@ -36,33 +36,33 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:22.205697"
+    "ultimo_aggiornamento": "2026-09-19T16:53:35.525087"
   },
   "SOC_78_normal_en": {
     "nome": "Stensian Sanguinist // Exsanguinate",
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "78",
-    "prezzo": 6.36,
+    "prezzo": 6.46,
     "foil": false,
     "finish": "normal",
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:22.476560"
+    "ultimo_aggiornamento": "2026-09-19T16:53:35.867208"
   },
   "SOS_302_foil_en": {
     "nome": "Dreamroot Cascade",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "302",
-    "prezzo": 2.04,
+    "prezzo": 2.02,
     "foil": true,
     "finish": "foil",
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:23.500498"
+    "ultimo_aggiornamento": "2026-09-19T16:53:36.180716"
   },
   "SOS_145_foil_en": {
     "nome": "Emeritus of Abundance // Regrowth",
@@ -75,20 +75,20 @@
     "language": "en",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:23.756212"
+    "ultimo_aggiornamento": "2026-09-19T16:53:36.473334"
   },
   "SOS_99_foil_en": {
     "nome": "Scheming Silvertongue // Sign in Blood",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "99",
-    "prezzo": 1.2,
+    "prezzo": 1.18,
     "foil": true,
     "finish": "foil",
     "language": "en",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:24.013460"
+    "ultimo_aggiornamento": "2026-09-19T16:53:36.788966"
   },
   "SOS_293_foil_en": {
     "nome": "Tragedy Feaster",
@@ -101,33 +101,33 @@
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:24.276395"
+    "ultimo_aggiornamento": "2026-09-19T16:53:37.123244"
   },
   "SOS_30_foil_en": {
     "nome": "Restoration Seminar",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "30",
-    "prezzo": 2.9,
+    "prezzo": 2.94,
     "foil": true,
     "finish": "foil",
     "language": "en",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:24.564223"
+    "ultimo_aggiornamento": "2026-09-19T16:53:37.465279"
   },
   "SOA_3_normal_en": {
     "nome": "Armageddon",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "3",
-    "prezzo": 7.06,
+    "prezzo": 7.12,
     "foil": false,
     "finish": "normal",
     "language": "en",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:24.834877"
+    "ultimo_aggiornamento": "2026-09-19T16:53:37.774937"
   },
   "SOA_30_foil_en": {
     "nome": "Living End",
@@ -140,7 +140,7 @@
     "language": "en",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:25.112050"
+    "ultimo_aggiornamento": "2026-09-19T16:53:38.075073"
   },
   "SOS_325_foil_en": {
     "nome": "Grave Researcher // Reanimate",
@@ -153,7 +153,7 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:25.748519"
+    "ultimo_aggiornamento": "2026-09-19T16:53:38.407183"
   },
   "SOA_77_normal_en": {
     "nome": "Winds of Abandon",
@@ -166,7 +166,7 @@
     "language": "en",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:26.150735"
+    "ultimo_aggiornamento": "2026-09-19T16:53:40.842326"
   },
   "SOS_309_foil_en": {
     "nome": "Emeritus of Truce // Swords to Plowshares",
@@ -179,7 +179,7 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:26.411216"
+    "ultimo_aggiornamento": "2026-09-19T16:53:41.123664"
   },
   "SOA_104_normal_en": {
     "nome": "Brotherhood's End",
@@ -192,7 +192,7 @@
     "language": "en",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:26.819777"
+    "ultimo_aggiornamento": "2026-09-19T16:53:41.447023"
   },
   "SOA_169_foil_ja": {
     "nome": "Brotherhood's End",
@@ -205,20 +205,20 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:27.433215"
+    "ultimo_aggiornamento": "2026-09-19T16:53:41.770915"
   },
   "SOA_51_normal_en": {
     "nome": "Crop Rotation",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "51",
-    "prezzo": 4.19,
+    "prezzo": 4.17,
     "foil": false,
     "finish": "normal",
     "language": "en",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:27.689682"
+    "ultimo_aggiornamento": "2026-09-19T16:53:42.091881"
   },
   "SOS_304_normal_en": {
     "nome": "Stormcarved Coast",
@@ -231,20 +231,20 @@
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:27.949671"
+    "ultimo_aggiornamento": "2026-09-19T16:53:42.399125"
   },
   "SOS_291_normal_en": {
     "nome": "Echocasting Symposium",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "291",
-    "prezzo": 3.03,
+    "prezzo": 3.11,
     "foil": false,
     "finish": "normal",
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:28.206802"
+    "ultimo_aggiornamento": "2026-09-19T16:53:42.754203"
   },
   "SOC_75_normal_en": {
     "nome": "Defiling Daemogoth",
@@ -257,20 +257,20 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:28.829748"
+    "ultimo_aggiornamento": "2026-09-19T16:53:43.084152"
   },
   "SOS_347_normal_en": {
     "nome": "Cauldron of Essence",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "347",
-    "prezzo": 4.35,
+    "prezzo": 4.29,
     "foil": false,
     "finish": "normal",
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-09-19T13:34:29.127010"
+    "ultimo_aggiornamento": "2026-09-19T16:53:43.394282"
   },
   "SOA_142_foil_ja": {
     "nome": "Winds of Abandon",
@@ -283,7 +283,7 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:29.747366"
+    "ultimo_aggiornamento": "2026-09-19T16:53:43.748473"
   },
   "SOS_344_normal_en": {
     "nome": "Ark of Hunger",
@@ -296,7 +296,7 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:30.000740"
+    "ultimo_aggiornamento": "2026-09-19T16:53:44.063563"
   },
   "SOS_221_foil_en": {
     "nome": "Resonating Lute",
@@ -309,20 +309,20 @@
     "language": "en",
     "frame_effects": "",
     "quantity": 2,
-    "ultimo_aggiornamento": "2026-09-19T13:34:30.251368"
+    "ultimo_aggiornamento": "2026-09-19T16:53:44.350233"
   },
   "SOC_427_foil_en": {
     "nome": "Sol Ring",
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "427",
-    "prezzo": 13.5,
+    "prezzo": 13.31,
     "foil": true,
     "finish": "foil",
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:30.510273"
+    "ultimo_aggiornamento": "2026-09-19T16:53:44.676914"
   },
   "SOC_432_foil_en": {
     "nome": "Talisman of Resilience",
@@ -335,7 +335,7 @@
     "language": "en",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:31.130268"
+    "ultimo_aggiornamento": "2026-09-19T16:53:45.074716"
   },
   "SOS_339_normal_en": {
     "nome": "Emeritus of Abundance // Regrowth",
@@ -348,7 +348,7 @@
     "language": "en",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:31.388665"
+    "ultimo_aggiornamento": "2026-09-19T16:53:45.638597"
   },
   "SOS_221_normal_en": {
     "nome": "Resonating Lute",
@@ -361,7 +361,7 @@
     "language": "en",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:31.649667"
+    "ultimo_aggiornamento": "2026-09-19T16:53:45.910382"
   },
   "SOS_201_normal_en": {
     "nome": "Lorehold, the Historian",
@@ -374,7 +374,7 @@
     "language": "en",
     "frame_effects": "legendary",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:31.908323"
+    "ultimo_aggiornamento": "2026-09-19T16:53:46.238811"
   },
   "SOS_264_normal_en": {
     "nome": "Sundown Pass",
@@ -387,7 +387,7 @@
     "language": "en",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:32.168625"
+    "ultimo_aggiornamento": "2026-09-19T16:53:46.550011"
   },
   "DSC_211_normal_en": {
     "nome": "Arixmethes, Slumbering Isle",
@@ -400,7 +400,7 @@
     "language": "en",
     "frame_effects": "legendary",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:33.179646"
+    "ultimo_aggiornamento": "2026-09-19T16:53:46.866083"
   },
   "SPG_150_foil_de": {
     "nome": "Archmage Emeritus",
@@ -413,7 +413,7 @@
     "language": "de",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:34.593006"
+    "ultimo_aggiornamento": "2026-09-19T16:53:47.847727"
   },
   "SOA_135_foil_ja": {
     "nome": "Helping Hand",
@@ -426,46 +426,46 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:35.604725"
+    "ultimo_aggiornamento": "2026-09-19T16:53:48.172530"
   },
   "SOA_103_normal_de": {
     "nome": "Big Score",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "103",
-    "prezzo": 3.03,
+    "prezzo": 2.97,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:36.262248"
+    "ultimo_aggiornamento": "2026-09-19T16:53:48.684999"
   },
   "SOS_288_normal_de": {
     "nome": "Witherbloom, the Balancer",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "288",
-    "prezzo": 8.17,
+    "prezzo": 8.36,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "legendary,inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:37.682969"
+    "ultimo_aggiornamento": "2026-09-19T16:53:49.189309"
   },
   "SOA_2_normal_ja": {
     "nome": "Angel's Grace",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "2",
-    "prezzo": 2.25,
+    "prezzo": 2.3,
     "foil": false,
     "finish": "normal",
     "language": "ja",
     "frame_effects": "showcase,inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:38.497743"
+    "ultimo_aggiornamento": "2026-09-19T16:53:49.766597"
   },
   "SOC_63_normal_de": {
     "nome": "Eiganjo Dynastorian // Replenish",
@@ -478,46 +478,46 @@
     "language": "de",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:39.514261"
+    "ultimo_aggiornamento": "2026-09-19T16:53:50.257188"
   },
   "SOS_288_foil_de": {
     "nome": "Witherbloom, the Balancer",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "288",
-    "prezzo": 17.97,
+    "prezzo": 17.77,
     "foil": true,
     "finish": "foil",
     "language": "de",
     "frame_effects": "legendary,inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:39.833035"
+    "ultimo_aggiornamento": "2026-09-19T16:53:50.618357"
   },
   "SOA_25_normal_de": {
     "nome": "Ad Nauseam",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "25",
-    "prezzo": 7.2,
+    "prezzo": 7.08,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:40.511681"
+    "ultimo_aggiornamento": "2026-09-19T16:53:51.064919"
   },
   "SOS_335_normal_de": {
     "nome": "Molten-Core Maestro",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "335",
-    "prezzo": 0.58,
+    "prezzo": 0.61,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:41.200579"
+    "ultimo_aggiornamento": "2026-09-19T16:53:51.515933"
   },
   "SOA_132_foil_ja": {
     "nome": "Angel's Grace",
@@ -530,20 +530,20 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:42.224759"
+    "ultimo_aggiornamento": "2026-09-19T16:53:51.827779"
   },
   "SOA_53_normal_de": {
     "nome": "Glimpse of Nature",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "53",
-    "prezzo": 1.11,
+    "prezzo": 1.1,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:43.643916"
+    "ultimo_aggiornamento": "2026-09-19T16:53:52.271481"
   },
   "SOS_180_foil_de": {
     "nome": "Colorstorm Stallion",
@@ -556,20 +556,20 @@
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:44.675702"
+    "ultimo_aggiornamento": "2026-09-19T16:53:52.774699"
   },
   "SOA_93_normal_de": {
     "nome": "Dismember",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "93",
-    "prezzo": 5.91,
+    "prezzo": 5.89,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:45.745283"
+    "ultimo_aggiornamento": "2026-09-19T16:53:53.248899"
   },
   "SOS_339_normal_de": {
     "nome": "Emeritus of Abundance // Regrowth",
@@ -582,7 +582,7 @@
     "language": "de",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:46.418000"
+    "ultimo_aggiornamento": "2026-09-19T16:53:53.666467"
   },
   "SOA_50_normal_de": {
     "nome": "Berserk",
@@ -595,7 +595,7 @@
     "language": "de",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:47.093033"
+    "ultimo_aggiornamento": "2026-09-19T16:53:54.103801"
   },
   "SOC_81_normal_de": {
     "nome": "Naktamun Lorespinner // Wheel of Fortune",
@@ -608,7 +608,7 @@
     "language": "de",
     "frame_effects": "extendedart",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:48.545815"
+    "ultimo_aggiornamento": "2026-09-19T16:53:54.559171"
   },
   "SOA_49_foil_de": {
     "nome": "Awaken the Woods",
@@ -621,7 +621,7 @@
     "language": "de",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:49.625370"
+    "ultimo_aggiornamento": "2026-09-19T16:53:55.015179"
   },
   "SOS_259_foil_de": {
     "nome": "Petrified Hamlet",
@@ -634,33 +634,33 @@
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:49.925527"
+    "ultimo_aggiornamento": "2026-09-19T16:53:55.463332"
   },
   "SOA_2_foil_de": {
     "nome": "Angel's Grace",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "2",
-    "prezzo": 2.61,
+    "prezzo": 2.6,
     "foil": true,
     "finish": "foil",
     "language": "de",
     "frame_effects": "showcase,inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:50.605915"
+    "ultimo_aggiornamento": "2026-09-19T16:53:55.896176"
   },
   "SOA_53_foil_ja": {
     "nome": "Glimpse of Nature",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "53",
-    "prezzo": 1.53,
+    "prezzo": 1.52,
     "foil": true,
     "finish": "foil",
     "language": "ja",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:51.687860"
+    "ultimo_aggiornamento": "2026-09-19T16:53:56.313956"
   },
   "SOS_305_normal_de": {
     "nome": "Sundown Pass",
@@ -673,33 +673,33 @@
     "language": "de",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:53.535471"
+    "ultimo_aggiornamento": "2026-09-19T16:53:56.787333"
   },
   "SOC_57_normal_de": {
     "nome": "Turbulent Springs",
     "set": "Secrets of Strixhaven Commander",
     "set_code": "SOC",
     "collector_number": "57",
-    "prezzo": 5.11,
+    "prezzo": 5.06,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:56.540679"
+    "ultimo_aggiornamento": "2026-09-19T16:53:57.205403"
   },
   "SOS_15_foil_de": {
     "nome": "Erode",
     "set": "Secrets of Strixhaven",
     "set_code": "SOS",
     "collector_number": "15",
-    "prezzo": 8.64,
+    "prezzo": 8.7,
     "foil": true,
     "finish": "foil",
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:57.205795"
+    "ultimo_aggiornamento": "2026-09-19T16:53:57.675487"
   },
   "SOA_147_foil_ja": {
     "nome": "Disdainful Stroke",
@@ -712,7 +712,7 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:58.229817"
+    "ultimo_aggiornamento": "2026-09-19T16:53:58.011448"
   },
   "SOA_159_foil_ja": {
     "nome": "Feed the Swarm",
@@ -725,20 +725,20 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:58.837085"
+    "ultimo_aggiornamento": "2026-09-19T16:53:58.343862"
   },
   "SOA_9_normal_de": {
     "nome": "Reprieve",
     "set": "Secrets of Strixhaven Mystical Archive",
     "set_code": "SOA",
     "collector_number": "9",
-    "prezzo": 1.13,
+    "prezzo": 1.11,
     "foil": false,
     "finish": "normal",
     "language": "de",
     "frame_effects": "inverted,showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:34:59.491831"
+    "ultimo_aggiornamento": "2026-09-19T16:53:58.782691"
   },
   "SOS_297_foil_de": {
     "nome": "Wildgrowth Archaic",
@@ -751,7 +751,7 @@
     "language": "de",
     "frame_effects": "inverted",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:35:00.153750"
+    "ultimo_aggiornamento": "2026-09-19T16:53:59.222774"
   },
   "SOA_92_normal_ja": {
     "nome": "Culling the Weak",
@@ -764,7 +764,7 @@
     "language": "ja",
     "frame_effects": "showcase",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:35:01.166526"
+    "ultimo_aggiornamento": "2026-09-19T16:53:59.554432"
   },
   "SOS_259_normal_de": {
     "nome": "Petrified Hamlet",
@@ -777,7 +777,7 @@
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:35:01.495148"
+    "ultimo_aggiornamento": "2026-09-19T16:53:59.929438"
   },
   "SOS_263_foil_de": {
     "nome": "Stormcarved Coast",
@@ -790,6 +790,6 @@
     "language": "de",
     "frame_effects": "",
     "quantity": 1,
-    "ultimo_aggiornamento": "2026-09-19T13:35:02.168784"
+    "ultimo_aggiornamento": "2026-09-19T16:54:00.302803"
   }
 }
